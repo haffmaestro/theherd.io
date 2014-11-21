@@ -1,0 +1,83 @@
+/*colors*/
+$white: #fff;
+$black: #000000;
+// Navbar
+$navbar-border-radius: 0px;
+$navbar-inverse-bg: #00FF59;
+$navbar-inverse-border: none;
+$navbar-inverse-color:#145DCC;
+$navbar-inverse-link-hover-color: $black;
+$navbar-inverse-brand-hover-color: $black;
+
+
+
+.navbar {
+  background:rgba(255,255,255,0.5)
+}
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar_brand:hover,
+.navbar-inverse .navbar-nav > li > a:hover  {
+  color: $black;
+  background: repeating-linear-gradient(
+  to bottom,
+  rgba(255,255,255,0),
+  rgba(255,255,255,0) 47px,
+  $black 3px,
+  $black 50px
+  );
+    transition-property: width;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    transition-delay: 2s;
+}
+
+
+.navbar-inverse .navbar-nav > .active > a {
+
+  background: repeating-linear-gradient(
+  to bottom,
+  rgba(255,255,255,0),
+  rgba(255,255,255,0) 47px,
+  $black 3px,
+  $black 50px
+  );
+    transition-property: width;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    transition-delay: 2s;
+    
+
+  color: $black;
+}
+
+$font-family-sans-serif: 'Roboto', 'Open Sans', sans-serif;
+// $font-size-base: 13px;
+
+.btn {
+  border-radius: 0px;
+}
+
+$border-radius-base: 0px;
+
+.jumbotron {
+  background-image: image-url("workbench.jpg");
+  background-size: 100%;
+  background-position: 0px;
+  text-align: center;
+  h1 {
+    color: white;
+  }
+}
+
+h1 {
+  text-align: center;
+}
+
+.elephants {
+  background-image: image-url("elephants.jpg");
+  background-size: 100%;
+  width: auto;
+  height: auto;
+}
+// $navbar-inverse-link-disabled-color:;
+// $navbar-inverse-link-disabled-bg

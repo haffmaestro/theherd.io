@@ -1,0 +1,8 @@
+- if user_signed_in?
+  .col-md-3.col-md-offset-9
+    = link_to current_user.email, edit_user_registration_url(subdomain: request.subdomain)
+    |  | 
+    = link_to "Sign Out", destroy_user_session_url, method: :delete
+- else
+  .col-md-1.col-md-offset-11
+    = link_to "Sign In", new_user_session_url(subdomain: request.subdomain)

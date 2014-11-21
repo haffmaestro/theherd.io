@@ -1,0 +1,2 @@
+module HerdsHelper
+end

@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title TheHerd
+    =stylesheet_link_tag 'application', media: 'all'
+    =javascript_include_tag 'application'
+    =csrf_meta_tags
+  body class=('onboarding' if onboarding?) ng-app="app"
+    md-toolbar
+      div.md-toolbar-tools layout-align="space-around"
+        md-button.md-toolbar-tools Weekly Report
+        md-button.md-toolbar-tools Goals
+        md-button.md-toolbar-tools Quarterly Report
+    =render "layouts/sign_in_status"
+    = render "layouts/flash_messages"
+    .row
+      p=self_class
+      .col-md-4.col-md-offset-4
+        == yield
+

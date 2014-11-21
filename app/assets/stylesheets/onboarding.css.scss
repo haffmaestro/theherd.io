@@ -1,0 +1,37 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.onboarding {
+  @import "custom.css.scss";
+  @import "bootstrap-sprockets";
+  @import "bootstrap";
+  @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+  @import url(http://fonts.googleapis.com/css?family=Roboto);
+
+  margin-top: 0px;
+  padding-top: 10px;
+  text-align: center;
+
+  .elephants {
+    width: 400px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    background-position: 0px -50px, center;
+  }
+
+  .dropdown {
+    padding-top: 7px;
+  }
+
+  #sign-in-status {
+    margin-top: 1%;
+  }
+
+  .well {
+    padding-bottom: 0px;
+  }
+
+}
+
