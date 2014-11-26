@@ -12,6 +12,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'faker'
 gem 'slim'
 gem 'slim-rails'
+gem 'carrierwave'
+gem 'virtus'
 
 gem 'bootstrap-sass','~> 3.2.0'
 gem 'font-awesome-rails'
@@ -28,40 +30,28 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 # Devise 
 gem 'devise'
-gem "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2'
 # Needed for deployment
 gem 'rails_12factor', group: :production
 
 group :development do
-  gem "interactive_editor"
-  gem "hirb"
-  gem "awesome_print"
+  gem 'interactive_editor'
+  gem 'hirb'
+  gem 'awesome_print'
   gem 'spring'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets'
-  gem 'pry-rails'
   gem 'rails-erd'
   gem 'meta_request'
   gem 'letter_opener'
+  
 end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'
   gem 'factory_girl_rails'
   gem 'byebug'
+  gem 'pry-rails'
+  gem "pry-remote"
 end
-
-gem 'carrierwave'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]

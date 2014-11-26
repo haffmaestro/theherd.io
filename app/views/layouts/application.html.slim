@@ -6,15 +6,18 @@ html
     =javascript_include_tag 'application'
     =csrf_meta_tags
   body class=('onboarding' if onboarding?) ng-app="app"
-    md-toolbar
-      div.md-toolbar-tools layout-align="space-around"
-        md-button.md-toolbar-tools Weekly Report
-        md-button.md-toolbar-tools Goals
-        md-button.md-toolbar-tools Quarterly Report
-    =render "layouts/sign_in_status"
-    = render "layouts/flash_messages"
-    .row
-      p=self_class
-      .col-md-4.col-md-offset-4
-        == yield
-
+    div ng-controller="SidenavCtrl"
+      md-toolbar class="md-small"
+        div.md-toolbar-tools layout-align="space-around"
+          =link_to weekly_url(current_user.herd.herd_weeklies.last, subdomain: herd_subdomain), class: "md-button md-default-theme"
+          md-button Goals
+          md-button Quarterly Report
+          md-button ng-click='openRightMenu()' aria-label="open menu" =fa_icon('angle-double-left')
+      md-sidenav md-component-id="right" class="md-sidenav-right"
+        md-content layout='column' flex='90' offset='10'
+          hr  
+          =render "layouts/sign_in_status"
+          br
+          h3 Weekly Todos
+    div
+      ==yield

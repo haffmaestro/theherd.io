@@ -1,0 +1,2 @@
+module HerdWeekliesHelper
+end

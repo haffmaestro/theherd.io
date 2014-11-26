@@ -3,4 +3,5 @@ class Herd < ActiveRecord::Base
   validates :subdomain, presence: true, uniqueness: true,length: {maximum: 25 }, subdomain_format: true
 
   has_many :users
+  has_many :herd_weeklies
 end

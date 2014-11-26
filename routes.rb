@@ -22,9 +22,25 @@ cancel_user_registration GET      /users/cancel(.:format)                registr
                          PATCH    /herds/:id(.:format)                   herds#update
                          PUT      /herds/:id(.:format)                   herds#update
                          DELETE   /herds/:id(.:format)                   herds#destroy
+            weekly_index GET      /herd_weeklies(.:format)               herd_weeklies#index
+                         POST     /herd_weeklies(.:format)               herd_weeklies#create
+              new_weekly GET      /herd_weeklies/new(.:format)           herd_weeklies#new
+             edit_weekly GET      /herd_weeklies/:id/edit(.:format)      herd_weeklies#edit
+                  weekly GET      /herd_weeklies/:id(.:format)           herd_weeklies#show
+                         PATCH    /herd_weeklies/:id(.:format)           herd_weeklies#update
+                         PUT      /herd_weeklies/:id(.:format)           herd_weeklies#update
+                         DELETE   /herd_weeklies/:id(.:format)           herd_weeklies#destroy
                          GET      /                                      herds#show
                   invite GET      /invite(.:format)                      herds#invite_friends
                     join GET      /join(.:format)                        redirect(301, /users/sign_up)
+       api_herd_weeklies GET      /api/herd_weeklies(.:format)           api/herd_weeklies#index
+                         POST     /api/herd_weeklies(.:format)           api/herd_weeklies#create
+     new_api_herd_weekly GET      /api/herd_weeklies/new(.:format)       api/herd_weeklies#new
+    edit_api_herd_weekly GET      /api/herd_weeklies/:id/edit(.:format)  api/herd_weeklies#edit
+         api_herd_weekly GET      /api/herd_weeklies/:id(.:format)       api/herd_weeklies#show
+                         PATCH    /api/herd_weeklies/:id(.:format)       api/herd_weeklies#update
+                         PUT      /api/herd_weeklies/:id(.:format)       api/herd_weeklies#update
+                         DELETE   /api/herd_weeklies/:id(.:format)       api/herd_weeklies#destroy
                 new_herd GET      /new(.:format)                         herds#new
                          POST     /herds(.:format)                       herds#create
-                    root GET      /                                      welcome#index
+                    root GET      /                                      onboarding#index

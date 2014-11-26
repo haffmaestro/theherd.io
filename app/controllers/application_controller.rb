@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_filter :configure_permitted_parameters, if: :registrations_controller?
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -8,8 +9,18 @@ class ApplicationController < ActionController::Base
       true
     elsif self.class.name == "RegistrationsController"
       true
+    elsif self.class.name.split("::").first == "Devise"
+      true
     elsif @onboarding
       true
+    end
+  end
+
+  def registrations_controller?
+    if self.class.name == "RegistrationsController"
+      true
+    else
+      false
     end
   end
 
@@ -17,14 +28,8 @@ class ApplicationController < ActionController::Base
     self.class.name
   end
   
-  helper_method :onboarding?
-  helper_method :self_class
   def current_herd
     Herd.find_by_subdomain!(request.subdomain)
-  end
-
-  def herdo
-    "Herdo"
   end
 
   def herd_subdomain
@@ -32,7 +37,16 @@ class ApplicationController < ActionController::Base
   end
 
   def find_herd
-    @herd = current_herd 
+    @herd = current_herd
+    current_herd 
   end
 
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :password, :password_confirmation, :first_name,  :last_name) } 
+  end
+  helper_method :herd_subdomain
+  helper_method :onboarding?
+  helper_method :self_class
+
 end
+

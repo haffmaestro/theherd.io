@@ -1,2 +1,26 @@
 @import 'angular-material';
 @import 'themes/green-theme.css';
+
+md-toolbar {
+background-color: #079EE2;
+color: rgb(231, 22, 22);
+height: 35px;
+min-height: 25px;
+}
+
+.md-subheader {
+display: block;
+font-size: 0.9em;
+padding: 5px 16px 0px 16px;
+position: relative;
+height: 25px;
+min-height: 25px;
+}
+
+.md-header {
+height: 25px;
+}
+
+h4.subheader-title {
+  margin-top: 0;
+}

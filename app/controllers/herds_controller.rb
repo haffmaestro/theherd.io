@@ -20,9 +20,10 @@ class HerdsController < ApplicationController
   end
 
   def show
-    if @herd.users.count == 1
-      redirect_to invite_url(subdomain: herd_subdomain)
-    end
+    
+    # if @herd.users.count == 1
+    #   redirect_to invite_url(subdomain: herd_subdomain)
+    # end
 
   end
 
