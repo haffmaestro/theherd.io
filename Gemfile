@@ -13,7 +13,10 @@ gem 'faker'
 gem 'slim'
 gem 'slim-rails'
 gem 'carrierwave'
+
+#Services Decorators
 gem 'virtus'
+gem 'draper', '~> 1.3'
 
 gem 'bootstrap-sass','~> 3.2.0'
 gem 'font-awesome-rails'
@@ -22,7 +25,7 @@ gem 'font-awesome-rails'
 gem 'angularjs-rails'
 gem 'underscore-rails'
 gem 'angular_rails_csrf'
-gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: '0-9-stable'
+gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: '0-8-stable'
 gem 'rails-assets-angular-preloaded'
 
 #Will Paginate

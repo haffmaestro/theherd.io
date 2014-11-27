@@ -14,7 +14,7 @@ class HerdWeekly < ActiveRecord::Base
     end
   end
 
-  def year_week
+  def year_week_id
     "#{year}-#{week}"
   end
 
