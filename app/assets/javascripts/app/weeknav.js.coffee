@@ -38,8 +38,11 @@ app.directive('reportArchive', ->
 app.directive('weeklyHeader', ->
   restrict: 'E'
   replace: true
+  scope:
+    year: "="
+    week: "="
   template: """
     <a>
-      <h4 class="subheader-title">Weekly Report {{date}}</h4></a>
+      <h4 class="subheader-title">Weekly Report - Week {{week}}, {{year}}</h4></a>
   """
 )

@@ -1,23 +1,32 @@
-= render "week_navigation"
 div ng-controller="WeeklyReportCtrl"
+  md-subheader class="md-primary" 
+    div layout='row'
+      div(flex='10')
+        previous-week 
+        next-week
+      div(flex='60' offset='30')
+        weekly-header year="herdWeekly.year" week="herdWeekly.week"
+      div [flex]
+        report-archive
   md-tabs md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
     md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
-  ng-switch on="data.selectedIndex" class="tabpanel-container"
-    div role="tabpanel" id="tab1-content" aria-labelledby="{{users[0]}}-report" ng-switch-when="0" md-swipe-left="next()" md-swipe-right="previous()"
-      |View for Item #1
-      br
-      |data.selectedIndex = {{data.selectedIndex}}
-    div role="tabpanel" id="tab2-content" aria-labelledby="{{users[1]}}-report" ng-switch-when="1" md-swipe-left="next()" md-swipe-right="previous()"
-      |View for Item #2
-      br
-      |data.selectedIndex = {{data.selectedIndex}}
-    div role="tabpanel" id="tab3-content" aria-labelledby="{{users[2]}}-report" ng-switch-when="2" md-swipe-left="next()" md-swipe-right="previous()"
-      |View for Item #3
-      br
-      |data.selectedIndex = {{data.selectedIndex}}
-    div role="tabpanel" id="tab3-content" aria-labelledby="{{users[3]}}-report" ng-switch-when="3" md-swipe-left="next()" md-swipe-right="previous()"
-      |View for Item #4
-      br
-      |data.selectedIndex = {{data.selectedIndex}}
+  .tabpanel-container
+    div role="tabpanel" id="tab1-content" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"
+      table.table
+        tr
+          th 
+            h3 Area
+          th 
+            h3 This Week
+          th 
+            h3 Next Week
+        tr ng-repeat='section in herdWeekly.user_weeklies[data.selectedIndex].sections'
+          td
+            |{{section.name}}
+          td
+            |{{section.body}}
+          td 
+            |Fuck
+    

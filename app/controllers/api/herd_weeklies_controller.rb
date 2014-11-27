@@ -20,6 +20,8 @@ class Api::HerdWeekliesController < Api::BaseController
   def find_herd_weekly
     if year_week_id_format?
       @herd_weekly = HerdWeekly.find_for_week(current_herd, params[:id])
+    elsif params[:id] == 'current'
+      @herd_weekly = current_herd.herd_weeklies.last
     else
       @herd_weekly = HerdWeekly.find params[:id]
     end
