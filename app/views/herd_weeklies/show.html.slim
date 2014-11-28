@@ -21,8 +21,11 @@ div ng-controller="WeeklyReportCtrl"
           div flex="70"
             h4 
               |{{section.name}} This Week
-            p 
-              |{{section.body}}
+            .view 
+              p 
+                |{{section.body}}
+            form
+              
           div flex="30"
             h4 
               |Goals Next Week
