@@ -11,22 +11,20 @@ app.factory('WeeklyReportGetter', ['$http', ($http)->
   }
   ])
 
-app.controller('WeeklyReportCtrl', ['Users', 'WeeklyReportGetter', '$scope', (Users, WeeklyReportGetter, $scope) ->
+app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','currentUser','$scope', (WeeklyReportGetter,currentUser, $scope) ->
   vm = $scope
+  vm.currentUser = currentUser
 
   WeeklyReportGetter.get('current').then((response)->
     vm.herdWeekly = response.herd_weekly
-    vm.users1 = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
+    vm.users = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
       user_weekly.first_name)
     vm.countUsers = (num for num in [0..vm.users.length-1])
     )
-  vm.users = Users.get()
+
   vm.data = {
     selectedIndex : 0,
   }
-  vm.countUsers = 4  
-
- 
 
   vm.next = -> 
     vm.data.selectedIndex = Math.min(vm.data.selectedIndex + 1, 2)
@@ -34,3 +32,7 @@ app.controller('WeeklyReportCtrl', ['Users', 'WeeklyReportGetter', '$scope', (Us
   vm.previous = ->
     vm.data.selectedIndex = Math.max(vm.data.selectedIndex - 1, 0)
     ])
+
+app.controller('UserWeeklyCtrl', ['$scope', ($scope)->
+
+  ])

@@ -7,3 +7,8 @@ app.factory('Users', ['$http', ($http) ->
       return users
   }
   ])
+
+app.factory('currentUser', ['$preloaded', ($preloaded)->
+	currentUser = $preloaded.user
+	currentUser.user
+	])

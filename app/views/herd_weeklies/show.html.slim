@@ -1,3 +1,5 @@
+script type="text/preloaded" name="user"
+  =UserSerializer.new(current_user).to_json.html_safe
 div ng-controller="WeeklyReportCtrl"
   md-subheader class="md-primary" 
     div layout='row'
@@ -12,21 +14,21 @@ div ng-controller="WeeklyReportCtrl"
     md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
-  .tabpanel-container
+  .tabpanel-container#weekly-report
     div role="tabpanel" id="tab1-content" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"
-      table.table
-        tr
-          th 
-            h3 Area
-          th 
-            h3 This Week
-          th 
-            h3 Next Week
-        tr ng-repeat='section in herdWeekly.user_weeklies[data.selectedIndex].sections'
-          td
-            |{{section.name}}
-          td
-            |{{section.body}}
-          td 
-            |Fuck
-    
+      md-card  ng-repeat='section in herdWeekly.user_weeklies[data.selectedIndex].sections'
+        md-content[flex layout="vertical"]
+          div flex="70"
+            h4 
+              |{{section.name}} This Week
+            p 
+              |{{section.body}}
+          div flex="30"
+            h4 
+              |Goals Next Week
+            md-checkbox ng-repeat="task in section.weekly_tasks"
+              |{{task.body}}
+        div ng-show="False"
+          |Comments        
+
+          

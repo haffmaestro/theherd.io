@@ -5,10 +5,17 @@ class Herd < ActiveRecord::Base
   has_many :users
   has_many :herd_weeklies
 
-  def self.find_last_weekly(herd)
-
+  def self.find_last_weekly(herd, user)
     if record = herd.herd_weeklies.last
-      record
+      if record.users.exists?(id: user.id)
+        record
+      else
+        service = Reports::CreateUserWeekly.new(user: user)
+        user_weekly = service.call
+        user_weekly.herd_weekly = record
+        user_weekly.save
+        record
+      end
     else
       service = Reports::CreateHerdWeekly.new(herd: herd)
       record = service.call
