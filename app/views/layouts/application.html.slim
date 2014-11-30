@@ -9,8 +9,8 @@ html
     div ng-controller="SidenavCtrl"
       md-toolbar class="md-small"
         div.md-toolbar-tools layout-align="space-around"
-          md-button href="http://google.com" Weekly Reports
-          md-button Goals
+          md-button href="#{weekly_url(Herd.find_last_weekly(current_herd, current_user), subdomain:herd_subdomain)}" Weekly Reports
+          md-button href="#{goals_url(subdomain: herd_subdomain)}"Goals
           md-button Quarterly Report
           md-button ng-click='openRightMenu()' aria-label="open menu" =fa_icon('angle-double-left')
       md-sidenav md-component-id="right" class="md-sidenav-right"

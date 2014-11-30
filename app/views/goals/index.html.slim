@@ -1,0 +1,9 @@
+script type="text/preloaded" name="user"
+  =UserSerializer.new(current_user).to_json.html_safe
+div ng-controller="GoalsCtrl"
+  md-tabs md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
+    md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
+      md-tab-label
+        |{{user}}
+  .tabpanel-container#weekly-report
+    div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"

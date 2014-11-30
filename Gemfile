@@ -13,6 +13,7 @@ gem 'faker'
 gem 'slim'
 gem 'slim-rails'
 gem 'carrierwave'
+gem 'rake','10.4.0'
 
 #Services Decorators
 gem 'virtus'

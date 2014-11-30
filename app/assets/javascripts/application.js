@@ -19,11 +19,12 @@
 //= require angular-material
 //= require angular-animate
 //= require angular-aria
+//= require angular-contenteditable
 //= require underscore
 //= require_self
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', 'contenteditable']).
   controller('ApplicationController', function($scope) {
   });

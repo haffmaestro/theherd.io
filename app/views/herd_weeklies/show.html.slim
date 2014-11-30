@@ -15,23 +15,29 @@ div ng-controller="WeeklyReportCtrl"
       md-tab-label
         |{{user}}
   .tabpanel-container#weekly-report
-    div role="tabpanel" id="tab1-content" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"
-      md-card  ng-repeat='section in herdWeekly.user_weeklies[data.selectedIndex].sections'
-        md-content[flex layout="vertical"]
-          div flex="70"
-            h4 
-              |{{section.name}} This Week
-            .view 
-              p 
-                |{{section.body}}
-            form
+    div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"
+      div ng-if="owner(herdWeekly.user_weeklies[data.selectedIndex])"
+        form ng-submit="submitTask(section)"
+          .row
+          input type="text" name="newWeeklyTask" ng-model="newWeeklyTask" class="md-text-float"
+        md-card ng-repeat='section in herdWeekly.user_weeklies[data.selectedIndex].sections'
+          md-content[flex layout="vertical"]
+            div flex="70"
+              h4
+                |{{section.name}} This Week
+              .view 
+                p 
+                  |{{section.body}}
+              form
+                
+            div flex="30"
+              h4 
+                |Goals Next Week
+              md-checkbox[md-no-ink ng-model="task.done" ng-repeat="task in section.weekly_tasks" aria-label="{{task.body}}" ng-click="toggleTaskDone(task)"]
+                |{{task.body}}
               
-          div flex="30"
-            h4 
-              |Goals Next Week
-            md-checkbox ng-repeat="task in section.weekly_tasks"
-              |{{task.body}}
-        div ng-show="False"
-          |Comments        
-
+          div ng-show="False"
+            |Comments        
+      div ng-if="friend(herdWeekly.user_weeklies[data.selectedIndex])"
+        h1 Fuceers
           

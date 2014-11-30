@@ -1,4 +1,4 @@
 class WeeklyTaskSerializer < ActiveModel::Serializer
-  attributes :section_id, :body
+  attributes :id, :section_id, :body, :done
 
 end

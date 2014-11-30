@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
   helper_method :herd_subdomain
   helper_method :onboarding?
   helper_method :self_class
+  helper_method :current_herd
 
 end
 

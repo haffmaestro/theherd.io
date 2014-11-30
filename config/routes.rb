@@ -4,12 +4,15 @@ Rails.application.routes.draw do
     devise_for :users, :controllers => {:registrations => "registrations"}
     resources :herds, except: [:new, :create]
     resources :herd_weeklies, as: :weekly
+    resources :goals
     get '' => 'herds#show'
     get '/invite' => "herds#invite_friends", as: "invite"
     get '/join', to: redirect('/users/sign_up')
 
     namespace :api do
       resources :herd_weeklies
+      resources :weekly_tasks, only: [:update, :create, :destroys]
+      resources :goals
     end
   end
   

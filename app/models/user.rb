@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :user_weeklies
   has_many :focus_areas
   has_many :comments
+  has_many :goals, through: :focus_areas
 
   after_create :set_default_focus_areas
   

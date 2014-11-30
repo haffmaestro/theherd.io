@@ -11,9 +11,10 @@ app.factory('WeeklyReportGetter', ['$http', ($http)->
   }
   ])
 
-app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','currentUser','$scope', (WeeklyReportGetter,currentUser, $scope) ->
+app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','WeeklyTask', 'currentUser','$scope', (WeeklyReportGetter,WeeklyTask,currentUser, $scope) ->
   vm = $scope
   vm.currentUser = currentUser
+  vm.newWeeklyTask = ""
 
   WeeklyReportGetter.get('current').then((response)->
     vm.herdWeekly = response.herd_weekly
@@ -25,6 +26,23 @@ app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','currentUser','$scope',
   vm.data = {
     selectedIndex : 0,
   }
+
+  vm.owner = (userWeekly) ->
+    userWeekly.user_id == currentUser.id
+  vm.friend = (userWeekly) ->
+    userWeekly.user_id != currentUser.id
+
+  vm.toggleTaskDone = (task) ->
+    task.done = !task.done
+    WeeklyTask.update(task).then((response) ->
+      console.log(response))
+
+  vm.submitTask = (section)->
+    task = {body: vm.newWeeklyTask, section_id: section.id}
+    console.log vm.newWeeklyTask
+    WeeklyTask.post(task).then((response)->
+      console.log(response))
+
 
   vm.next = -> 
     vm.data.selectedIndex = Math.min(vm.data.selectedIndex + 1, 2)
