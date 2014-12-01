@@ -5,7 +5,8 @@ class Goal < ActiveRecord::Base
   before_save :set_done_false
 
   def set_done_false
-  	done = false
+  	self.done = false
+    true
   end
 
   def self.find_for_herd(herd)
