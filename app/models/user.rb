@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   belongs_to :herd
   has_many :user_weeklies
-  has_many :focus_areas
+  has_many :focus_areas, -> {order 'name ASC'}
   has_many :comments
   has_many :goals, through: :focus_areas
 

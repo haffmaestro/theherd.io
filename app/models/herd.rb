@@ -2,7 +2,7 @@ class Herd < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :subdomain, presence: true, uniqueness: true,length: {maximum: 25 }, subdomain_format: true
 
-  has_many :users
+  has_many :users, -> {order 'first_name ASC'}
   has_many :herd_weeklies
 
   def self.find_last_weekly(herd, user)

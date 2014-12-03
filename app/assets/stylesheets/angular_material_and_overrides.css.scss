@@ -66,12 +66,37 @@ md-input-group {
 .goalsPanels {
 	width: 50%;
 }
-a.delete-task {
-	margin-top: 9px;
+a {
+	color: #66CCFF;
+	&.delete-task {
+		margin-top: 9px;
+	}
+	&.delete-goal {
+		margin-top: 7px;
+	}
+	&.comments-toggle {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
 }
-a.delete-goal {
-	margin-top: 7px;
+md-card {
+	position: relative;
+	z-index: 5;
+	background-color: white;
+	h4 {
+		margin-top: 0.7em;
+		&.comments{
+			text-align: center;
+		}
+	}
+	&.comments {
+		position: relative;
+		top: -20px;
+		z-index: 1;
+	}
 }
+
 
 textarea.section {
 	border-color: #66ccff

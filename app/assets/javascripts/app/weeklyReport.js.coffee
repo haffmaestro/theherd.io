@@ -3,7 +3,7 @@ app = angular.module('app')
 app.factory('Sections', ['$http', ($http)->
   return {
     update: (section)->
-      $http.put("/api/sections/#{section.id}", {section: section}).then((response)->
+      $http.put("/api/sections/#{section.id}", {section: section, section_id: section.id}).then((response)->
         response.data
         ).catch((data)->
           console.log 'Error updating!')
@@ -55,12 +55,12 @@ app.directive('ownerSection', ['Sections', (Sections) ->
   scope: 
     section: '='
   template: """
+  <div>
     <md-card id="{{section.name.toLowerCase()}}">
       <md-content flex layout="vertical">
         <div flex="70">
           <h4>
             {{section.name}} This Week
-            <a href="#" tooltips title="SpaceSpaceEnter for NewLine" tooltip-side="right"></a>
           </h4>
           <div class="view" ng-show="data.showView" ng-dblclick="showEdit($event)" marked="section.body">
             
@@ -69,17 +69,25 @@ app.directive('ownerSection', ['Sections', (Sections) ->
             <form flex ng-submit="saveForm(section)">
               <textarea class="section" style="width:99%" msd-elastic ng-model="section.body" ng-blur="saveForm(section)"></textarea>
           </div>
+          <a class="comments-toggle" ng-click="toggleComments()">
+            <i class="fa fa-comments-o fa-2x"></i></a>
         </div>
         <div flex="30">
           <h4> 
             Goals Next Week
           </h4>
           <weekly-tasks tasks="section.weekly_tasks" section="section"/>
-        <div class="comments" ng-show="False">
-          Comments
         </div>
       </md-content>
-    <md-card>      
+    </md-card>
+    <md-card class="comments" ng-show="data.showComments" flex="90" offset="5">   
+      <div flex class="comments" >
+        <h4 class="comments">
+          COMMENTS
+        </h4>
+      </div>  
+    </md-card>
+  </div> 
   """
 
   controller: ($scope, $rootScope) ->
@@ -87,7 +95,12 @@ app.directive('ownerSection', ['Sections', (Sections) ->
     vm.data = {
       showView: true
       showForm: false
+      showComments: false
     }
+    vm.toggleComments = ->
+      console.log "toggleComments called"
+      vm.data.showComments =! vm.data.showComments
+
     vm.toggleEdit = ->
       vm.data.showView =! vm.data.showView
       vm.data.showForm =! vm.data.showForm
@@ -119,3 +132,32 @@ app.config ["markedProvider", (markedProvider) ->
       highlight: (code) ->
         hljs.highlightAuto(code).value
 ]
+
+app.directive('friendSection', ['Sections', (Sections) ->
+  restrict: 'E'
+  replace: true
+  scope: 
+    section: '='
+  template: """
+    <md-card id="{{section.name.toLowerCase()}}">
+      <md-content flex layout="vertical">
+        <div flex="70">
+          <h4>
+            {{section.name}} This Week
+          </h4>
+          <div class="view" marked="section.body">
+            
+          </div>
+        </div>
+        <div flex="30">
+          <h4> 
+            Goals Next Week
+          </h4>
+          <weekly-tasks tasks="section.weekly_tasks" section="section"/>
+        <div class="comments" ng-show="False">
+          Comments
+        </div>
+      </md-content>
+    <md-card>      
+  """
+  ])
