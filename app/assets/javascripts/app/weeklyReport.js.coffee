@@ -58,11 +58,11 @@ app.directive('ownerSection', ['Sections', (Sections) ->
   <div>
     <md-card id="{{section.name.toLowerCase()}}">
       <md-content flex layout="vertical">
-        <div flex="70">
+        <div flex="70" ng-dblclick="showEdit($event)">
           <h4>
             {{section.name}} This Week
           </h4>
-          <div class="view" ng-show="data.showView" ng-dblclick="showEdit($event)" marked="section.body">
+          <div class="view" ng-show="data.showView" marked="section.body">
             
           </div>
           <div class="edit" ng-show="data.showForm" flex>
@@ -70,7 +70,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
               <textarea class="section" style="width:99%" msd-elastic ng-model="section.body" ng-blur="saveForm(section)"></textarea>
           </div>
           <a class="comments-toggle" ng-click="toggleComments()">
-            <i class="fa fa-comments-o fa-2x"></i></a>
+            <i class="fa fa-comments fa-2x"></i></a>
         </div>
         <div flex="30">
           <h4> 
@@ -80,13 +80,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
         </div>
       </md-content>
     </md-card>
-    <md-card class="comments" ng-show="data.showComments" flex="90" offset="5">   
-      <div flex class="comments" >
-        <h4 class="comments">
-          COMMENTS
-        </h4>
-      </div>  
-    </md-card>
+    <comments-section section="section"/>
   </div> 
   """
 
@@ -95,12 +89,10 @@ app.directive('ownerSection', ['Sections', (Sections) ->
     vm.data = {
       showView: true
       showForm: false
-      showComments: false
     }
     vm.toggleComments = ->
-      console.log "toggleComments called"
-      vm.data.showComments =! vm.data.showComments
-
+      channel = "showComments-#{vm.section.id}"
+      $rootScope.$emit(channel, {show: true})
     vm.toggleEdit = ->
       vm.data.showView =! vm.data.showView
       vm.data.showForm =! vm.data.showForm

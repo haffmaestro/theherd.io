@@ -20,6 +20,7 @@
 //= require angular-animate
 //= require angular-aria
 //= require angular-tooltips
+//= require angular-ui-router.min
 //= require elastic
 //= require angular-marked
 //= require marked
@@ -29,6 +30,6 @@
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips','monospaced.elastic', 'hc.marked']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips','monospaced.elastic', 'hc.marked', 'ui.router']).
   controller('ApplicationController', function($scope) {
   });
