@@ -1,0 +1,15 @@
+:output:
+  User:
+    :options:
+      :fields:
+        - id
+        - first_name
+        - last_name
+  Goal:
+  	:options:
+  		:fields:
+  			- done
+  			- due_date
+  			- focus_area_id
+  			- updated_at
+  			- body

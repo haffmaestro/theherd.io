@@ -11,8 +11,9 @@ Rails.application.routes.draw do
 
     namespace :api do
       resources :herd_weeklies
-      resources :weekly_tasks, only: [:update, :create, :destroys]
+      resources :weekly_tasks, only: [:update, :create, :destroy]
       resources :goals
+      resources :sections, only: [:update]
     end
   end
   

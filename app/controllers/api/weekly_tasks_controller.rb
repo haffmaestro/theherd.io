@@ -11,7 +11,22 @@ class Api::WeeklyTasksController < Api::BaseController
 	end
 
 	def create
-		render json: params
+		section = Section.find params[:weekly_task][:section_id]
+		task = section.weekly_tasks.new task_params
+		if task.save
+			render json: {saved: true}
+		else
+			render json: {saved: false}
+		end
+	end
+
+	def destroy
+		task = WeeklyTask.find params[:id]
+		if task.destroy
+			render json: {destroyed: true}
+		else
+			render json: {destroyed: false}
+		end
 	end
 
 

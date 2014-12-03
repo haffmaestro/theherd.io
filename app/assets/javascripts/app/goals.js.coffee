@@ -1,35 +1,52 @@
 app = angular.module('app')
 
 app.factory('Goals', ['$http', ($http)->
-	return {
-		get: ->
-			$http.get('/api/goals').then((response)->
-				response.data
-				).catch((response)->
-					console.log "Error at Goals factory")
-		}])
+  return {
+    get: ->
+      $http.get('/api/goals').then((response)->
+        response.data
+        ).catch((response)->
+          console.log "Error at Goals factory")
+    update: (goal) ->
+      $http.put("/api/goals/#{goal.id}", {goal: goal}).then((response) ->
+        response.data
+        ).catch((data)->
+          console.log 'Error updating!')
+    post: (goal) ->
+      $http.post("/api/goals", {goal: goal}).then((response)->
+        response.data
+        ).catch((data)->
+          console.log 'Error creating!'
+          data)
+    delete: (goal) ->
+      $http.delete("/api/goals/#{goal.id}").then((response)->
+        response.data
+        ).catch((data)->
+          console.log 'Error deleting!'
+          data)
+    }])
 
 app.controller('GoalsCtrl', ['$scope', 'Goals','currentUser','$rootScope', ($scope, Goals, currentUser, $rootScope)->
-	vm = $scope
-	vm.currentUser
-	vm.users = []
-	vm.newGoal = "Pease"
-	vm.data = {
-		selectedIndex: 0,
-		goalIndex: 1
-	}
-	Goals.get().then((response) ->
-		console.log response
-		for goal in response.goals
-			vm.users.push(goal.first_name)
-		vm.goals = response.goals
-		debugger
-		)
-	$rootScope.$on('nextGoals', (args)->
-		vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
-	$rootScope.$on('previousGoals', (args)->
-		vm.data.goalIndex = Math.max(vm.data.goalIndex - 1, 0))
-	])
+  vm = $scope
+  vm.currentUser
+  vm.users = []
+  vm.newGoal = "Pease"
+  vm.data = {
+    selectedIndex: 0,
+    goalIndex: 0
+  }
+
+  Goals.get().then((response) ->
+    console.log response
+    for goal in response.goals
+      vm.users.push(goal.first_name)
+    vm.goals = response.goals
+    )
+  $rootScope.$on('nextGoals', (args)->
+    vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
+  $rootScope.$on('previousGoals', (args)->
+    vm.data.goalIndex = Math.max(vm.data.goalIndex - 1, 0))
+  ])
 
 app.directive('previousGoals', ->
   restrict: 'E'
@@ -39,10 +56,10 @@ app.directive('previousGoals', ->
       <i class="fa fa-chevron-left" ng-click="previousGoals()"></i></a>
   """
   controller: ($rootScope, $scope) ->
-  	vm = $scope
-  	vm.previousGoals = ->
-  		console.log "previousGoals called"
-  		$rootScope.$emit('previousGoals', {change: true})
+    vm = $scope
+    vm.previousGoals = ->
+      console.log "previousGoals called"
+      $rootScope.$emit('previousGoals', {change: true})
 )
 
 app.directive('nextGoals', ->
@@ -53,8 +70,80 @@ app.directive('nextGoals', ->
       <i class="fa fa-chevron-right" ng-click="nextGoals()"></i></a>
   """
   controller: ($rootScope, $scope) ->
-  	vm = $scope
-  	vm.nextGoals = ->
-  		console.log "nextGoals called"
-  		$rootScope.$emit('nextGoals', {change: true})
+    vm = $scope
+    vm.nextGoals = ->
+      console.log "nextGoals called"
+      $rootScope.$emit('nextGoals', {change: true})
 )
+
+app.directive('goalHeadlines', ->
+  restrict: 'E'
+  replace: true
+  scope:
+    headlines: '='
+  template: """
+    <div class="row" flex="100" layout="horizontal"><div flex="50"><h2 class="goals">{{headlines[0]}}</h2></div><div flex="50"><h2 class="goals">{{headlines[1]}}</h2></div></div>
+  """
+  )
+
+app.directive('goalsDisplay', ['Goals', (Goals)->
+  restrict: 'E'
+  replace: true
+  scope:
+    goals: '='
+    months: '='
+    focus: '='
+  template: """
+    <div>
+      <div class="row" layout="horizontal" ng-repeat="goal in goals">
+        <md-checkbox md-no-ink ng-model="goal.done" aria-label="{{goal.body}}" ng-change="toggleGoalDone(goal)">
+          {{goal.body}}
+        </md-checkbox>
+        <delete-button-goal goal="goal" list="goals"/>
+      </div>
+      <form ng-submit="submitGoal(focus_area)">
+        <md-text-float label="New Goal" type="text" name="newGoal" ng-model="data.newGoal">
+        </md-text-float>
+      </form>
+    </div>
+  """
+  controller: ($scope) ->
+    vm = $scope
+    vm.data = {
+      newGoal: ""
+    }
+
+    vm.toggleGoalDone = (goal) ->
+      console.log("From Angular #{goal.done}")
+      Goals.update(goal).then((response) ->
+        console.log("From Rails #{response}"))
+
+    vm.submitGoal = (focus_area)->
+      goal = {body: vm.data.newGoal, focus_area_id: vm.focus.id, done: false, months: vm.months}
+      vm.goals.push(goal)
+      vm.data.newGoal = ""
+      Goals.post(goal).then((response)->
+        console.log(response))
+    ])
+
+app.directive('deleteButtonGoal', ['Goals', (Goals) ->
+  restrict: 'E'
+  replace: true
+  scope:
+    goal: '='
+    list: '='
+  template: """
+    <a ng-click="deleteTask(goal)" class="delete-goal">
+      <i class="fa fa-remove "></i>
+    </a>
+  """
+  controller: ($scope) ->
+    vm = $scope
+    vm.deleteTask = (goal) ->
+      Goals['delete'](goal).
+        then((response) -> console.log response).
+        catch((data) -> console.log data)
+      index = vm.list.indexOf(goal)
+      vm.list.splice(index, 1)
+
+])

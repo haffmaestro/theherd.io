@@ -1,74 +1,66 @@
 script type="text/preloaded" name="user"
   =UserSerializer.new(current_user).to_json.html_safe
+
 div ng-controller="GoalsCtrl"
+  scroll-list list="goals[data.selectedIndex].focus_areas"
   md-tabs md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
     md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
-  .tabpanel-container#goals
-    div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"
-    	div layout="row"
-    		previous-goals
-    		next-goals
-    	ng-switch.tabpanel-container on="data.goalIndex" 
-    	  #tab1-content aria-labelledby="tab1" md-swipe-left="next()" ng-switch-when="0" layout="vertical"
-    	    div flex="50"
-    	    	h2.goals 1 Month Goals
-    	    	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-    	    		h4
-    	    			|{{focus_area.focus_area.name}}
-    	    		p ng-repeat="goal in focus_area.focus_area.one_month_goals"
-    	    				|{{goal.body}}
-    	    div flex="50"
-    	    	h2.goals 3 Month Goals
-    	    	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-    	    		h4
-    	    			|{{focus_area.focus_area.name}}
-    	    		p ng-repeat="goal in focus_area.focus_area.three_month_goals"
-    	    				|{{goal.body}}
-    	  #tab2-content aria-labelledby="tab2" md-swipe-left="next()" md-swipe-right="previous()" ng-switch-when="1" layout="vertical"
-    	    div flex="50"
-    	    	h2.goals 3 Month Goals
-    	    	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-    	    		h4
-    	    			|{{focus_area.focus_area.name}}
-    	    		p ng-repeat="goal in focus_area.focus_area.three_month_goals"
-    	    				|{{goal.body}}
-  	    	div flex="50"
-  	      	h2.goals 1 Year Goals
-  	      	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-  	      		h4
-  	      			|{{focus_area.focus_area.name}}
-  	      		p ng-repeat="goal in focus_area.focus_area.one_year_goal"
-  	      				|{{goal.body}}
-    	  #tab3-content aria-labelledby="tab3" md-swipe-left="next()" md-swipe-right="previous()" ng-switch-when="2" role="tabpanel" layout="vertical"
-  	    	div flex="50"
-  	      	h2.goals 1 Year Goals
-  	      	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-  	      		h4
-  	      			|{{focus_area.focus_area.name}}
-  	      		p ng-repeat="goal in focus_area.focus_area.one_year_goal"
-  	      				|{{goal.body}}
-  	      div flex="50"
-  	      	h2.goals 3 Year Goals
-  	      	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-  	      		h4
-  	      			|{{focus_area.focus_area.name}}
-  	      		p ng-repeat="goal in focus_area.focus_area.three_year_goals"
-  	      				|{{goal.body}}
-    	  #tab4-content aria-labelledby="tab4" md-swipe-left="next()" md-swipe-right="previous()" ng-switch-when="3" role="tabpanel" layout="vertical"
-  	      div flex="50"
-  	      	h2.goals 3 Year Goals
-  	      	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-  	      		h4
-  	      			|{{focus_area.focus_area.name}}
-  	      		p ng-repeat="goal in focus_area.focus_area.three_year_goals"
-  	      				|{{goal.body}}
-	      	div flex="50"
-	        	h2.goals 10 Year Goals
-	        	md-card ng-repeat="focus_area in goals[data.selectedIndex].focus_areas"
-	        		h4
-	        			|{{focus_area.focus_area.name}}
-	        		p ng-repeat="goal in focus_area.focus_area.ten_year_goal"
-	        				|{{goal.body}}
-    		
+  previous-goals
+  next-goals
+  div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex="100" layout="row"]
+    .goalTab1-content aria-labelledby="goalTab1" flex="80" offset="10" ng-switch-when="0"
+      goal-headlines headlines="['One Month Goals','Three Month Goals']"
+      .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
+        div flex="50"
+          md-card 
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.one_month_goals" focus='focus_area' months="1"
+        div flex="50"
+          md-card 
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.three_month_goals" focus="focus_area" months="3"
+    .goalTab2-content aria-labelledby="goalTab2" flex="80" offset="10" ng-switch-when="1"
+      goal-headlines headlines="['Three Month Goals','One Year Goals']"
+      .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
+        div flex="50"
+          md-card
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.three_month_goals" focus="focus_area" months="3"
+        div flex="50"
+          md-card
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.one_year_goals" focus="focus_area" months="12"
+    .goalTab3-content aria-labelledby="goalTab3" flex="80" offset="10" ng-switch-when="2"
+      goal-headlines headlines="['One Year Goals','Three Year Goals']"
+      .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
+        div flex="50"
+          md-card
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.one_year_goals" focus="focus_area" months="12"
+        div flex="50"
+          md-card
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.three_year_goals" focus="focus_area" months="36"
+    .goalTab4-content aria-labelledby="goalTab4" flex="80" offset="10" ng-switch-when="3"
+      goal-headlines headlines="['Three Year Goals', 'Ten Year Goals']"
+      .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
+        div flex="50"
+          md-card
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.three_year_goals" focus="focus_area" months="36"
+        div flex="50"
+          md-card
+            h4
+              |{{focus_area.name}}
+            goals-display goals="focus_area.ten_year_goals" focus="focus_area" months="120"
+          
+        

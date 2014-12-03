@@ -19,12 +19,16 @@
 //= require angular-material
 //= require angular-animate
 //= require angular-aria
-//= require angular-contenteditable
+//= require angular-tooltips
+//= require elastic
+//= require angular-marked
+//= require marked
+//= require highlight.pack
 //= require underscore
 //= require_self
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', 'contenteditable']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips','monospaced.elastic', 'hc.marked']).
   controller('ApplicationController', function($scope) {
   });

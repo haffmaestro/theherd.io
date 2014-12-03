@@ -52,6 +52,17 @@ cancel_user_registration GET      /users/cancel(.:format)                registr
         api_weekly_tasks POST     /api/weekly_tasks(.:format)            api/weekly_tasks#create
          api_weekly_task PATCH    /api/weekly_tasks/:id(.:format)        api/weekly_tasks#update
                          PUT      /api/weekly_tasks/:id(.:format)        api/weekly_tasks#update
+                         DELETE   /api/weekly_tasks/:id(.:format)        api/weekly_tasks#destroy
+               api_goals GET      /api/goals(.:format)                   api/goals#index
+                         POST     /api/goals(.:format)                   api/goals#create
+            new_api_goal GET      /api/goals/new(.:format)               api/goals#new
+           edit_api_goal GET      /api/goals/:id/edit(.:format)          api/goals#edit
+                api_goal GET      /api/goals/:id(.:format)               api/goals#show
+                         PATCH    /api/goals/:id(.:format)               api/goals#update
+                         PUT      /api/goals/:id(.:format)               api/goals#update
+                         DELETE   /api/goals/:id(.:format)               api/goals#destroy
+             api_section PATCH    /api/sections/:id(.:format)            api/sections#update
+                         PUT      /api/sections/:id(.:format)            api/sections#update
                 new_herd GET      /new(.:format)                         herds#new
                          POST     /herds(.:format)                       herds#create
                     root GET      /                                      onboarding#index
