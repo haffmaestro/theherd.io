@@ -23,6 +23,7 @@
 //= require angular-ui-router.min
 //= require elastic
 //= require angular-marked
+//= require jquery.vide.min
 //= require marked
 //= require highlight.pack
 //= require underscore

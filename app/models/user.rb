@@ -5,10 +5,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, request_keys: [:subdomain]
 
   belongs_to :herd
-  has_many :user_weeklies
-  has_many :focus_areas, -> {order 'name ASC'}
-  has_many :comments
-  has_many :goals, through: :focus_areas
+  has_many :user_weeklies, dependent: :destroy
+  has_many :focus_areas, -> {order 'name ASC'}, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :goals, through: :focus_areas, dependent: :destroy
 
   after_create :set_default_focus_areas
   

@@ -41,9 +41,9 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
           <p>
             {{comment.body}}
           </p>
-          <a class="add-comments-toggle" ng-click="newComment()">
-            <i class="fa fa-plus fa-2x"></i></a>
         </div>
+        <a class="add-comments-toggle" ng-click="newComment()">
+          <i class="fa fa-plus fa-2x"></i></a>
         <div class="edit" ng-show="data.addComment" flex>
           <form flex ng-submit="createComment()">
             <textarea class="section" style="width:50%" msd-elastic ng-model="data.newComment" ></textarea>
