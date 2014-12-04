@@ -18,12 +18,12 @@ div ng-controller="GoalsCtrl"
           md-card 
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.one_month_goals" focus='focus_area' user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="1"
+            goals-display goals="focus_area.one_month_goals" focus='focus_area' user='goals[data.selectedIndex].user_id' curruser="currentUser.id"  months="1"
         div flex="50"
           md-card 
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.three_month_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="3"
+            goals-display goals="focus_area.three_month_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' curruser="currentUser.id" months="3"
     .goalTab2-content.animate-switch aria-labelledby="goalTab2" flex="80" offset="10" ng-switch-when="1"
       goal-headlines headlines="['Three Month Goals','One Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
@@ -36,7 +36,7 @@ div ng-controller="GoalsCtrl"
           md-card
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.one_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="12" 
+            goals-display goals="focus_area.one_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' curruser="currentUser.id"  months="12" 
     .goalTab3-content.animate-switch aria-labelledby="goalTab3" flex="80" offset="10" ng-switch-when="2"
       goal-headlines headlines="['One Year Goals','Three Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
@@ -44,12 +44,12 @@ div ng-controller="GoalsCtrl"
           md-card
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.one_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="12" 
+            goals-display goals="focus_area.one_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' curruser="currentUser.id"  months="12" 
         div flex="50"
           md-card
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.three_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="36"
+            goals-display goals="focus_area.three_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' curruser="currentUser.id"  months="36"
     .goalTab4-content.animate-switch aria-labelledby="goalTab4" flex="80" offset="10" ng-switch-when="3"
       goal-headlines headlines="['Three Year Goals', 'Ten Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
@@ -57,11 +57,11 @@ div ng-controller="GoalsCtrl"
           md-card
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.three_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="36" 
+            goals-display goals="focus_area.three_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' curruser="currentUser.id"  months="36" 
         div flex="50"
           md-card
             h4
               |{{focus_area.name}}
-            goals-display goals="focus_area.ten_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' current-user="currentUser.id" months="120 "
+            goals-display goals="focus_area.ten_year_goals" focus="focus_area" user='goals[data.selectedIndex].user_id' curruser="currentUser.id"  months="120 "
           
         
