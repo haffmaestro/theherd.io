@@ -28,7 +28,8 @@ app.factory('Goals', ['$http', ($http)->
 
 app.controller('GoalsCtrl', ['$scope', 'Goals','currentUser','$rootScope', ($scope, Goals, currentUser, $rootScope)->
   vm = $scope
-  vm.currentUser
+  vm.currentUser = currentUser
+  console.log currentUser
   vm.users = []
   vm.newGoal = "Pease"
   vm.data = {
@@ -42,6 +43,7 @@ app.controller('GoalsCtrl', ['$scope', 'Goals','currentUser','$rootScope', ($sco
       vm.users.push(goal.first_name)
     vm.goals = response.goals
     )
+
   $rootScope.$on('nextGoals', (args)->
     vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
   $rootScope.$on('previousGoals', (args)->
@@ -90,18 +92,20 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
   restrict: 'E'
   replace: true
   scope:
+    curruser: '='
+    user: '='
     goals: '='
     months: '='
     focus: '='
   template: """
     <div>
       <div class="row" layout="horizontal" ng-repeat="goal in goals">
-        <md-checkbox md-no-ink ng-model="goal.done" aria-label="{{goal.body}}" ng-change="toggleGoalDone(goal)">
+        <md-checkbox ng-disabled="friend()" md-no-ink ng-model="goal.done" aria-label="{{goal.body}}" ng-change="toggleGoalDone(goal)">
           {{goal.body}}
         </md-checkbox>
-        <delete-button-goal goal="goal" list="goals"/>
+        <delete-button-goal ng-hide="friend()" goal="goal" list="goals"/>
       </div>
-      <form ng-submit="submitGoal(focus_area)">
+      <form ng-submit="submitGoal(focus_area)" ng-hide="friend()" >
         <md-text-float label="New Goal" type="text" name="newGoal" ng-model="data.newGoal">
         </md-text-float>
       </form>
@@ -109,9 +113,15 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
   """
   controller: ($scope) ->
     vm = $scope
+    console.log vm.user
+    console.log vm.curruser
     vm.data = {
       newGoal: ""
     }
+
+    vm.friend = ->
+      return false unless vm.user?
+      isFriend = vm.user != vm.curruser
 
     vm.toggleGoalDone = (goal) ->
       console.log("From Angular #{goal.done}")

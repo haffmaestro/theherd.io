@@ -2,12 +2,12 @@ script type="text/preloaded" name="user"
   =UserSerializer.new(current_user).to_json.html_safe
 div ng-controller="WeeklyReportCtrl"
   scroll-list list="herdWeekly.user_weeklies[data.selectedIndex].sections"
-  md-subheader class="md-primary" 
-    div layout='row'
-      div(flex='10')
-        previous-week 
-        next-week
-      div(flex='60' offset='30')
+  span
+    .week-nav layout='row'
+      div(flex='10' offset="5")
+        previous-week year="herdWeekly.year" week="herdWeekly.week"
+        next-week year="herdWeekly.year" week="herdWeekly.week"
+      div(flex='60' offset='20')
         weekly-header year="herdWeekly.year" week="herdWeekly.week"
       div [flex]
         report-archive

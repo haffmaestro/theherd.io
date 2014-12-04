@@ -89,6 +89,13 @@ a {
 		bottom: 0;
 		margin-right: 5px;
 	}
+
+	&.week-nav {
+		z-index: 10;
+	}
+	&.archive {
+		text-align: right;
+	}
 }
 md-card {
 	position: relative;
@@ -118,6 +125,11 @@ md-card {
 		margin-top: 0.1em;
 		margin-bottom: 0.1em;
 	}
+}
+
+div.week-nav {
+	height: 1.5em;
+	padding-top: 0.1em;
 }
 
 

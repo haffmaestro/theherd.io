@@ -144,25 +144,39 @@ app.directive('friendSection', ['Sections', (Sections) ->
   scope: 
     section: '='
   template: """
+  <div>
     <md-card id="{{section.name.toLowerCase()}}">
       <md-content flex layout="vertical">
         <div flex="70">
           <h4>
             {{section.name}} This Week
           </h4>
-          <div class="view" marked="section.body">
+          <div class="view" ng-show="data.showView" marked="section.body">
             
-          </div>
+          </div>          
+          <a class="comments-toggle" ng-click="toggleComments()">
+            <i class="fa fa-comments fa-2x"></i></a>
         </div>
         <div flex="30">
           <h4> 
             Goals Next Week
           </h4>
-          <weekly-tasks tasks="section.weekly_tasks" section="section"/>
-        <div class="comments" ng-show="False">
-          Comments
+          <weekly-tasks-friend tasks="section.weekly_tasks" section="section"/>
         </div>
       </md-content>
-    <md-card>      
+    </md-card>
+    <comments-section section="section"/>
+  </div> 
   """
+
+  controller: ($scope, $rootScope) ->
+    vm = $scope
+    vm.data = {
+      showView: true
+      showForm: false
+    }
+    vm.toggleComments = ->
+      channel = "showComments-#{vm.section.id}"
+      $rootScope.$emit(channel, {show: true})
+
   ])

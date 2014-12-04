@@ -83,3 +83,20 @@ app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
       WeeklyTask.post(task).then((response)->
         console.log(response))
     ])
+
+app.directive('weeklyTasksFriend', ['WeeklyTask', (WeeklyTask)->
+  restrict: 'E'
+  replace: true
+  scope:
+    tasks: '='
+    section: '='
+  template: """
+    <div>
+      <div class="row" layout="horizontal" ng-repeat="task in tasks">
+        <md-checkbox ng-disabled="true"  md-no-ink ng-model="task.done" aria-label="{{task.body}}" ng-change="toggleTaskDone(task)">
+          {{task.body}}
+        </md-checkbox>
+      </div>
+    </div>
+  """
+  ])
