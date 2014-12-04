@@ -10,12 +10,10 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require bootstrap.css
  *= require scrollspy.css
  *= require custom.css.scss
  *= require onboarding.css.scss
  *= require angular_material_and_overrides.css.scss
  *= require angular-tooltips.css
- *= require_self
  *= require font-awesome
  */

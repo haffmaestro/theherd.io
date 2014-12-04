@@ -5,15 +5,17 @@ $("body").scrollspy
 
 
 # CSS Tricks smooth scrolling : http://css-tricks.com/snippets/jquery/smooth-scrolling/ 
-$("a[href*=#]:not([href=#])").click ->
-  if location.pathname.replace(/^\//, "") is @pathname.replace(/^\//, "") and location.hostname is @hostname
-    target = $(@hash)
-    target = (if target.length then target else $("[name=" + @hash.slice(1) + "]"))
-    if target.length
-      $("html, body").animate
-        scrollTop: target.offset().top
-      , 500
-      false
+
+$ ->
+  $(document).on "click", "a[href*=#]:not([href=#])", ->
+    if location.pathname.replace(/^\//, "") is @pathname.replace(/^\//, "") and location.hostname is @hostname
+      target = $(@hash)
+      target = (if target.length then target else $("[name=" + @hash.slice(1) + "]"))
+      if target.length
+        $("html,body").animate
+          scrollTop: target.offset().top - 75
+        , 500
+        false
 
 app = angular.module('app')
 

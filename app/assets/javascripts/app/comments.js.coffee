@@ -8,11 +8,17 @@ app.factory('Comments', ['$http', ($http)->
       ).catch((data)->
         console.log 'Error getting comments!'
         data)
+    post:(comment, section_id)->
+      $http.post("/api/sections/#{section_id}/comments", {comment: comment}).then((response)->
+        response.data
+      ).catch((data)->
+        console.log 'Error posting comment!'
+        data)
 
   }
   ])
 
-app.directive('commentsSection', ['Comments', (Comments)->
+app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded)->
   restrict: 'E'
   replace: true
   scope:
@@ -28,21 +34,31 @@ app.directive('commentsSection', ['Comments', (Comments)->
           Comments
         </h4>
         <div ng-repeat="comment in data.comments">
+          <hr>
           <h6>
             {{comment.first_name}} on {{comment.date}}
           </h6>
           <p>
             {{comment.body}}
           </p>
-          <hr>
+          <a class="add-comments-toggle" ng-click="newComment()">
+            <i class="fa fa-plus fa-2x"></i></a>
+        </div>
+        <div class="edit" ng-show="data.addComment" flex>
+          <form flex ng-submit="createComment()">
+            <textarea class="section" style="width:50%" msd-elastic ng-model="data.newComment" ></textarea>
+            <md-button type="submit">Add</md-button>
         </div>
       </div>  
     </md-card>
   """
-  controller: ($scope, $rootScope, $filter)->
+  controller: ($scope, $rootScope)->
     vm = $scope
+    vm.currentUser = $preloaded.user.user
     vm.data = {
       showComments: false
+      addComment: false
+      newComment: ""
       channel: "showComments-#{vm.section.id}"
       comments: null
     }
@@ -50,6 +66,22 @@ app.directive('commentsSection', ['Comments', (Comments)->
     $rootScope.$on(vm.data.channel, (args)->
       vm.toggleComments()
       )
+
+    vm.newComment = ->
+      vm.data.addComment =! vm.data.addComment
+
+
+    vm.createComment = ->
+      today = new Date(Date.now())
+      today = today.toDateString()
+      console.log today
+      comment = {section_id: vm.section.id, user_id: vm.currentUser.id, first_name: vm.currentUser.first_name, body: vm.data.newComment, date: today}
+      vm.data.newComment = ""
+      vm.data.comments.push(comment)
+      vm.data.addComment = false
+      Comments.post(comment, vm.section.id).then((response)->
+        console.log response)
+
 
     vm.toggleComments = ->
       vm.data.showComments =! vm.data.showComments

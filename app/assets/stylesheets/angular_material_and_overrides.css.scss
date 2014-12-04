@@ -1,6 +1,9 @@
 @import 'angular-material';
 @import 'themes/green-theme.css';
 
+body {
+	text-align: left;
+}
 md-toolbar {
 background-color: #079EE2;
 color: rgb(231, 22, 22);
@@ -78,6 +81,13 @@ a {
 		position: absolute;
 		right: 0;
 		bottom: 0;
+		z-index: 10;
+	}
+	&.add-comments-toggle {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		margin-right: 5px;
 	}
 }
 md-card {
@@ -114,4 +124,17 @@ md-card {
 
 textarea.section {
 	border-color: #66ccff
+}
+
+.fadeDown {
+ top: 0px;
+ overflow: hidden;
+}
+.fadeDown.ng-hide {
+ top: -50px;
+}
+
+.comments.ng-hide-add,
+.comments.ng-hide-remove {
+ -webkit-transition: 0.6s linear all;
 }

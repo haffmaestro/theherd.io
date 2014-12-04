@@ -1,14 +1,16 @@
-h2 Create your new herd here
+div.opac
+  h2 Create your new herd here
 
-=form_for @herd do |f|
-  .form-group
-    =f.label "Name your herd"
-    .input-group
-      =f.text_field :name, class: "form-control"
-  .form-group
-    =f.label "Where do you want to go to access your herd?"
-    .input-group
-      =f.text_field :subdomain, class: "form-control"
-      .input-group-addon .theherd.io
-  .form-group
-    =f.submit "Start The Journey", class: "btn btn-default"
+  =form_for @herd do |f|
+    .form-group
+      =f.label "Name your herd"
+      .input-group
+        =f.text_field :name, class: "form-control"
+    .form-group
+      =f.label "Where do you want to go to access your herd?"
+      .input-group
+        =f.text_field :subdomain, class: "form-control"
+        .input-group-addon .theherd.io
+    .form-group
+      =f.submit "Start The Journey", class: "btn btn-default"
+  hr

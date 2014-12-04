@@ -7,6 +7,7 @@ div ng-controller="GoalsCtrl"
     md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
+  div flex="30" offset="40"
   previous-goals
   next-goals
   div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex="100" layout="row"]

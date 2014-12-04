@@ -23,8 +23,10 @@ app.factory('WeeklyReportGetter', ['$http', ($http)->
 app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','WeeklyTask', 'currentUser','$scope', (WeeklyReportGetter,WeeklyTask,currentUser, $scope) ->
   vm = $scope
   vm.currentUser = currentUser
-
-  WeeklyReportGetter.get('current').then((response)->
+  regex = /(201[0-9]-[0-5]\d)/
+  url = document.URL
+  id = regex.exec(url)[0]
+  WeeklyReportGetter.get(id).then((response)->
     vm.herdWeekly = response.herd_weekly
     vm.users = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
       user_weekly.first_name)

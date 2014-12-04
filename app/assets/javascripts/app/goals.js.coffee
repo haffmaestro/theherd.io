@@ -53,7 +53,7 @@ app.directive('previousGoals', ->
   replace: true
   template: """
     <a>
-      <i class="fa fa-chevron-left" ng-click="previousGoals()"></i></a>
+      <i class="fa fa-chevron-left fa-2x" ng-click="previousGoals()"></i></a>
   """
   controller: ($rootScope, $scope) ->
     vm = $scope
@@ -67,7 +67,7 @@ app.directive('nextGoals', ->
   replace: true
   template: """
     <a>
-      <i class="fa fa-chevron-right" ng-click="nextGoals()"></i></a>
+      <i class="fa fa-chevron-right fa-2x" ng-click="nextGoals()"></i></a>
   """
   controller: ($rootScope, $scope) ->
     vm = $scope
