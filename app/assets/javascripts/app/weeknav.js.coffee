@@ -43,6 +43,6 @@ app.directive('weeklyHeader', ->
     week: "="
   template: """
     <a>
-      <h4 class="subheader-title">Weekly Report - Week {{week}}, {{year}}</h4></a>
+      <h4 ng-cloak class="subheader-title">Weekly Report - Week {{week}}, {{year}}</h4></a>
   """
 )

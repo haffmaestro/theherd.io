@@ -11,7 +11,7 @@ div ng-controller="GoalsCtrl"
   previous-goals
   next-goals
   div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex="100" layout="row"]
-    .goalTab1-content aria-labelledby="goalTab1" flex="80" offset="10" ng-switch-when="0"
+    .goalTab1-content.animate-switch aria-labelledby="goalTab1" flex="80" offset="10" ng-switch-when="0"
       goal-headlines headlines="['One Month Goals','Three Month Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
@@ -24,7 +24,7 @@ div ng-controller="GoalsCtrl"
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.three_month_goals" focus="focus_area" months="3"
-    .goalTab2-content aria-labelledby="goalTab2" flex="80" offset="10" ng-switch-when="1"
+    .goalTab2-content.animate-switch aria-labelledby="goalTab2" flex="80" offset="10" ng-switch-when="1"
       goal-headlines headlines="['Three Month Goals','One Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
@@ -37,7 +37,7 @@ div ng-controller="GoalsCtrl"
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.one_year_goals" focus="focus_area" months="12"
-    .goalTab3-content aria-labelledby="goalTab3" flex="80" offset="10" ng-switch-when="2"
+    .goalTab3-content.animate-switch aria-labelledby="goalTab3" flex="80" offset="10" ng-switch-when="2"
       goal-headlines headlines="['One Year Goals','Three Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
@@ -50,7 +50,7 @@ div ng-controller="GoalsCtrl"
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.three_year_goals" focus="focus_area" months="36"
-    .goalTab4-content aria-labelledby="goalTab4" flex="80" offset="10" ng-switch-when="3"
+    .goalTab4-content.animate-switch aria-labelledby="goalTab4" flex="80" offset="10" ng-switch-when="3"
       goal-headlines headlines="['Three Year Goals', 'Ten Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"

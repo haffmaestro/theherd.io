@@ -91,7 +91,7 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
             console.log response.comments
             vm.data.comments = response.comments
             )
-        , 1000
+        , 750
         )
       true
   ])

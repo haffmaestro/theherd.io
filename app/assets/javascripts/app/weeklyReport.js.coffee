@@ -23,15 +23,26 @@ app.factory('WeeklyReportGetter', ['$http', ($http)->
 app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','WeeklyTask', 'currentUser','$scope', (WeeklyReportGetter,WeeklyTask,currentUser, $scope) ->
   vm = $scope
   vm.currentUser = currentUser
-  regex = /(201[0-9]-[0-5]\d)/
+  id = null
+  year_week_regex = /(201[0-9]-[0-5]\d)/
+  id_regex = /\/\d+/
+  num_regex = 
   url = document.URL
-  id = regex.exec(url)[0]
-  WeeklyReportGetter.get(id).then((response)->
-    vm.herdWeekly = response.herd_weekly
-    vm.users = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
-      user_weekly.first_name)
-    vm.countUsers = (num for num in [0..vm.users.length-1])
-    )
+  vm.herdWeekly = null
+  if url.match(year_week_regex)
+    id = year_week_regex.exec(url)[0]
+  else
+    id = id_regex.exec(url)[0].match(/\d+/)[0]
+
+  setTimeout( ->
+    WeeklyReportGetter.get(id).then((response)->
+      vm.herdWeekly = response.herd_weekly
+      vm.users = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
+        user_weekly.first_name)
+      vm.countUsers = (num for num in [0..vm.users.length-1])
+      )
+  , 750
+  )
 
   vm.data = {
     selectedIndex : 0,
