@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   belongs_to :herd
   has_many :user_weeklies, dependent: :destroy
-  has_many :focus_areas, -> {order 'name ASC'}, dependent: :destroy
+  has_many :focus_areas, -> {order 'name DESC'}, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :goals, through: :focus_areas, dependent: :destroy
 

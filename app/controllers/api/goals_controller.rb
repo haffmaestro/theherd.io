@@ -2,7 +2,7 @@ class Api::GoalsController < Api::BaseController
 
 	def index
 		@herd = current_herd
-		render json: @herd.users, each_serializer: UserGoalsSerializer
+		render json: @herd.users.order(first_name: :desc), each_serializer: UserGoalsSerializer
 	end
 
 	def update
