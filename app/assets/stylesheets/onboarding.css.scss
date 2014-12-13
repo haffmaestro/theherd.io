@@ -17,13 +17,20 @@ background-color: black;
 }
 
 #hero {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
   color: #fff;
   z-index: -1;
+}
+
+.greeting {
+  height: 800px;
+}
+.information {
+  background-color: rgba(250,250,250,0.5);
 }
 
 .elephants {
