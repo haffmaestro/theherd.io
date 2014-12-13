@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-RSpec.describe Reports::CreateHerdWeekly, :type => :service do
+ 
 
   describe "call" do
     context "with 4 users" do
