@@ -5,16 +5,16 @@ html
     =stylesheet_link_tag 'bootstrap.min'
     =stylesheet_link_tag 'bootstrap-theme.min'
     =stylesheet_link_tag 'onboarding'
-    =stylesheet_link_tag 'custom'
     =javascript_include_tag 'application'
     =csrf_meta_tags
-  body class=('onboarding' if onboarding?)
-    .row
-      =render "layouts/sign_in_status"
-    = render "layouts/flash_messages"
-    .row
-      br
-      br
-      .col-md-4.col-md-offset-4.opac
-        == yield
+  body
+    .container
+      .row
+        =render "layouts/sign_in_status"
+      = render "layouts/flash_messages"
+      .row
+        br
+        br
+        .col-md-4.col-md-offset-4.opac
+          == yield
 

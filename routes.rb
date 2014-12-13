@@ -66,6 +66,9 @@ cancel_user_registration GET      /users/cancel(.:format)                       
      api_section_comment DELETE   /api/sections/:section_id/comments/:id(.:format) api/comments#destroy
              api_section PATCH    /api/sections/:id(.:format)                      api/sections#update
                          PUT      /api/sections/:id(.:format)                      api/sections#update
+         api_focus_areas GET      /api/focus_areas(.:format)                       api/focus_areas#index
+                         POST     /api/focus_areas(.:format)                       api/focus_areas#create
+          api_focus_area DELETE   /api/focus_areas/:id(.:format)                   api/focus_areas#destroy
                 new_herd GET      /new(.:format)                                   herds#new
                          POST     /herds(.:format)                                 herds#create
                     root GET      /                                                onboarding#index

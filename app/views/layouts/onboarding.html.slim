@@ -6,16 +6,10 @@ html
     =stylesheet_link_tag 'bootstrap.min'
     =stylesheet_link_tag 'bootstrap-theme.min'
     =stylesheet_link_tag 'onboarding'
-    =stylesheet_link_tag 'custom'
     =javascript_include_tag 'application'
     =csrf_meta_tags
   body
-    / div[style="width: 1000px; height: 500px; z-index: -1;"
-    /     data-vide-bg="mp4: elephants.mp4" data-vide-options="loop: false, muted: false, position: 0% 0%"]
-    / div id="hero" data-vide-bg="mp4: https://a0.muscache.com/airbnb/static/London-P1-1.mp4, webm: https://a0.muscache.com/airbnb/static/London-P1-0.webm" data-vide-options="loop: true, muted: true, position: 0% 0%"
     == yield
-    .row
-      / =render "layouts/sign_in_status"
-      / =render "layouts/flash_messages"
+
           
 

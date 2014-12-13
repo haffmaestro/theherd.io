@@ -90,6 +90,13 @@ a {
 		margin-right: 5px;
 	}
 
+	&.focus-areas {
+		position: absolute;
+		right: 3.5%;
+		top: 15%;
+		z-index: 2;
+	}
+
 	&.week-nav {
 		z-index: 10;
 	}
