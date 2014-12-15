@@ -5,13 +5,43 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 
+$media-phone: "only screen and (max-width : 320px)";
+$media-thirteen: "only screen and (max-width: 1280px)";
+$media-i5: "only screen and (min-device-width : 320px) and (max-device-width : 568px)";
+
+
 body {
-// background-image: image-url("herd.jpg");
-background-image: image-url("elephants.jpeg");
-background-size: cover;
-margin-top: 0px;
-padding-top: 10px;
-text-align: center;
+  background-image: image-url("sky.jpeg");
+  background-size: cover;
+  margin-top: 0px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+@media #{$media-phone} {
+  #hero {
+    display: none;
+  }
+  
+  .greeting {
+    height: 480px;
+  }
+}
+
+@media #{$media-i5} {
+  #hero {
+    display: none;
+  }
+  
+  .greeting {
+    height: 568px;
+  }
+}
+
+@media #{$media-thirteen} {
+  .greeting {
+    height: 700px;
+  }
 }
 
 #hero {
@@ -24,9 +54,6 @@ text-align: center;
   z-index: -1;
 }
 
-.greeting {
-  height: 800px;
-}
 .information {
   background-color: rgba(250,250,250,0.5);
 }
@@ -73,6 +100,7 @@ text-align: center;
 }
 
 .button{
+  display: table;
   font-family: 'Roboto', sans-serif;
   border: 4px solid white;
   text-align: center;
@@ -97,7 +125,7 @@ text-align: center;
   }
 
   .centered {
-    display: inline-block;
+    display: table-cell;
     vertical-align: middle;
   }
   
