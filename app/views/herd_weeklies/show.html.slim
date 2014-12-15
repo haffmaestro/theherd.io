@@ -2,7 +2,7 @@ script type="text/preloaded" name="user"
   =UserSerializer.new(current_user).to_json.html_safe
 div ng-controller="WeeklyReportCtrl"
   scroll-list list="herdWeekly.user_weeklies[data.selectedIndex].sections"
-  span
+  span.md-whiteframe-z1
     .week-nav layout='row'
       div(flex='10' offset="5")
         previous-week year="herdWeekly.year" week="herdWeekly.week"
@@ -11,7 +11,7 @@ div ng-controller="WeeklyReportCtrl"
         weekly-header year="herdWeekly.year" week="herdWeekly.week"
       div [flex]
         report-archive
-  md-tabs md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
+  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
     md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}

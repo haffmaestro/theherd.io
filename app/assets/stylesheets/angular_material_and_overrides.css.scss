@@ -103,6 +103,10 @@ a {
 	&.archive {
 		text-align: right;
 	}
+
+	&:hover {
+		text-decoration: none;
+	}
 }
 md-card {
 	position: relative;
