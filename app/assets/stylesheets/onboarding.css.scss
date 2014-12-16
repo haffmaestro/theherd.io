@@ -26,6 +26,7 @@ body {
   .greeting {
     height: 480px;
   }
+
 }
 
 @media #{$media-i5} {
@@ -66,14 +67,27 @@ body {
   background-position: 0px -50px, center;
   background-size: 100%;
 }
-.signup h1 {
-  margin-top: 10%;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 100px;
-  color: white;
+.signup {
+  h1 {
+    margin-top: 10%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 100px;
+    color: white;
+  }
+  
+  h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 25px;
+    color: white;
+  }
 
-
+  @media #{$media-i5} {
+    h3 {
+      font-size: 40px;
+    }
+  }
 }
 .dropdown {
   padding-top: 7px;
@@ -105,8 +119,10 @@ body {
   border: 4px solid white;
   text-align: center;
   color: white;
+  margin-left: auto;
+  margin-right: auto;
   padding: 22px;
-  width: 400px;
+  width: 100%;
   height: 70px;
   border-radius: 10px;
   -webkit-transition: 0.1s linear all;
@@ -129,6 +145,16 @@ body {
     vertical-align: middle;
   }
   
+  @media #{$media-i5} {
+    h4 {
+      font-size: 30px;
+    }
+    
+  }
+
+  @media #{$media-thirteen} {
+
+  }
 
   h4 {
     vertical-align: middle;
@@ -141,6 +167,7 @@ body {
     }
 
   }
+  
 }
 
 
