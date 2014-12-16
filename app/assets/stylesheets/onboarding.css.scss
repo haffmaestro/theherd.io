@@ -18,34 +18,47 @@ body {
   text-align: center;
 }
 
-@media #{$media-phone} {
-  #hero {
-    display: none;
-  }
-  
-  .greeting {
-    height: 480px;
-  }
+/**
+ * VH and VW units can cause issues on iOS devices: http://caniuse.com/#feat=viewport-units
+ * 
+ * To overcome this, create media queries that target the width, height, and orientation of iOS devices. 
+ * It isn't optimal, but there is really no other way to solve the problem. In this example, I am fixing 
+ * the height of element `.foo` â€”which is a full width and height cover image.
+ *
+ * iOS Resolution Quick Reference: http://www.iosres.com/
+ */
+ 
+ .information, .greeting {
+    height: 100vh;
+    width: 100vw;
+ }
+ 
 
+/** 
+ * iPad with portrait orientation.
+ */
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait){
+  .information, .greeting {
+    height: 1024px;
+  }
 }
 
-@media #{$media-i5} {
-  #hero {
-    display: none;
-  }
-  
-  .greeting {
-    height: 568px;
+/** 
+ * iPad with landscape orientation.
+ */
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:landscape){
+  .information, .greeting {
+    height: 768px;
   }
 }
 
-@media #{$media-thirteen} {
-  .greeting {
-    height: 700px;
-  }
-
-  .information {
-    height: 705px;
+/**
+ * iPhone 5
+ * You can also target devices with aspect ratio.
+ */
+@media screen and (device-aspect-ratio: 40/71) {
+  .information, .greeting {
+    height: 500px;
   }
 }
 
