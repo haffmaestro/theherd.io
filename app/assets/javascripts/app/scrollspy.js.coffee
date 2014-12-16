@@ -13,8 +13,8 @@ $ ->
       target = (if target.length then target else $("[name=" + @hash.slice(1) + "]"))
       if target.length
         $("html,body").animate
-          scrollTop: target.offset().top - 75
-        , 500
+          scrollTop: target.offset().top
+        , 1000
         false
 
 app = angular.module('app')

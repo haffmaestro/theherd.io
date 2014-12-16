@@ -18,29 +18,51 @@ body {
   text-align: center;
 }
 
-@media #{$media-phone} {
-  #hero {
-    display: none;
-  }
-  
+/**
+ * VH and VW units can cause issues on iOS devices: http://caniuse.com/#feat=viewport-units
+ * 
+ * To overcome this, create media queries that target the width, height, and orientation of iOS devices. 
+ * It isn't optimal, but there is really no other way to solve the problem. In this example, I am fixing 
+ * the height of element `.foo` â€”which is a full width and height cover image.
+ *
+ * iOS Resolution Quick Reference: http://www.iosres.com/
+ */
+ 
+ .greeting {
+    height: 100vh;
+    width: 100vw;
+ }
+
+ .information {
+  width: 100vw;
+ }
+ 
+
+/** 
+ * iPad with portrait orientation.
+ */
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait){
   .greeting {
-    height: 480px;
+    height: 1024px;
   }
 }
 
-@media #{$media-i5} {
-  #hero {
-    display: none;
-  }
-  
+/** 
+ * iPad with landscape orientation.
+ */
+@media all and (device-width: 768px) and (device-height: 1024px) and (orientation:landscape){
   .greeting {
-    height: 568px;
+    height: 768px;
   }
 }
 
-@media #{$media-thirteen} {
+/**
+ * iPhone 5
+ * You can also target devices with aspect ratio.
+ */
+@media screen and (device-aspect-ratio: 40/71) {
   .greeting {
-    height: 700px;
+    height: 500px;
   }
 }
 
@@ -55,7 +77,42 @@ body {
 }
 
 .information {
-  background-color: rgba(250,250,250,0.5);
+  margin: 0;
+  background-color: rgba(0,0,0,0.8);
+  h1 {
+    margin-top: 5%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+    color: white;
+  }
+
+  h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 25px;
+    color: white;
+  }
+
+  h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    color: white;
+    text-align: left;
+  }
+  
+  p  {
+    font-family: 'Roboto', serif;
+    font-weight: normal;
+    color: white;
+    text-align: left;
+    font-size: 16;
+  }
+  blockquote {
+    font-family: 'Roboto', serif;
+    color: white;
+  }
 }
 
 .elephants {
@@ -66,13 +123,44 @@ body {
   background-position: 0px -50px, center;
   background-size: 100%;
 }
-.signup h1 {
-  margin-top: 10%;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 100px;
-  color: white;
+.signup {
+  h1 {
+    margin-top: 10%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 100px;
+    color: white;
+  }
+  
+  h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 25px;
+    color: white;
+  }
 
+  @media #{$media-i5} {
+    h3 {
+      font-size: 40px;
+    }
+  }
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  h4 {
+    vertical-align: middle;
+    color: white;
+    text-transform: uppercase;
+    -webkit-transition: 0.1s linear all;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+  }
 
 }
 .dropdown {
@@ -105,8 +193,10 @@ body {
   border: 4px solid white;
   text-align: center;
   color: white;
+  margin-left: auto;
+  margin-right: auto;
   padding: 22px;
-  width: 400px;
+  width: 100%;
   height: 70px;
   border-radius: 10px;
   -webkit-transition: 0.1s linear all;
@@ -129,6 +219,16 @@ body {
     vertical-align: middle;
   }
   
+  @media #{$media-i5} {
+    h4 {
+      font-size: 30px;
+    }
+    
+  }
+
+  @media #{$media-thirteen} {
+
+  }
 
   h4 {
     vertical-align: middle;
@@ -141,12 +241,7 @@ body {
     }
 
   }
-}
-
-
-h3.signup {
-  color: white;
-  text-size: 20px;
+  
 }
 
 
