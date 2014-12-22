@@ -22,7 +22,7 @@ app.directive('editFocusAreas', ->
   	vm.showDialog = (ev) ->
   		$mdDialog.show({
 	      controller: FocusAreaController,
-	      templateUrl: './focusAreas.html',
+	      templateUrl: 'focusAreas.html',
 	      targetEvent: ev,
 	    })
 

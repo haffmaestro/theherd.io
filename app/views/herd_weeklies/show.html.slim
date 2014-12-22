@@ -22,11 +22,11 @@ div ng-controller="WeeklyReportCtrl"
     div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="80" offset="10"
       edit-focus-areas
     
-      div ng-if="owner(herdWeekly.user_weeklies[data.selectedIndex])"
+      md-content ng-if="owner(herdWeekly.user_weeklies[data.selectedIndex])"
         div ng-repeat="section in herdWeekly.user_weeklies[data.selectedIndex].sections"
           owner-section section="section"
 
-      div ng-if="friend(herdWeekly.user_weeklies[data.selectedIndex])"
+      md-content ng-if="friend(herdWeekly.user_weeklies[data.selectedIndex])"
         div ng-repeat="section in herdWeekly.user_weeklies[data.selectedIndex].sections"
           friend-section section="section"
   

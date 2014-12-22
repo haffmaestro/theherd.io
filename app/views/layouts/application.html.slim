@@ -5,7 +5,7 @@ html
     =stylesheet_link_tag 'application', media: 'all'
     =javascript_include_tag 'application'
     =csrf_meta_tags
-  body class=('onboarding' if onboarding?) ng-app="app"
+  body[class=('onboarding' if onboarding?) ng-app="app" ng-strict-di]
     div ng-controller="SidenavCtrl"
       md-toolbar class="md-small"
         div.md-toolbar-tools layout-align="space-around"
@@ -19,5 +19,5 @@ html
           =render "layouts/sign_in_status"
           br
           h3 Weekly Todos
-    div
+    md-content
       ==yield

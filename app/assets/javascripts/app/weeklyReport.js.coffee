@@ -70,7 +70,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
   template: """
   <div>
     <md-card id="{{section.name.toLowerCase()}}">
-      <md-content flex layout="vertical">
+      <div flex layout="vertical">
         <div flex="70" ng-dblclick="showEdit($event)">
           <h4>
             {{section.name}} This Week
@@ -91,7 +91,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
           </h4>
           <weekly-tasks tasks="section.weekly_tasks" section="section"/>
         </div>
-      </md-content>
+      </div>
     </md-card>
     <comments-section section="section"/>
   </div> 

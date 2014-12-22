@@ -28,6 +28,7 @@ gem 'underscore-rails'
 gem 'angular_rails_csrf'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers', branch: '0-8-stable'
 gem 'rails-assets-angular-preloaded'
+gem 'ngannotate-rails', '~> 0.14.1'
 
 #Will Paginate
 gem 'will_paginate'
