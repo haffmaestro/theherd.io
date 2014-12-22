@@ -71,11 +71,12 @@ app.directive('nextGoals', ->
     <a>
       <i class="fa fa-chevron-right fa-2x" ng-click="nextGoals()"></i></a>
   """
-  controller: ($rootScope, $scope) ->
+  controller: ['$rootScope', '$scope', ($rootScope, $scope) ->
     vm = $scope
     vm.nextGoals = ->
       console.log "nextGoals called"
       $rootScope.$emit('nextGoals', {change: true})
+    ]
 )
 
 app.directive('goalHeadlines', ->
@@ -111,7 +112,7 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
       </form>
     </div>
   """
-  controller: ($scope) ->
+  controller: ['$scope', ($scope) ->
     vm = $scope
     console.log vm.user
     console.log vm.curruser
@@ -134,6 +135,7 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
       vm.data.newGoal = ""
       Goals.post(goal).then((response)->
         console.log(response))
+    ]
     ])
 
 app.directive('deleteButtonGoal', ['Goals', (Goals) ->
@@ -147,7 +149,7 @@ app.directive('deleteButtonGoal', ['Goals', (Goals) ->
       <i class="fa fa-remove "></i>
     </a>
   """
-  controller: ($scope) ->
+  controller: ['$scope', ($scope) ->
     vm = $scope
     vm.deleteTask = (goal) ->
       Goals['delete'](goal).
@@ -155,5 +157,6 @@ app.directive('deleteButtonGoal', ['Goals', (Goals) ->
         catch((data) -> console.log data)
       index = vm.list.indexOf(goal)
       vm.list.splice(index, 1)
+    ]
 
 ])

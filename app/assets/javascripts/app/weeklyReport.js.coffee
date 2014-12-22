@@ -97,7 +97,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
   </div> 
   """
 
-  controller: ($scope, $rootScope) ->
+  controller: ['$scope', '$rootScope', ($scope, $rootScope) ->
     vm = $scope
     vm.data = {
       showView: true
@@ -127,6 +127,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
         catch((data)->
           console.log data
           )
+      ]
 
   ])
 
@@ -169,7 +170,7 @@ app.directive('friendSection', ['Sections', (Sections) ->
   </div> 
   """
 
-  controller: ($scope, $rootScope) ->
+  controller: ['$scope', '$rootScope', ($scope, $rootScope) ->
     vm = $scope
     vm.data = {
       showView: true
@@ -178,5 +179,6 @@ app.directive('friendSection', ['Sections', (Sections) ->
     vm.toggleComments = ->
       channel = "showComments-#{vm.section.id}"
       $rootScope.$emit(channel, {show: true})
+    ]
 
   ])

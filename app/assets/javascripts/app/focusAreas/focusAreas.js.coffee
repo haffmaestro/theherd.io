@@ -17,13 +17,13 @@ app.directive('editFocusAreas', ->
     <a class="focus-areas" ng-click="showDialog()">
       <i class="fa fa-pencil"></i></a>
   """
-  controller: ($scope, $mdDialog) ->
+  controller: ['$scope', '$mdDialog', ($scope, $mdDialog) ->
   	vm = $scope
   	vm.showDialog = (ev) ->
   		$mdDialog.show({
 	      controller: FocusAreaController,
 	      templateUrl: 'focusAreas.html',
 	      targetEvent: ev,
-	    })
+	    })]
 
 )

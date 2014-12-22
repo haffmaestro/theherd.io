@@ -52,7 +52,7 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
       </div>  
     </md-card>
   """
-  controller: ($scope, $rootScope)->
+  controller: ['$scope', '$rootScope', ($scope, $rootScope)->
     vm = $scope
     vm.currentUser = $preloaded.user.user
     vm.data = {
@@ -69,7 +69,6 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
 
     vm.newComment = ->
       vm.data.addComment =! vm.data.addComment
-
 
     vm.createComment = ->
       today = new Date(Date.now())
@@ -94,4 +93,5 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
         , 750
         )
       true
+    ]
   ])
