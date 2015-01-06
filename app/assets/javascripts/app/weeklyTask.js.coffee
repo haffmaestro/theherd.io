@@ -33,7 +33,7 @@ app.directive('deleteButton', ['WeeklyTask', (WeeklyTask) ->
       <i class="fa fa-remove "></i>
     </a>
   """
-  controller: ($scope) ->
+  controller: [ '$scope', ($scope) ->
     vm = $scope
     vm.deleteTask = (task) ->
       WeeklyTask['delete'](task).
@@ -41,7 +41,7 @@ app.directive('deleteButton', ['WeeklyTask', (WeeklyTask) ->
         catch((data) -> console.log data)
       index = vm.list.weekly_tasks.indexOf(task)
       vm.list.weekly_tasks.splice(index, 1)
-
+  ]
 ])
 
 app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
@@ -65,7 +65,7 @@ app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
     </div>
   """
 
-  controller: ($scope) ->
+  controller: ['$scope', ($scope) ->
     vm = $scope
     vm.data = {
       newWeeklyTask: ""
@@ -82,7 +82,9 @@ app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
       vm.data.newWeeklyTask = ""
       WeeklyTask.post(task).then((response)->
         console.log(response))
-    ])
+    ]
+  ])
+
 
 app.directive('weeklyTasksFriend', ['WeeklyTask', (WeeklyTask)->
   restrict: 'E'

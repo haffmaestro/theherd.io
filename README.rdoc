@@ -1,5 +1,5 @@
 == README
-#theherd.io
+===theherd.io
 
 theHerd is platform for stimulating personal growth through a transparent and close knit team of friends. theHerd helps you to plan the path, and keeps you accountable every step of the way by facilitating long and short term goal setting.
 
@@ -7,5 +7,7 @@ It's an AngularJS served by a RoR API, implementing Google's new Material Design
 
 Currently live at [theherd.io](theherd.io)
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+===TODO
+- Implement ability to change focus areas
+- Implement activity stream
+- Implement 

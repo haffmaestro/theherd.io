@@ -29,7 +29,6 @@ app.factory('Goals', ['$http', ($http)->
 app.controller('GoalsCtrl', ['$scope', 'Goals','currentUser','$rootScope', ($scope, Goals, currentUser, $rootScope)->
   vm = $scope
   vm.currentUser = currentUser
-  console.log currentUser
   vm.users = []
   vm.newGoal = "Pease"
   vm.data = {
@@ -57,11 +56,12 @@ app.directive('previousGoals', ->
     <a>
       <i class="fa fa-chevron-left fa-2x" ng-click="previousGoals()"></i></a>
   """
-  controller: ($rootScope, $scope) ->
+  controller: ['$rootScope', '$scope', ($rootScope, $scope) ->
     vm = $scope
     vm.previousGoals = ->
       console.log "previousGoals called"
       $rootScope.$emit('previousGoals', {change: true})
+    ]
 )
 
 app.directive('nextGoals', ->
@@ -114,8 +114,6 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
   """
   controller: ['$scope', ($scope) ->
     vm = $scope
-    console.log vm.user
-    console.log vm.curruser
     vm.data = {
       newGoal: ""
     }
