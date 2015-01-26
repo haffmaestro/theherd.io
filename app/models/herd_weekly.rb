@@ -1,6 +1,6 @@
 class HerdWeekly < ActiveRecord::Base
   belongs_to :herd
-  has_many :user_weeklies
+  has_many :user_weeklies, dependent: :destroy
   has_many :users, through: :user_weeklies
 
   after_create :set_year_week

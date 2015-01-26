@@ -77,10 +77,11 @@ app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
         console.log(response))
 
     vm.submitTask = (section)->
-      task = {body: vm.data.newWeeklyTask, section_id: section.id, done: false}
+      task = {body: vm.data.newWeeklyTask, section_id: section.id, done: false, id: null}
       section.weekly_tasks.push(task)
       vm.data.newWeeklyTask = ""
       WeeklyTask.post(task).then((response)->
+        section.weekly_tasks[section.weekly_tasks.length-1].id = response.task.id
         console.log(response))
     ]
   ])

@@ -16,6 +16,18 @@ class User < ActiveRecord::Base
       where(:email => warden_conditions[:email], :subdomain => warden_conditions[:subdomain]).first
   end
 
+  def weekly_tasks
+    tasks = []
+    user_weeklies.each do |user_weekly|
+      user_weekly.sections.each do |section|
+        section.weekly_tasks.each do |task|
+          tasks << task
+        end
+      end
+    end
+    tasks
+  end
+
   private
 
   def set_default_focus_areas
@@ -24,6 +36,7 @@ class User < ActiveRecord::Base
       self.focus_areas.create(name: area)
     end
   end
+
 
 end
 

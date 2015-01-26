@@ -1,6 +1,7 @@
 class HerdsController < ApplicationController
   before_action :find_herd, only: [:show]
   before_action :authenticate_user!, only: [:show, :invite_friends, :edit]
+  
   def index
   end
 

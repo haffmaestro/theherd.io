@@ -3,13 +3,16 @@ script type="text/preloaded" name="user"
 
 div ng-controller="GoalsCtrl"
   scroll-list list="goals[data.selectedIndex].focus_areas"
-  md-tabs md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
+  / Top Nav
+  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
     md-tab ng-repeat="user in users" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
   div flex="30" offset="40"
+  / Goal Timestamp Navigation
   previous-goals
   next-goals
+  / Actual Goals
   div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex="100" layout="row"]
     .goalTab1-content.animate-switch aria-labelledby="goalTab1" flex="80" offset="10" ng-switch-when="0"
       goal-headlines headlines="['One Month Goals','Three Month Goals']"
