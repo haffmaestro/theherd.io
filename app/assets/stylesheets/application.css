@@ -11,7 +11,7 @@
  * file per style scope.
  *
  *= require scrollspy.css
- *= require angular-tooltips/dist/angular-tooltips.min
+ *= require angular-tooltips.css
  *= require custom.css.scss
  *= require angular_material_and_overrides.css.scss
  *= require font-awesome

@@ -20,7 +20,7 @@
 //= require angular-material/angular-material
 //= require angular-animate/angular-animate
 //= require angular-aria/angular-aria
-//= require angular-tooltips/dist/angular-tooltips.min
+//= require angular-tooltips
 //= require angular-marked/angular-marked
 //= require vide/dist/jquery.vide.min
 //= require underscore/underscore
