@@ -123,15 +123,15 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
       isFriend = vm.user != vm.curruser
 
     vm.toggleGoalDone = (goal) ->
-      console.log("From Angular #{goal.done}")
       Goals.update(goal).then((response) ->
         console.log("From Rails #{response}"))
 
     vm.submitGoal = (focus_area)->
-      goal = {body: vm.data.newGoal, focus_area_id: vm.focus.id, done: false, months: vm.months}
+      goal = {body: vm.data.newGoal, focus_area_id: vm.focus.id, done: false, months: vm.months, id: null}
       vm.goals.push(goal)
       vm.data.newGoal = ""
       Goals.post(goal).then((response)->
+        vm.goals[vm.goals.length-1].id = response.goal.id
         console.log(response))
     ]
     ])

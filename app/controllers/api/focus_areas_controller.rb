@@ -3,6 +3,9 @@ class Api::FocusAreasController < Api::BaseController
 		render json: current_user.focus_areas, each_serializer: FocusAreaSimpleSerializer
 	end
 
+  def edit
+  end
+
 	def create 
 	end
 

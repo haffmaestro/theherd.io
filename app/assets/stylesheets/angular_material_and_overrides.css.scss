@@ -160,3 +160,15 @@ textarea.section {
 .comments.ng-hide-add,
 .comments.ng-hide-remove {
 }
+
+._720kb-tooltip {
+	color: #66ccff;
+	border-color: #66ccff;
+	background-color: #66ccff;
+	
+}
+
+._720kb-tooltip-caret:before {
+  border: 6px solid #66ccff;
+}
+	

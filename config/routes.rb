@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         resources :comments, only: [:index, :create, :destroy]
       end
       resources :focus_areas, only: [:index, :create, :destroy]
+      resources :users, only: [:index]
     end
   end
   

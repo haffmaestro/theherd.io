@@ -13,24 +13,21 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require hammer.min
-//= require angular
+//= require hammerjs/hammer.min
+//= require marked/lib/marked
+//= require angular/angular
 //= require angular-preloaded
-//= require angular-material
-//= require angular-animate
-//= require angular-aria
-//= require angular-tooltips
-//= require angular-ui-router.min
-//= require elastic
-//= require angular-marked
-//= require jquery.vide.min
-//= require marked
-//= require highlight.pack
-//= require underscore
+//= require angular-material/angular-material
+//= require angular-animate/angular-animate
+//= require angular-aria/angular-aria
+//= require angular-tooltips/dist/angular-tooltips.min
+//= require angular-marked/angular-marked
+//= require vide/dist/jquery.vide.min
+//= require underscore/underscore
 //= require_self
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips','monospaced.elastic', 'hc.marked', 'ui.router']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked']).
   controller('ApplicationController', function($scope) {
   });

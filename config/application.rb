@@ -6,6 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module TheHerd
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -21,5 +22,6 @@ module TheHerd
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.autoload_paths += Dir[Rails.root.join("app", "serializers", "*").to_s]
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
   end
 end

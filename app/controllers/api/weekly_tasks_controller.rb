@@ -14,9 +14,9 @@ class Api::WeeklyTasksController < Api::BaseController
 		section = Section.find params[:weekly_task][:section_id]
 		task = section.weekly_tasks.new task_params
 		if task.save
-			render json: {saved: true}
+			render json: {saved: true, task: task}
 		else
-			render json: {saved: false}
+			render json: {saved: false, task: task}
 		end
 	end
 
