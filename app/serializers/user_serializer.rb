@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :email, :comment_count, :goals_count, :weekly_tasks_count, :weekly_reports_count
-
+  attributes :id, :first_name, :last_name, :email
+  attributes :comment_count, :goals_count, :weekly_tasks_count, :weekly_reports_count, :focus_areas
   def comment_count
     object.comments.count
   end
@@ -23,6 +23,10 @@ class UserSerializer < ActiveModel::Serializer
 
   def weekly_reports_count
     object.user_weeklies.count
+  end
+
+  def focus_areas
+    object.focus_areas
   end
 
 end
