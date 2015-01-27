@@ -30,11 +30,12 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
   scope:
     focus: "="
     user: "="
+    isfriend: "="
   template: """
     <div class="focus-areas">
       <div class="display" ng-hide="data.showEdit"  layout="row">
-        <p ng-dblClick="showEdit()">{{focus.name}}</p>
-        <delete-focus-area-button focus="focus" user="user"/>
+        <p ng-dblClick="showEdit()">{{focus.name}}  </p>
+        <delete-focus-area-button focus="focus" user="user" ng-hide="isfriend"/>
       </div>
       <div class="edit">
         <form ng-submit="updateFocusArea(focus)" ng-show="data.showEdit">
@@ -44,7 +45,7 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
       </div>
     </div>
   """
-  controller: ['$scope',($scope)->
+  controller: ['$scope','$rootScope',($scope, $rootScope)->
     vm = $scope
     vm.data = {
       edit: false
@@ -56,6 +57,7 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
       .then((response)->
         if response
           messageCenterService.add('success', 'Focus Area updated!', {timeout: 3000})
+          $rootScope.$emit('showUpdateReport', {user: vm.user})
         else
           messageCenterService.add('warning', 'Focus Area failed to update, please try again', {timeout: 3000}))
       .catch((response)->

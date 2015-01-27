@@ -1,9 +1,10 @@
+script type="text/preloaded" name="user"
+  =UserSerializer.new(current_user).to_json.html_safe
 h1 
   |Welcome to the  
   =current_herd.name
   |  Herd
-div flex="80" offset="10"
-  mc-messages
+div flex="45" offset="5"
   h2 Members
   members
 

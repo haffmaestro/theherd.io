@@ -32,39 +32,47 @@ app.directive('members', ['Users','FocusAreas','messageCenterService', (Users, F
   ]
 ])
 
-app.directive('member', ['FocusAreas','messageCenterService', (FocusAreas, messageCenterService)->
+app.directive('member', ['FocusAreas','messageCenterService','$preloaded', (FocusAreas, messageCenterService, $preloaded)->
   restrict: 'E'
   replace: true
   scope:
     user: '='
   template: """
     <md-card layout="row">
-      <div flex="30" offset="5">
+      <div flex="50 offset="10">
       <h3>{{user.first_name}} {{user.last_name}}<h4>
       <h4> Weekly Reports Completed: {{user.weekly_reports_count}} </h4>
       <h4> Goals Completed: {{user.goals_count}} </h4>
       <h4> Comments Made: {{user.comment_count}} </h4>
       <h4> Weekly Tasks Completed: {{user.weekly_tasks_count}}  </h4>
       </div>
-      <div flex="60">
-        <h3>Focus Areas</h3>
+      <div flex="40">
+        <h3>Focus Areas  </h3>
         <div ng-repeat="focusArea in user.focus_areas">
-          <focus-area focus="focusArea" user="user"/>
+          <focus-area focus="focusArea" user="user" isfriend="friend()"/>
         </div>
-        <form ng-submit="addFocusArea(user)">
+        <form ng-submit="addFocusArea(user)" ng-hide="friend()">
           <md-text-float type="text" label="New Focus Area" name="newWeeklyTask" ng-model="data.newFocusArea">
           </md-text-float>
         </form>
       </div>
+      <md-button class="s md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport">Update Weekly Report</md-button>
     </md-card>
   """
   controller: ['$scope','$rootScope', ($scope, $rootScope)->
     vm = $scope
     vm.data = {
       newFocusArea: ""
-    }
+      currentUser: $preloaded.user.user
+      showUpdateReport: false
+    }    
     $rootScope.$on('deleteFocusArea', (event, data)->
-      vm.deleteFocusArea(data.focusArea, data.user)
+      if vm.user.id == data.user.id
+        vm.deleteFocusArea(data.focusArea, data.user)
+      )
+    $rootScope.$on('showUpdateReport', (event, data)->
+      if vm.user.id == data.user.id
+        vm.showUpdateReport()
       )
     vm.addFocusArea = (user)->
       newFocusArea = {name: vm.data.newFocusArea, id: null}
@@ -73,9 +81,9 @@ app.directive('member', ['FocusAreas','messageCenterService', (FocusAreas, messa
       FocusAreas.new(newFocusArea)
       .then((response)->
         if response
-          console.log response
           user.focus_areas[user.focus_areas.length-1].id = response.focus_area.id
           messageCenterService.add('success', 'New Focus Area added!', {timeout: 3000})
+          vm.showUpdateReport()
         else
           messageCenterService.add('warning', 'New Focus Area did not get saved, please try again.', {timeout: 3000})
           user.focus_areas.pop()
@@ -84,16 +92,28 @@ app.directive('member', ['FocusAreas','messageCenterService', (FocusAreas, messa
     vm.deleteFocusArea = (focusArea, user) ->
       index = vm.user.focus_areas.indexOf(focusArea)
       vm.user.focus_areas.splice(index, 1)
-      debugger
       FocusAreas.destroy(focusArea)
       .then((response) ->
         if response
           messageCenterService.add('success', 'Deleted!', {timeout: 3000})
+          vm.showUpdateReport()
         else
           messageCenterService.add('warning', 'Error, please try again.', {timeout: 3000})
           vm.user.focus_areas.splice(index, 0, focusArea)
         )
       return true
+
+    vm.friend = ->
+      return false unless vm.user?
+      isFriend = vm.user.id != vm.data.currentUser.id  
+
+    vm.showUpdateReport = ->
+      vm.data.showUpdateReport = true
+
+    vm.updateReport = ->
+      vm.data.showUpdateReport = false
+
+
 
       
       

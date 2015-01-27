@@ -1,0 +1,13 @@
+@require "../node_modules/normalize.css/normalize.css";
+@require "config.styl";
+
+/* http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+/* apply a natural box layout model to all elements, but allowing components to change */
+html, button, input, textarea {
+  box-sizing: border-box;
+  font: $font;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}

@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require scrollspy.css
+ *= require angular-material/angular-material.css
  *= require angular-tooltips.css
  *= require custom.css.scss
  *= require angular_material_and_overrides.css.scss

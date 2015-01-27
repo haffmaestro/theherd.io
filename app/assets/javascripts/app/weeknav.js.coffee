@@ -8,14 +8,16 @@ app.directive('previousWeek', ->
     year: '='
     week: '='
   template: """
-    <a class="week-nav" href="/herd_weeklies/{{year}}-{{week-1}}">
+    <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 11 ? '0'+(week-1) : week-1)}}">
       <i class="fa fa-chevron-left"></i></a>
   """
   controller: ['$scope', ($scope)->
     vm = $scope
+    console.log vm.year
     vm.data = {
     }
-    
+    vm.changeWeek= (year, week) ->
+
   ]
 )
 
@@ -26,7 +28,7 @@ app.directive('nextWeek', ->
     year: '='
     week: '='
   template: """
-    <a class="week-nav" href="/herd_weeklies/{{year}}-{{week+1}}">
+    <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 9 ? '0'+(week+1) : week+1)}}">
       <i class="fa fa-chevron-right"></i></a>
   """
 )

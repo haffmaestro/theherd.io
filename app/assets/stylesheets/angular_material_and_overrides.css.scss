@@ -1,12 +1,12 @@
-@import 'angular-material';
-@import 'themes/green-theme.css';
 
 body {
 	text-align: left;
 }
 md-toolbar {
-background-color: #079EE2;
-color: rgb(231, 22, 22);
+height: 35px;
+min-height: 25px;
+}
+.md-toolbar-tools {
 height: 35px;
 min-height: 25px;
 }
@@ -26,6 +26,7 @@ height: 25px;
 
 h4.subheader-title {
   margin-top: 0;
+  text-align: center;
 }
 
 
@@ -161,16 +162,6 @@ textarea.section {
 .comments.ng-hide-remove {
 }
 
-._720kb-tooltip {
-	color: #66ccff;
-	border-color: #66ccff;
-	background-color: #66ccff;
-	
-}
-
-._720kb-tooltip-caret:before {
-  border: 6px solid #66ccff;
-}
 
 .alert {
   padding: 0.25em;
@@ -202,4 +193,25 @@ textarea.section {
   background: #fdd9d7;
   color: #8d1108;
 }
-	
+
+.no-margin {
+  margin: 0;
+}
+
+.md-button.xs {
+  font-size: 0.65em;
+  height: 20px;
+}
+.md-button.s {
+  font-size: 0.75em;
+  height: 25px;
+}
+
+.upper-right-corner {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  margin-right: 5px;
+  margin-top: 5px;
+}

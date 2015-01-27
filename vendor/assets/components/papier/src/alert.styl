@@ -1,0 +1,38 @@
+@require "config.styl";
+
+.alert {
+  padding: 0.25em;
+  margin-bottom: 0.25em;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  border-radius: 2px;
+}
+
+@media screen and (min-width: 568px) {
+  .alert {
+    padding: 1em;
+    margin-bottom: 0.5em;
+  }
+}
+
+.alert-success {
+  background: lighten($green, 80%);
+  color: darken($green, 50%);
+}
+
+.alert-info {
+  background: lighten($blue, 80%);
+  color: darken($blue, 50%);
+}
+
+.alert-warning {
+  background: lighten($orange, 80%);
+  color: darken($orange, 50%);
+}
+
+.alert-danger {
+  background: lighten($red, 80%);
+  color: darken($red, 50%);
+}
+

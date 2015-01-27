@@ -1677,7 +1677,6 @@ md-backdrop {
   .md-button.md-fab {
     z-index: 20;
     width: 56px;
-    height: 56px;
     border-radius: 50%;
     border-radius: 50%;
     overflow: hidden;

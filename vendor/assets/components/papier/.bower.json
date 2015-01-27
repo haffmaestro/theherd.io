@@ -1,0 +1,27 @@
+{
+  "name": "papier",
+  "version": "1.2.1",
+  "homepage": "https://github.com/alexanderGugel/papier",
+  "authors": [
+    "Alexander Gugel <alexander.gugel@gmail.com>"
+  ],
+  "description": "Just another CSS library",
+  "license": "ISC",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.2.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.1",
+    "commit": "973fb5daf99dd95d8d16acb6aaf88ddb58bf9c59"
+  },
+  "_source": "git://github.com/alexanderGugel/papier.git",
+  "_target": "~1.2.1",
+  "_originalSource": "papier",
+  "_direct": true
+}

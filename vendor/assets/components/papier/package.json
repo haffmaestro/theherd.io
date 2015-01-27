@@ -1,0 +1,31 @@
+{
+  "name": "papier",
+  "version": "1.2.1",
+  "description": "Just another CSS library",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "stylus --include-css --watch src/papier.styl --out dist",
+    "build": "stylus --include-css src/papier.styl --out dist && myth dist/papier.css dist/papier.css && cleancss dist/papier.css -o dist/papier.min.css",
+    "serve": "st --no-cache",
+    "dev": "npm run serve & npm run watch"
+  },
+  "author": "Alexander Gugel <alexander.gugel@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-css": "^2.2.23",
+    "myth": "^1.2.1",
+    "st": "^0.5.2",
+    "stylus": "^0.49.3"
+  },
+  "dependencies": {
+    "normalize.css": "^3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexanderGugel/papier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexanderGugel/papier/issues"
+  },
+  "homepage": "http://gugel.io/papier/"
+}
