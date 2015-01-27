@@ -11,6 +11,12 @@ app.directive('previousWeek', ->
     <a class="week-nav" href="/herd_weeklies/{{year}}-{{week-1}}">
       <i class="fa fa-chevron-left"></i></a>
   """
+  controller: ['$scope', ($scope)->
+    vm = $scope
+    vm.data = {
+    }
+    
+  ]
 )
 
 app.directive('nextWeek', ->

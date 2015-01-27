@@ -27,6 +27,10 @@
     "marked": "~0.3.2",
     "underscore": "~1.7.0",
     "angular-marked": "~0.0.12",
-    "vide": "~0.3.0"
+    "vide": "~0.3.0",
+    "message-center": "~1.0.3"
+  },
+  "resolutions": {
+    "angular": "~1.3.10"
   }
 }

@@ -171,4 +171,35 @@ textarea.section {
 ._720kb-tooltip-caret:before {
   border: 6px solid #66ccff;
 }
+
+.alert {
+  padding: 0.25em;
+  margin: 0.25em 0;
+  border-radius: 2px;
+}
+.alert:last-child {
+  margin-bottom: 0;
+}
+@media screen and (min-width: 568px) {
+  .alert {
+    padding: 1em;
+    margin: 0.5em 0;
+  }
+}
+.alert-success {
+  background: #dbefdc;
+  color: #265828;
+}
+.alert-info {
+  background: #d3eafd;
+  color: #074c83;
+}
+.alert-warning {
+  background: #ffeacc;
+  color: #804c00;
+}
+.alert-danger {
+  background: #fdd9d7;
+  color: #8d1108;
+}
 	

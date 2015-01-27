@@ -22,12 +22,13 @@
 //= require angular-aria/angular-aria
 //= require angular-tooltips
 //= require angular-marked/angular-marked
+//= require message-center/message-center
 //= require vide/dist/jquery.vide.min
 //= require underscore/underscore
 //= require_self
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked', 'MessageCenterModule']).
   controller('ApplicationController', function($scope) {
   });
