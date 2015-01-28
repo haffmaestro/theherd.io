@@ -183,6 +183,7 @@ GEM
       rack (>= 0.9.1)
     rack-test (0.6.2)
       rack (>= 1.0)
+    rack-timeout (0.2.0)
     rails (4.1.6)
       actionmailer (= 4.1.6)
       actionpack (= 4.1.6)
@@ -314,6 +315,7 @@ DEPENDENCIES
   public_activity
   puma
   quiet_assets
+  rack-timeout
   rails (= 4.1.6)
   rails-assets-angular-preloaded
   rails-erd
