@@ -74,6 +74,7 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                api_users GET      /api/users(.:format)                             api/users#index
          api_user_weekly PATCH    /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
                          PUT      /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
+              activities GET      /activities(.:format)                            activities#index
                 new_herd GET      /new(.:format)                                   herds#new
                          POST     /herds(.:format)                                 herds#create
                     root GET      /                                                onboarding#index
