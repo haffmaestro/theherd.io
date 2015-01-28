@@ -17,6 +17,7 @@ gem 'slim'
 gem 'slim-rails'
 gem 'carrierwave'
 gem 'rake','10.4.0'
+gem 'public_activity'
 
 #Services Decorators
 gem 'virtus'
@@ -33,9 +34,6 @@ gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_
 gem 'rails-assets-angular-preloaded'
 gem 'ngannotate-rails', '~> 0.14.1'
 
-#Will Paginate
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
 # Devise 
 gem 'devise'
 gem 'omniauth-google-oauth2'

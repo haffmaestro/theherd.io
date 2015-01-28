@@ -68,7 +68,7 @@ app.directive('ownerSection', ['Sections', (Sections) ->
   scope: 
     section: '='
   template: """
-  <div>
+  <div layout="column" layout-align="start">
     <md-card id="{{section.name.toLowerCase()}}">
       <div flex layout="vertical">
         <div flex="70" ng-dblclick="showEdit($event)">
@@ -76,7 +76,6 @@ app.directive('ownerSection', ['Sections', (Sections) ->
             {{section.name}} This Week
           </h4>
           <div class="view" ng-show="data.showView" marked="section.body">
-            
           </div>
           <div class="edit" ng-show="data.showForm" flex>
             <form flex ng-submit="saveForm(section)">

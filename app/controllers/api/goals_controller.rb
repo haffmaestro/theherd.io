@@ -22,6 +22,7 @@ class Api::GoalsController < Api::BaseController
 		goal = focus_area.goals.new goal_params
 		goal.due_date = params[:goal][:months].months.from_now - 1.day
 		if goal.save
+			goal.create_activity :create, owner: current_user, herd_id: current_herd.id
 			render json: {saved: true, goal: goal}
 		else
 			render json: {saved: false, goal: goal}

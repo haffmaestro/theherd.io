@@ -9,6 +9,7 @@ class Api::CommentsController < Api::BaseController
 		# render json: params
 		comment = Comment.new comment_params
 		if comment.save
+			comment_create_activity(comment)
 			render json: {saved: true}
 		else
 			render json: {saved: false}
@@ -22,5 +23,9 @@ class Api::CommentsController < Api::BaseController
 	private
 	def comment_params
 		params.require(:comment).permit(:body, :user_id, :section_id)
+	end
+
+	def comment_create_activity(comment)
+		comment.create_activity :create, owner: current_user, recipient: comment.section.user_weekly.user, herd_id: current_herd.id
 	end
 end

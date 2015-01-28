@@ -5,6 +5,12 @@ app.factory('Users', ['$http', ($http) ->
     get: ->
       $http.get("api/users").then((response)->
         response.data.users)
+    updateReport:(id) ->
+      $http.patch("api/user_weeklies/#{id}")
+      .then((response)->
+        response.data)
+      .catch((response)->
+        false)
   }
   ])
 
@@ -32,7 +38,7 @@ app.directive('members', ['Users','FocusAreas','messageCenterService', (Users, F
   ]
 ])
 
-app.directive('member', ['FocusAreas','messageCenterService','$preloaded', (FocusAreas, messageCenterService, $preloaded)->
+app.directive('member', ['FocusAreas','Users','messageCenterService','$preloaded', (FocusAreas,Users, messageCenterService, $preloaded)->
   restrict: 'E'
   replace: true
   scope:
@@ -112,6 +118,12 @@ app.directive('member', ['FocusAreas','messageCenterService','$preloaded', (Focu
 
     vm.updateReport = ->
       vm.data.showUpdateReport = false
+      Users.updateReport(vm.data.currentUser.id)
+      .then((response)->
+        if response
+        else
+          vm.data.showUpdateReport = true
+      )
 
 
 

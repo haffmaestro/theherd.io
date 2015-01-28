@@ -22,4 +22,5 @@ class Herd < ActiveRecord::Base
       record
     end
   end
+
 end

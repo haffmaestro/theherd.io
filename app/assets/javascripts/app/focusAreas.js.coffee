@@ -32,10 +32,14 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
     user: "="
     isfriend: "="
   template: """
-    <div class="focus-areas">
+    <div class="focus-areas" layout-align="space-around">
       <div class="display" ng-hide="data.showEdit"  layout="row">
-        <p ng-dblClick="showEdit()">{{focus.name}}  </p>
+        <div flex="70" layout="column">
+          <p ng-dblClick="showEdit()">{{focus.name}}  </p>
+        </div>
+        <div flex layout="center">
         <delete-focus-area-button focus="focus" user="user" ng-hide="isfriend"/>
+        </div>
       </div>
       <div class="edit">
         <form ng-submit="updateFocusArea(focus)" ng-show="data.showEdit">

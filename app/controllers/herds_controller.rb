@@ -1,5 +1,4 @@
 class HerdsController < ApplicationController
-  before_action :find_herd, only: [:show]
   before_action :authenticate_user!, only: [:show, :invite_friends, :edit]
   
   def index
@@ -21,11 +20,6 @@ class HerdsController < ApplicationController
   end
 
   def show
-    
-    # if @herd.users.count == 1
-    #   redirect_to invite_url(subdomain: herd_subdomain)
-    # end
-
   end
 
   def invite_friends

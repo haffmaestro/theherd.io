@@ -17,12 +17,12 @@ div ng-controller="WeeklyReportCtrl"
       md-tab-label
         |{{user}}
   / Loading screen
-  div layout="column" layout-align="center" class="loading" ng-show="herdWeekly === null"
+  div(layout="column" layout-align="center center" class="loading" ng-show="herdWeekly === null")
     br
     md-progress-circular md-mode="indeterminate"
   / Weekly Report 
-  .tabpanel-container#weekly-report ng-hide="herdWeekly === null"
-    div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="90" layout-align="center"
+  .tabpanel-container#weekly-report(ng-hide="herdWeekly === null" layout="column" layout-align="start")
+    div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="90" layout="column" layout-align="center"
       / edit-focus-areas
       / Section
       md-content ng-if="owner(herdWeekly.user_weeklies[data.selectedIndex])"

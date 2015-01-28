@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  namespace :api do
+  get 'activities/index'
+  end
+
   constraints lambda {|r| r.subdomain.present? && r.subdomain != 'www'} do
     devise_for :users, :controllers => {:registrations => "registrations"}
     resources :herds, except: [:new, :create]
@@ -18,8 +22,9 @@ Rails.application.routes.draw do
       end
       resources :focus_areas, only: [:index, :create, :destroy, :update]
       resources :users, only: [:index]
+      resources :user_weeklies, only: [:update]
+      end
     end
-  end
   
   get '/new' => "herds#new", as: 'new_herd'
   post '/herds' => "herds#create"

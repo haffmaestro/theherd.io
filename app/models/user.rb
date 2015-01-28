@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, request_keys: [:subdomain]
+  :recoverable, :rememberable, :trackable, :validatable, :omniauthable, request_keys: [:subdomain]
 
   belongs_to :herd
   has_many :user_weeklies, dependent: :destroy
@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   after_create :set_default_focus_areas
   
   def self.find_for_authentication(warden_conditions)
-      where(:email => warden_conditions[:email], :subdomain => warden_conditions[:subdomain]).first
+    where(:email => warden_conditions[:email], :subdomain => warden_conditions[:subdomain]).first
   end
 
   def weekly_tasks
@@ -26,6 +26,22 @@ class User < ActiveRecord::Base
       end
     end
     tasks
+  end
+
+  def method_missing(meth, *args, &block)
+    if meth.to_s =~ /^to_hash/
+      self.attributes
+    else
+      super
+    end
+  end
+
+  def respond_to?(meth)
+    if meth.to_s =~ /^to_hash/
+      true
+    else
+      super
+    end
   end
 
   private

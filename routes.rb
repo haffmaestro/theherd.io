@@ -72,6 +72,8 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                          PUT      /api/focus_areas/:id(.:format)                   api/focus_areas#update
                          DELETE   /api/focus_areas/:id(.:format)                   api/focus_areas#destroy
                api_users GET      /api/users(.:format)                             api/users#index
+         api_user_weekly PATCH    /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
+                         PUT      /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
                 new_herd GET      /new(.:format)                                   herds#new
                          POST     /herds(.:format)                                 herds#create
                     root GET      /                                                onboarding#index

@@ -13,10 +13,10 @@ div ng-controller="GoalsCtrl"
   previous-goals
   next-goals
   / Actual Goals
-  div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex="100" layout="row"]
-    .goalTab1-content.animate-switch aria-labelledby="goalTab1" flex="80" offset="10" ng-switch-when="0"
+  div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex layout="row" layout-align="center"]
+    .goalTab1-content.animate-switch aria-labelledby="goalTab1" flex="90" ng-switch-when="0"
       goal-headlines headlines="['One Month Goals','Three Month Goals']"
-      .row layout="horizontal" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
+      .row layout="row" layout-align="space-around" ng-repeat="focus_area in goals[data.selectedIndex].focus_areas" flex="100"  id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
           md-card 
             h4
