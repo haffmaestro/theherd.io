@@ -9,9 +9,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     :address => "smtp.mandrillapp.com",
     :port => "587",
-    :domain => "theherd.io",
-    :user_name => ,
-    :password => ,
+    :domain => ENV["MANDRILL_DOMAIN"],
+    :user_name => ENV["MANDRILL_USERNAME"],
+    :password => ENV["MANDRILL_PASSWORD"],
     :authentication => "plain",
     :enable_starttls_auto => true
   }
