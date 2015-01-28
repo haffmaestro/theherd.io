@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+    title TheHerd
+    =stylesheet_link_tag 'application', media: 'all'
+  body
+    h1 
+    |Welcome to theHerd
+    = @user.first_name
+    |!

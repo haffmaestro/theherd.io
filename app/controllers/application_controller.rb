@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
       true
     elsif @onboarding
       true
+    elsif self.class.name == "HerdsController" && (params[:action] == "new" || params[:action]== "create")
+      true
     end
   end
 

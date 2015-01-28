@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :goals, through: :focus_areas, dependent: :destroy
 
-  after_create :set_default_focus_areas
+  after_create :set_default_focus_areas, :send_welcome_email
   
   def self.find_for_authentication(warden_conditions)
     where(:email => warden_conditions[:email], :subdomain => warden_conditions[:subdomain]).first
@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
     default.each do |area|
       self.focus_areas.create(name: area)
     end
+  end
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver
   end
 
 

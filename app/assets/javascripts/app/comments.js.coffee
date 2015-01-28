@@ -73,7 +73,6 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
     vm.createComment = ->
       today = new Date(Date.now())
       today = today.toDateString()
-      console.log today
       comment = {section_id: vm.section.id, user_id: vm.currentUser.id, first_name: vm.currentUser.first_name, body: vm.data.newComment, date: today}
       vm.data.newComment = ""
       vm.data.comments.push(comment)
