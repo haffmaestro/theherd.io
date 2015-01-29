@@ -25,3 +25,5 @@ module TheHerd
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
   end
 end
+
+Dotenv.load(".env")

@@ -6,5 +6,16 @@ html
   body
     h1 
     |Welcome to theHerd
+    |  
     = @user.first_name
     |!
+
+    p
+     |I'm so glad you've signed up, please send me an email if you have any questions!
+     br
+     |You can access your herd at  
+     = root_url(subdomain: @user.subdomain)
+
+    p
+     |Best wishes,
+     |  Halfdan from theHerd

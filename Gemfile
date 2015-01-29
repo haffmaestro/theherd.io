@@ -27,6 +27,7 @@ gem 'draper', '~> 1.3'
 gem 'bootstrap-sass','~> 3.2.0'
 gem 'font-awesome-rails'
 
+
 #Angular and API Gems
 gem 'angularjs-rails'
 gem 'underscore-rails'
@@ -40,6 +41,7 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 # Needed for deployment
 gem 'rails_12factor', group: :production
+gem 'dotenv-rails'
 
 group :development do
   gem 'interactive_editor'

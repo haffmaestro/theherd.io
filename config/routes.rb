@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     get '/invite' => "herds#invite_friends", as: "invite"
     get '/join', to: redirect('/users/sign_up')
 
+    get '/herds/api/users' => 'api/users#index'
+
     namespace :api do
       resources :herd_weeklies
       resources :weekly_tasks, only: [:update, :create, :destroy]
