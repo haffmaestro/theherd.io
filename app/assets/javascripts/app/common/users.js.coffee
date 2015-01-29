@@ -10,7 +10,7 @@ app.factory('Users', ['$http', ($http) ->
       .then((response)->
         response.data)
       .catch((response)->
-        false)
+        true)
   }
   ])
 

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_filter :deep_snake_case_params!
   before_filter :configure_permitted_parameters, if: :registrations_controller?
   before_filter :find_herd, unless: :onboarding?
   # Prevent CSRF attacks by raising an exception.
@@ -42,6 +43,25 @@ class ApplicationController < ActionController::Base
   def find_herd
     @herd = current_herd
     current_herd 
+  end
+
+  def default_serializer_options
+    {root: false}
+  end
+  
+  def deep_snake_case_params!(val = params)
+    case val
+    when Array
+      val.map {|v| deep_snake_case_params! v }
+    when Hash
+      val.keys.each do |k, v = val[k]|
+        val.delete k
+        val[k.underscore] = deep_snake_case_params!(v)
+      end
+      val
+    else
+      val
+    end
   end
 
   def configure_permitted_parameters

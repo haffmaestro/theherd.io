@@ -5,9 +5,7 @@ div ng-controller="WeeklyReportCtrl"
   / Top Nav
   span.md-whiteframe-z1
     .week-nav layout='row' layout-align="space-between start"
-      div
-        previous-week year="herdWeekly.year" week="herdWeekly.week"
-        next-week year="herdWeekly.year" week="herdWeekly.week"
+      week-navigation year="herdWeekly.year" week="herdWeekly.week"
       div
         weekly-header year="herdWeekly.year" week="herdWeekly.week"
       report-archive

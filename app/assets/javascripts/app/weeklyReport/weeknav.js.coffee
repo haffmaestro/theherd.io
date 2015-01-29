@@ -1,37 +1,28 @@
 app = angular.module('app')
 
 
-app.directive('previousWeek', ->
+
+app.directive('weekNavigation', ['WeeklyReport', (WeeklyReport)->
   restrict: 'E'
   replace: true
   scope:
     year: '='
     week: '='
   template: """
-    <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 11 ? '0'+(week-1) : week-1)}}">
-      <i class="fa fa-chevron-left"></i></a>
+    <div>
+      <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 11 ? '0'+(week-1) : week-1)}}">
+        <i class="fa fa-chevron-left"></i></a>
+      <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 9 ? '0'+(week+1) : week+1)}}">
+        <i class="fa fa-chevron-right"></i></a>
+    </div>
   """
   controller: ['$scope', ($scope)->
     vm = $scope
-    console.log vm.year
-    vm.data = {
-    }
-    vm.changeWeek= (year, week) ->
-
-  ]
-)
-
-app.directive('nextWeek', ->
-  restrict: 'E'
-  replace: true
-  scope:
-    year: '='
-    week: '='
-  template: """
-    <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 9 ? '0'+(week+1) : week+1)}}">
-      <i class="fa fa-chevron-right"></i></a>
-  """
-)
+    WeeklyReport.index()
+    .then((response)->
+      console.log response)
+    ]
+  ])
 
 app.directive('reportArchive', ->
   restrict: 'E'
