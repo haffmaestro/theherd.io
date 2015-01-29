@@ -41,8 +41,8 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
         <delete-focus-area-button focus="focus" user="user" ng-hide="isfriend"/>
         </div>
       </div>
-      <div class="edit">
-        <form ng-submit="updateFocusArea(focus)" ng-show="data.showEdit">
+      <div class="edit" ng-show="data.showEdit" ng-if="isfriend === false">
+        <form ng-submit="updateFocusArea(focus)" >
           <md-text-float type="text" name="updateFocusArea" ng-model="focus.name">
           </md-text-float>
         </form>
@@ -55,7 +55,9 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
       edit: false
     }
     vm.showEdit = ->
-      vm.data.showEdit = !vm.data.showEdit
+      if vm.isfriend
+      else
+        vm.data.showEdit = !vm.data.showEdit
     vm.updateFocusArea = (focus)->
       FocusAreas.update(focus)
       .then((response)->

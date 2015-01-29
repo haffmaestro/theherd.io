@@ -22,7 +22,11 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def weekly_reports_count
-    object.user_weeklies.count
+    count = 0
+    object.user_weeklies.each do |task|
+      count+= 1 if task.done
+    end
+    return count
   end
 
   def focus_areas

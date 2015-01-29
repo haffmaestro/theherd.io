@@ -41,7 +41,6 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 # Needed for deployment
 gem 'rails_12factor', group: :production
-gem 'dotenv-rails'
 
 group :development do
   gem 'interactive_editor'
@@ -54,7 +53,7 @@ group :development do
   gem 'rails-erd'
   gem 'meta_request'
   gem 'letter_opener'
-  
+  gem 'dotenv-rails'
 end
 
 group :development, :test do
