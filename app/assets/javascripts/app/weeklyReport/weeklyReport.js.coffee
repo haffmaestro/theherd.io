@@ -9,18 +9,23 @@ app.factory('Sections', ['$http', ($http)->
           console.log 'Error updating!')
     }])
 
-app.factory('WeeklyReportGetter', ['$http', ($http)->
+app.factory('WeeklyReport', ['$http', ($http)->
   return {
     get: (id) ->
       $http.get("/api/herd_weeklies/#{id}").then((response) ->
-        console.log 'Success'
         response.data
         ).catch((data)->
-          console.log 'Error getting data!')
+          return false)
+    index: ->
+      $http.get('/api/herd_weeklies')
+      .then((response)->
+        response.data)
+      .catch((response)->
+        return false)
   }
   ])
 
-app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','WeeklyTask', 'currentUser','$scope', (WeeklyReportGetter,WeeklyTask,currentUser, $scope) ->
+app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','$scope', (WeeklyReport,WeeklyTask,currentUser, $scope) ->
   vm = $scope
   vm.currentUser = currentUser
   id = null
@@ -35,7 +40,7 @@ app.controller('WeeklyReportCtrl', ['WeeklyReportGetter','WeeklyTask', 'currentU
     id = id_regex.exec(url)[0].match(/\d+/)[0]
 
   setTimeout( ->
-    WeeklyReportGetter.get(id).then((response)->
+    WeeklyReport.get(id).then((response)->
       vm.herdWeekly = response.herd_weekly
       vm.users = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
         user_weekly.first_name)
