@@ -5,6 +5,8 @@ class Api::HerdWeekliesController < Api::BaseController
   YEARWEEKREGEX = /^(201[45]-[0-5]\d)/
   
   def index
+    @weeklies = @herd.herd_weeklies
+    render json: @weeklies, each_serializer: SimpleHerdWeeklySerializer
   end
 
   def show
