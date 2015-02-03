@@ -15,7 +15,11 @@ class ActivitiesSerializer < ActiveModel::Serializer
   end
 
   def target
-    target = object.trackable_type.classify.constantize.find(object.trackable_id)
+    begin
+      target = object.trackable_type.classify.constantize.find(object.trackable_id)
+    rescue Exception=>e
+      target = nil
+    end
     if target
       if object.trackable_type == "Goal"
         return ExtendedGoalSerializer.new(target, root: false)

@@ -26,4 +26,3 @@ module TheHerd
   end
 end
 
-Dotenv.load(".env")
