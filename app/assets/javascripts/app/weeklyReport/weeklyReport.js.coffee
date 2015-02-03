@@ -25,40 +25,40 @@ app.factory('WeeklyReport', ['$http', ($http)->
   }
   ])
 
-app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','$scope', (WeeklyReport,WeeklyTask,currentUser, $scope) ->
+app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','$scope','$stateParams', (WeeklyReport,WeeklyTask,currentUser, $scope, $stateParams) ->
   vm = $scope
-  vm.currentUser = currentUser
-  id = null
-  year_week_regex = /(201[0-9]-[0-5]\d)/
-  id_regex = /\/\d+/
-  num_regex = 
-  url = document.URL
-  vm.herdWeekly = null
-  if url.match(year_week_regex)
-    id = year_week_regex.exec(url)[0]
-  else
-    id = id_regex.exec(url)[0].match(/\d+/)[0]
+  vm.data = {
+    herdWeeklyId: $stateParams.herdWeeklyId
+    currentUser: currentUser
+    user: $stateParams.user || currentUser.first_name
+    selectedIndex : 0
+    herdWeekly: null
+    year_week_regex: /(201[0-9]-[0-5]\d)/
+    id_regex: /\/\d+/
+  }
 
   setTimeout( ->
-    WeeklyReport.get(id).then((response)->
-      vm.herdWeekly = response.herd_weekly
-      vm.users = _.map(vm.herdWeekly.user_weeklies, (user_weekly) ->
+    WeeklyReport.get(vm.data.herdWeeklyId).then((response)->
+      vm.data.herdWeekly = response.herd_weekly
+      vm.data.users = _.map(vm.data.herdWeekly.user_weeklies, (user_weekly) ->
         user_weekly.first_name)
-      vm.countUsers = (num for num in [0..vm.users.length-1])
+      vm.data.countUsers = (num for num in [0..vm.data.users.length-1])
+      vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
+      vm.data.previousWeek = if vm.data.herdWeekly.week < 11 then ('0'+(vm.data.herdWeekly.week-1)) else vm.data.herdWeekly.week-1
+      vm.data.nextWeek = if vm.data.herdWeekly.week < 9 then ('0'+(vm.data.herdWeekly.week+1)) else vm.data.herdWeekly.week+1
+      vm.data.fullPrevious = "#{vm.data.herdWeekly.year}-#{vm.data.previousWeek}"
+      vm.data.fullNext = "#{vm.data.herdWeekly.year}-#{vm.data.nextWeek}"
       )
   , 750
   )
 
-  vm.data = {
-    selectedIndex : 0,
-  }
 
   vm.owner = (userWeekly) ->
     return false unless userWeekly?.user_id?
-    userWeekly.user_id == currentUser.id
+    userWeekly.user_id == vm.data.currentUser.id
   vm.friend = (userWeekly) ->
     return false unless userWeekly?.user_id?
-    userWeekly.user_id != currentUser.id
+    userWeekly.user_id != vm.data.currentUser.id
 
   vm.next = -> 
     vm.data.selectedIndex = Math.min(vm.data.selectedIndex + 1, 2)

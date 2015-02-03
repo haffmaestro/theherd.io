@@ -9,7 +9,7 @@ class HerdWeekly < ActiveRecord::Base
     if record = herd.herd_weeklies.where(year: year_week_id.split("-").first, week: year_week_id.split("-").last).first
       record
     else
-      service = Reports::CreateHerdWeekly.new(herd: herd)
+      service = Reports::CreateHerdWeekly.new(herd: herd, year: year_week_id.split("-").first, week: year_week_id.split("-").last)
       record = service.call
       record
     end
@@ -22,9 +22,11 @@ class HerdWeekly < ActiveRecord::Base
   private
 
   def set_year_week
-    self.year = Date.today.year
-    self.week = Date.today.cweek
-    self.save
+    if year == nil && week == nil
+      self.year = Date.today.year
+      self.week = Date.today.cweek
+      self.save
+    end
   end
 
 end
