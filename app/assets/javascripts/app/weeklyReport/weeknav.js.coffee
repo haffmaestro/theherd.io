@@ -33,17 +33,17 @@ app.directive('nextWeek', ->
   """
 )
 
-app.directive('weekNavigation', ['WeeklyReport', (WeeklyReport)->
+app.directive('weekNavigation', ['WeeklyReport','$state', (WeeklyReport,$state)->
   restrict: 'E'
   replace: true
   scope:
-    year: '='
-    week: '='
+    next: '='
+    previous: '='
   template: """
     <div>
-      <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 11 ? '0'+(week-1) : week-1)}}">
+      <a class="week-nav" ui-sref="weeklyReport({weeklyReportId: previous})>
         <i class="fa fa-chevron-left"></i></a>
-      <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 9 ? '0'+(week+1) : week+1)}}">
+      <a class="week-nav" ui-sref="weeklyReport({weeklyReportId: {{year}}-{{(week < 11 ? '0'+(week+1) : week-1)}}})">
         <i class="fa fa-chevron-right"></i></a>
     </div>
   """

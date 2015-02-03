@@ -22,14 +22,6 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                          PATCH    /herds/:id(.:format)                             herds#update
                          PUT      /herds/:id(.:format)                             herds#update
                          DELETE   /herds/:id(.:format)                             herds#destroy
-            weekly_index GET      /herd_weeklies(.:format)                         herd_weeklies#index
-                         POST     /herd_weeklies(.:format)                         herd_weeklies#create
-              new_weekly GET      /herd_weeklies/new(.:format)                     herd_weeklies#new
-             edit_weekly GET      /herd_weeklies/:id/edit(.:format)                herd_weeklies#edit
-                  weekly GET      /herd_weeklies/:id(.:format)                     herd_weeklies#show
-                         PATCH    /herd_weeklies/:id(.:format)                     herd_weeklies#update
-                         PUT      /herd_weeklies/:id(.:format)                     herd_weeklies#update
-                         DELETE   /herd_weeklies/:id(.:format)                     herd_weeklies#destroy
                    goals GET      /goals(.:format)                                 goals#index
                          POST     /goals(.:format)                                 goals#create
                 new_goal GET      /goals/new(.:format)                             goals#new
@@ -41,6 +33,9 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                          GET      /                                                herds#show
                   invite GET      /invite(.:format)                                herds#invite_friends
                     join GET      /join(.:format)                                  redirect(301, /users/sign_up)
+         herds_api_users GET      /herds/api/users(.:format)                       api/users#index
+            weekly_index GET      /herd_weeklies(.:format)                         herd_weeklies#index
+                         GET      /herd_weeklies/*a(.:format)                      herd_weeklies#index
        api_herd_weeklies GET      /api/herd_weeklies(.:format)                     api/herd_weeklies#index
                          POST     /api/herd_weeklies(.:format)                     api/herd_weeklies#create
      new_api_herd_weekly GET      /api/herd_weeklies/new(.:format)                 api/herd_weeklies#new
@@ -74,7 +69,7 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                api_users GET      /api/users(.:format)                             api/users#index
          api_user_weekly PATCH    /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
                          PUT      /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
-              activities GET      /activities(.:format)                            activities#index
+          api_activities GET      /api/activities(.:format)                        api/activities#index
                 new_herd GET      /new(.:format)                                   herds#new
                          POST     /herds(.:format)                                 herds#create
                     root GET      /                                                onboarding#index

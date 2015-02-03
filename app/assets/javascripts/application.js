@@ -24,12 +24,16 @@
 //= require angular-marked/angular-marked
 //= require angular-elastic/elastic
 //= require message-center/message-center
+//= require angular-ui-router/release/angular-ui-router
+//= require angular-rails-templates
+//= require angular-route/angular-route
 //= require vide/dist/jquery.vide.min
 //= require underscore/underscore
 //= require_self
+//= require_tree ./templates
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked', 'MessageCenterModule', 'monospaced.elastic']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked', 'MessageCenterModule', 'monospaced.elastic', 'ui.router', 'templates']).
   controller('ApplicationController', function($scope) {
   });

@@ -3,6 +3,8 @@ module Reports
     include Virtus.model
     
     attribute :herd, Herd
+    attribute :year, String
+    attribute :week, String
 
     def call
       @herd_weekly = herd.herd_weeklies.new
@@ -12,6 +14,8 @@ module Reports
         user_weekly.herd_weekly = @herd_weekly
         user_weekly.save!
       end
+      @herd_weekly.year = year.to_i
+      @herd_weekly.week = week.to_i
       @herd_weekly.save!
       @herd_weekly
     end

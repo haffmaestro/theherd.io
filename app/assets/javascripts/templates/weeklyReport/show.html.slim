@@ -1,0 +1,34 @@
+div
+  scroll-list list="data.herdWeekly.user_weeklies[data.selectedIndex].sections"
+  / Top Nav
+  span.md-whiteframe-z1
+    .week-nav layout='row' layout-align="space-between start"
+      week-navigation next="data.fullNext" week="data.fullPrevious"
+      div
+        weekly-header year="data.herdWeekly.year" week="data.herdWeekly.week"
+      report-archive
+  / User Nav
+  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
+    md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
+      md-tab-label
+        |{{user}}
+  / Loading screen
+  div(layout="column" layout-align="center center" class="loading" ng-show="data.herdWeekly === null")
+    br
+    md-progress-circular md-mode="indeterminate"
+  / Weekly Report 
+  .tabpanel-container#weekly-report(ng-hide="data.herdWeekly === null" layout="column" layout-align="start")
+    div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" flex="90" layout="column" layout-align="center"
+      / edit-focus-areas
+      / Section
+      md-content ng-if="owner(data.herdWeekly.user_weeklies[data.selectedIndex])"
+        div ng-repeat="section in data.herdWeekly.user_weeklies[data.selectedIndex].sections"
+          owner-section section="section"
+
+      md-content ng-if="friend(data.herdWeekly.user_weeklies[data.selectedIndex])"
+        div ng-repeat="section in data.herdWeekly.user_weeklies[data.selectedIndex].sections"
+          friend-section section="section"
+  
+      
+  
+          
