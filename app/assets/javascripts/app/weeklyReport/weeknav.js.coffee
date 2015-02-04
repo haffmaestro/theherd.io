@@ -1,57 +1,60 @@
 app = angular.module('app')
 
-
-app.directive('previousWeek', ->
+app.directive('weekNavigation', ['WeeklyReport','messageCenterService', (WeeklyReport, messageCenterService)->
   restrict: 'E'
   replace: true
-  scope:
-    year: '='
-    week: '='
-  template: """
-    <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 11 ? '0'+(week-1) : week-1)}}">
-      <i class="fa fa-chevron-left"></i></a>
-  """
-  controller: ['$scope', ($scope)->
-    vm = $scope
-    console.log vm.year
-    vm.data = {
-    }
-    vm.changeWeek= (year, week) ->
-
-  ]
-)
-
-app.directive('nextWeek', ->
-  restrict: 'E'
-  replace: true
-  scope:
-    year: '='
-    week: '='
-  template: """
-    <a class="week-nav" href="/herd_weeklies/{{year}}-{{(week < 9 ? '0'+(week+1) : week+1)}}">
-      <i class="fa fa-chevron-right"></i></a>
-  """
-)
-
-app.directive('weekNavigation', ['WeeklyReport','$state', (WeeklyReport,$state)->
-  restrict: 'E'
-  replace: true
+  transclude: true
   scope:
     next: '='
     previous: '='
   template: """
-    <div>
-      <a class="week-nav" ui-sref="weeklyReport({weeklyReportId: previous})>
+    <div ng-cloak>
+      <a class="week-nav" ng-click="goPrevious()">
         <i class="fa fa-chevron-left"></i></a>
-      <a class="week-nav" ui-sref="weeklyReport({weeklyReportId: {{year}}-{{(week < 11 ? '0'+(week+1) : week-1)}}})">
+      <a class="week-nav" ng-click="goNext()">
         <i class="fa fa-chevron-right"></i></a>
     </div>
   """
-  controller: ['$scope', ($scope)->
+  controller: ['$scope','$rootScope','$state', ($scope, $rootScope, $state)->
     vm = $scope
+    vm.data = {
+
+    }
+    $rootScope.$on('navigationData', (event, data)->
+      vm.data.previous = data.previous
+      vm.data.next = data.next
+      vm.data.user = data.user
+      )
     WeeklyReport.index()
     .then((response)->
-      console.log response)
+      vm.data.reports = _.map(response.herd_weeklies, (herdWeekly)->
+        herdWeekly.year_week_id))
+    vm.goPrevious = ->
+      console.log vm.data.user
+      if reportExists(vm.data.previous)
+        $state.go('weeklyReport', {herdWeeklyId: vm.data.previous, user: vm.data.user})
+        .then((response)->)
+        .catch((response)->
+          messageCenterService.add('warning', 'Please try again.', {timeout: 3000}))
+      else
+        messageCenterService.add('warning', 'This week does not exist.', {timeout: 3000})
+
+    vm.goNext = ->
+      console.log vm.data.user
+      if reportExists(vm.data.next)
+        $state.go('weeklyReport', {herdWeeklyId: vm.data.next, user: vm.data.user})
+        .then((response)->
+          messageCenterService.add('warning', 'Plase try again.', {timeout: 3000}))
+        .catch((response)->)
+      else
+        messageCenterService.add('warning', 'This week does not exist.', {timeout: 3000})
+
+    reportExists = (report) ->
+      index = vm.data.reports.indexOf(report)
+      if index >= 0
+        return true
+      else
+        return false
     ]
   ])
 

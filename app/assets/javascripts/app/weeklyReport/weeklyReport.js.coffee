@@ -25,7 +25,7 @@ app.factory('WeeklyReport', ['$http', ($http)->
   }
   ])
 
-app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','$scope','$stateParams', (WeeklyReport,WeeklyTask,currentUser, $scope, $stateParams) ->
+app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','$scope','$stateParams','$rootScope', (WeeklyReport,WeeklyTask,currentUser, $scope, $stateParams, $rootScope) ->
   vm = $scope
   vm.data = {
     herdWeeklyId: $stateParams.herdWeeklyId
@@ -48,9 +48,12 @@ app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','
       vm.data.nextWeek = if vm.data.herdWeekly.week < 9 then ('0'+(vm.data.herdWeekly.week+1)) else vm.data.herdWeekly.week+1
       vm.data.fullPrevious = "#{vm.data.herdWeekly.year}-#{vm.data.previousWeek}"
       vm.data.fullNext = "#{vm.data.herdWeekly.year}-#{vm.data.nextWeek}"
+      $rootScope.$emit('navigationData', {previous: vm.data.fullPrevious, next: vm.data.fullNext, user: vm.data.user})
       )
   , 750
   )
+
+  
 
 
   vm.owner = (userWeekly) ->

@@ -16,7 +16,11 @@ class HerdWeekly < ActiveRecord::Base
   end
 
   def year_week_id
-    "#{year}-#{week}"
+    if week < 10
+      "#{year}-0#{week}"
+    else
+      "#{year}-#{week}"
+    end
   end
 
   private
