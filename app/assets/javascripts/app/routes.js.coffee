@@ -6,7 +6,7 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', ($statePr
     url: "/herd_weeklies/:herdWeeklyId?user"
     templateUrl: 'weeklyReport/show.html'
     controller: 'WeeklyReportCtrl'
-  $urlRouterProvider.otherwise('herd_weeklies/1')
+  $urlRouterProvider.otherwise('herd_weeklies/current')
   ]
 )
 

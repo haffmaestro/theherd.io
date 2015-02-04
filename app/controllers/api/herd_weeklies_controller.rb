@@ -23,7 +23,7 @@ class Api::HerdWeekliesController < Api::BaseController
     if year_week_id_format?
       @herd_weekly = HerdWeekly.find_for_week(current_herd, params[:id])
     elsif params[:id] == 'current'
-      @herd_weekly = current_herd.herd_weeklies.last
+      @herd_weekly = current_herd.herd_weeklies.order("year DESC, week DESC").first
     else
       @herd_weekly = HerdWeekly.find params[:id]
     end
