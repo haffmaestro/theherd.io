@@ -12,6 +12,10 @@ app.factory('Activities', ['$http', ($http)->
     }
   ])
 
+app.controller('HomeController', ['$stateParams', ($stateParams)->
+  console.log $stateParams
+  ])
+
 app.directive('newsfeed', ['Activities', (Activities)->
   restrict: 'E'
   replace: true
