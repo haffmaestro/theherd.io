@@ -17,11 +17,17 @@ app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state', ($scope, $mdSide
 
   vm.goHome = ->
     $state.go('home')
-    .then((response)->
-      console.log "In THEN block"
-      console.log response)
-    .catch((response)->
-      console.log "In CATCH block"
-      console.log response)
+    .then((response)->)
+    .catch((response)->)
+
+  vm.goWeekly = ->
+    $state.go('weeklyReport', {herdWeeklyId: 'current'})
+    .then((response)->)
+    .catch((response)->)
+
+  vm.goGoals = ->
+    $state.go('goals')
+    .then((response)->)
+    .catch((response)->)
 
     ])

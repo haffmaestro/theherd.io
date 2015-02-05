@@ -2,15 +2,6 @@ Rails.application.routes.draw do
 
   constraints lambda {|r| r.subdomain.present? && r.subdomain != 'www'} do
     devise_for :users, :controllers => {:registrations => "registrations"}
-    resources :herds, except: [:new, :create]
-    resources :goals
-    get '' => 'herds#show'
-    get '/invite' => "herds#invite_friends", as: "invite"
-    get '/join', to: redirect('/users/sign_up')
-    get '/herds/api/users' => 'api/users#index'
-    resources :herd_weeklies, as: :weekly, only: [:index]
-    get 'herd_weeklies/*a' => "herd_weeklies#index"
-
     namespace :api do
       resources :herd_weeklies
       resources :weekly_tasks, only: [:update, :create, :destroy]
@@ -23,6 +14,11 @@ Rails.application.routes.draw do
       resources :user_weeklies, only: [:update]
       resources :activities, only: [:index]
     end
+
+    get '/join', to: redirect('/users/sign_up')
+    get "/" => 'herds#show'
+    get "/*a" => 'herds#show'
+
   end
   
   get '/new' => "herds#new", as: 'new_herd'
