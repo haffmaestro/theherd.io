@@ -1,4 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
+  delegate :current_user, to: :scope
   attributes :id, :first_name, :last_name, :email
   attributes :comment_count, :goals_count, :weekly_tasks_count, :weekly_reports_count, :focus_areas
   def comment_count
@@ -30,7 +31,15 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def focus_areas
-    object.focus_areas
+    result = []
+    object.focus_areas.each do |focus_area|
+      focus = focus_area.attributes
+      additional_attributes = {
+        :is_owner => current_user.id == object.id}
+      focus.merge!(additional_attributes)
+      result << focus
+    end
+    result
   end
 
 end

@@ -19,30 +19,31 @@ app.factory('currentUser', ['$preloaded', ($preloaded)->
 	currentUser.user
 	])
 
-app.directive('members', ['Users','FocusAreas','messageCenterService', (Users, FocusAreas, messageCenterService)->
+app.directive('members', ['Users','FocusAreas','HerdActions','HerdStore','messageCenterService', (Users, FocusAreas, HerdActions, HerdStore, messageCenterService)->
   restrict: 'E'
   replace: true
   template: """
-    <member ng-repeat="user in data.users" user="user"/>
+    <member user="user" ng-repeat="user in data.users"></member>
   """
   controller: ['$scope','$rootScope', ($scope,$rootScope)->
     vm = $scope
     vm.data = {
-      users: []
+      users: HerdStore.getUsers()
       newFocusArea: ""
     }
-    Users.get().then((data)->
-      vm.data.users = data)
+    HerdActions.fetchUsers()
+    HerdStore.on('change', ->
+      vm.data.users = HerdStore.getUsers())
 
 
   ]
 ])
 
-app.directive('member', ['FocusAreas','Users','messageCenterService','$preloaded', (FocusAreas,Users, messageCenterService, $preloaded)->
+app.directive('member', ['FocusAreas','Users','messageCenterService','HerdStore','HerdActions', (FocusAreas,Users, messageCenterService, HerdStore, HerdActions)->
   restrict: 'E'
   replace: true
   scope:
-    user: '='
+    user: "="
   template: """
     <md-card layout="row">
       <div flex="50 offset="10">
@@ -54,22 +55,20 @@ app.directive('member', ['FocusAreas','Users','messageCenterService','$preloaded
       </div>
       <div flex="40">
         <h3>Focus Areas  </h3>
-        <div ng-repeat="focusArea in user.focus_areas">
-          <focus-area focus="focusArea" user="user" isfriend="friend()"/>
-        </div>
+          <focus-area focus-area="focusArea" ng-repeat="focusArea in user.focus_areas"></focus-area>
         <form ng-submit="addFocusArea(user)" ng-hide="friend()">
           <md-text-float type="text" label="New Focus Area" name="newWeeklyTask" ng-model="data.newFocusArea">
           </md-text-float>
         </form>
       </div>
-      <md-button class="s md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport">Update Weekly Report</md-button>
+      <md-button class="md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport">Update Weekly Report</md-button>
     </md-card>
   """
   controller: ['$scope','$rootScope', ($scope, $rootScope)->
     vm = $scope
     vm.data = {
       newFocusArea: ""
-      currentUser: $preloaded.user.user
+      currentUser: HerdStore.getCurrentUser()
       showUpdateReport: false
     }    
     $rootScope.$on('deleteFocusArea', (event, data)->
@@ -82,32 +81,11 @@ app.directive('member', ['FocusAreas','Users','messageCenterService','$preloaded
       )
     vm.addFocusArea = (user)->
       newFocusArea = {name: vm.data.newFocusArea, id: null}
-      user.focus_areas.push(newFocusArea)
+      HerdActions.addFocusArea(newFocusArea)
       vm.data.newFocusArea = ""
-      FocusAreas.new(newFocusArea)
-      .then((response)->
-        if response
-          user.focus_areas[user.focus_areas.length-1].id = response.focus_area.id
-          messageCenterService.add('success', 'New Focus Area added!', {timeout: 3000})
-          vm.showUpdateReport()
-        else
-          messageCenterService.add('warning', 'New Focus Area did not get saved, please try again.', {timeout: 3000})
-          user.focus_areas.pop()
-        )
 
     vm.deleteFocusArea = (focusArea, user) ->
-      index = vm.user.focus_areas.indexOf(focusArea)
-      vm.user.focus_areas.splice(index, 1)
-      FocusAreas.destroy(focusArea)
-      .then((response) ->
-        if response
-          messageCenterService.add('success', 'Deleted!', {timeout: 3000})
-          vm.showUpdateReport()
-        else
-          messageCenterService.add('warning', 'Error, please try again.', {timeout: 3000})
-          vm.user.focus_areas.splice(index, 0, focusArea)
-        )
-      return true
+      HerdActions.deleteFocusArea(focusArea)
 
     vm.friend = ->
       return false unless vm.user?

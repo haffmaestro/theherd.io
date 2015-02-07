@@ -24,26 +24,24 @@ app.factory('FocusAreas', ['$http', ($http)->
   }
 ])
 
-app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, messageCenterService)->
+app.directive('focusArea', ['FocusAreas','HerdActions',(FocusAreas, HerdActions)->
   restrict: 'E'
   replace: true
   scope:
-    focus: "="
-    user: "="
-    isfriend: "="
+    focusArea: "="
   template: """
     <div class="focus-areas" layout-align="space-around">
       <div class="display" ng-hide="data.showEdit"  layout="row">
         <div flex="70" layout="column">
-          <p ng-dblClick="showEdit()">{{focus.name}}  </p>
+          <p ng-dblClick="showEdit()">{{focusArea.name}}  </p>
         </div>
         <div flex layout="center">
-        <delete-focus-area-button focus="focus" user="user" ng-hide="isfriend"/>
+        <delete-focus-area-button focus-area="focusArea" ng-hide="!focusArea.is_owner"/>
         </div>
       </div>
-      <div class="edit" ng-show="data.showEdit" ng-if="isfriend === false">
-        <form ng-submit="updateFocusArea(focus)" >
-          <md-text-float type="text" name="updateFocusArea" ng-model="focus.name">
+      <div class="edit" ng-show="data.showEdit" ng-if="focusArea.is_owner">
+        <form ng-submit="updateFocusArea(focusArea)" >
+          <md-text-float type="text" name="updateFocusArea" ng-model="focusArea.name">
           </md-text-float>
         </form>
       </div>
@@ -55,40 +53,28 @@ app.directive('focusArea', ['FocusAreas','messageCenterService',(FocusAreas, mes
       edit: false
     }
     vm.showEdit = ->
-      if vm.isfriend
-      else
+      if vm.focusArea.is_owner
         vm.data.showEdit = !vm.data.showEdit
-    vm.updateFocusArea = (focus)->
-      FocusAreas.update(focus)
-      .then((response)->
-        if response
-          messageCenterService.add('success', 'Focus Area updated!', {timeout: 3000})
-          $rootScope.$emit('showUpdateReport', {user: vm.user})
-        else
-          messageCenterService.add('warning', 'Focus Area failed to update, please try again', {timeout: 3000}))
-      .catch((response)->
-        messageCenterService.add('warning', 'Focus Area failed', {timeout: 3000}))
+    vm.updateFocusArea = (focusArea)->
+      HerdActions.updateFocusArea(focusArea)
       vm.showEdit()
   ]
 ])
 
-app.directive('deleteFocusAreaButton', ['FocusAreas', (FocusAreas) ->
+app.directive('deleteFocusAreaButton', ['FocusAreas','HerdActions', (FocusAreas, HerdActions) ->
   restrict: 'E'
   replace: true
   scope:
-    focus: '='
-    user: '='
+    focusArea: "="
   template: """
-    <a ng-click="deleteFocusArea(focus, user)" class="delete-task">
+    <a ng-click="deleteFocusArea(focusArea)" class="delete-task">
       <i class="fa fa-remove "></i>
     </a>
   """
   controller: [ '$scope','$rootScope',($scope, $rootScope) ->
     vm = $scope
-    vm.deleteFocusArea = (focusArea, user) ->
-      console.log "Click"
-      $rootScope.$emit('deleteFocusArea', {focusArea: focusArea, user: user})
-      true
+    vm.deleteFocusArea = (focusArea) ->
+      HerdActions.deleteFocusArea(focusArea)
 
   ]
 ])

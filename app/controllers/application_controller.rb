@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :registrations_controller?
   before_filter :find_herd, unless: :onboarding?
+  before_filter :deep_snake_case_params!
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
   def onboarding?
     if self.class.name == "OnboardingController"
       true
@@ -47,10 +47,27 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :password, :password_confirmation, :first_name,  :last_name) } 
   end
+
+  def deep_snake_case_params!(val = params)
+    case val
+    when Array
+      val.map {|v| deep_snake_case_params! v }
+    when Hash
+      val.keys.each do |k, v = val[k]|
+        val.delete k
+        val[k.underscore] = deep_snake_case_params!(v)
+      end
+      val
+    else
+      val
+    end
+  end
+
   helper_method :herd_subdomain
   helper_method :onboarding?
   helper_method :self_class
   helper_method :current_herd
+  helper_method :current_user
 
 end
 
