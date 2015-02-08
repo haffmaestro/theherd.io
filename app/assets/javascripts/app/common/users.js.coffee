@@ -19,7 +19,7 @@ app.factory('currentUser', ['$preloaded', ($preloaded)->
 	currentUser.user
 	])
 
-app.directive('members', ['Users','FocusAreas','HerdActions','HerdStore','messageCenterService', (Users, FocusAreas, HerdActions, HerdStore, messageCenterService)->
+app.directive('members', ['Users','HerdActions','HerdStore', (Users, HerdActions, HerdStore)->
   restrict: 'E'
   replace: true
   template: """
@@ -39,7 +39,7 @@ app.directive('members', ['Users','FocusAreas','HerdActions','HerdStore','messag
   ]
 ])
 
-app.directive('member', ['FocusAreas','Users','messageCenterService','HerdStore','HerdActions', (FocusAreas,Users, messageCenterService, HerdStore, HerdActions)->
+app.directive('member', ['Users','HerdStore','HerdActions', (Users, HerdStore, HerdActions)->
   restrict: 'E'
   replace: true
   scope:
@@ -70,11 +70,7 @@ app.directive('member', ['FocusAreas','Users','messageCenterService','HerdStore'
       newFocusArea: ""
       currentUser: HerdStore.getCurrentUser()
       showUpdateReport: false
-    }    
-    $rootScope.$on('deleteFocusArea', (event, data)->
-      if vm.user.id == data.user.id
-        vm.deleteFocusArea(data.focusArea, data.user)
-      )
+    } 
     $rootScope.$on('showUpdateReport', (event, data)->
       if vm.user.id == data.user.id
         vm.showUpdateReport()
@@ -102,10 +98,5 @@ app.directive('member', ['FocusAreas','Users','messageCenterService','HerdStore'
         else
           vm.data.showUpdateReport = true
       )
-
-
-
-      
-      
   ]
 ])

@@ -26,22 +26,22 @@ app.factory('Goals', ['$http', ($http)->
           data)
     }])
 
-app.controller('GoalsCtrl', ['$scope', 'Goals','currentUser','$rootScope', ($scope, Goals, currentUser, $rootScope)->
+app.controller('GoalsCtrl', ['$scope', 'Goals','HerdActions','HerdStore','$rootScope', ($scope, Goals, HerdActions, HerdStore, $rootScope)->
   vm = $scope
-  vm.currentUser = currentUser
+  vm.currentUser = HerdStore.getCurrentUser()
   vm.users = []
-  vm.newGoal = "Pease"
+  vm.goals = HerdStore.getGoals()
+  vm.newGoal = "Please"
   vm.data = {
     selectedIndex: 0,
     goalIndex: 0
   }
-
-  Goals.get().then((response) ->
-    console.log response
-    for goal in response.goals
-      vm.users.push(goal.first_name)
-    vm.goals = response.goals
-    )
+  HerdActions.fetchGoals() if vm.goals = []
+  HerdStore.on('change', ->
+    vm.goals = HerdStore.getGoals()
+    if vm.users = []
+      for goal in vm.goals
+        vm.users.push(goal.first_name))
 
   $rootScope.$on('nextGoals', (args)->
     vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
@@ -89,7 +89,7 @@ app.directive('goalHeadlines', ->
   """
   )
 
-app.directive('goalsDisplay', ['Goals', (Goals)->
+app.directive('goalsDisplay', ['Goals','HerdActions', (Goals, HerdActions)->
   restrict: 'E'
   replace: true
   scope:
@@ -130,9 +130,7 @@ app.directive('goalsDisplay', ['Goals', (Goals)->
       goal = {body: vm.data.newGoal, focus_area_id: vm.focus.id, done: false, months: vm.months, id: null}
       vm.goals.push(goal)
       vm.data.newGoal = ""
-      Goals.post(goal).then((response)->
-        vm.goals[vm.goals.length-1].id = response.goal.id
-        console.log(response))
+      HerdActions.addGoal(goal)
     ]
     ])
 
