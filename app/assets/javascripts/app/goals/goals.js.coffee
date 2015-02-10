@@ -1,31 +1,5 @@
 app = angular.module('app')
 
-app.factory('Goals', ['$http', ($http)->
-  return {
-    get: ->
-      $http.get('/api/goals').then((response)->
-        response.data
-        ).catch((response)->
-          console.log "Error at Goals factory")
-    update: (goal) ->
-      $http.put("/api/goals/#{goal.id}", {goal: goal}).then((response) ->
-        response.data
-        ).catch((data)->
-          console.log 'Error updating!')
-    post: (goal) ->
-      $http.post("/api/goals", {goal: goal}).then((response)->
-        response.data
-        ).catch((data)->
-          console.log 'Error creating!'
-          data)
-    delete: (goal) ->
-      $http.delete("/api/goals/#{goal.id}").then((response)->
-        response.data
-        ).catch((data)->
-          console.log 'Error deleting!'
-          data)
-    }])
-
 app.controller('GoalsCtrl', ['$scope','HerdActions','HerdStore','$rootScope', ($scope, HerdActions, HerdStore, $rootScope)->
   vm = $scope
   vm.currentUser = HerdStore.getCurrentUser()

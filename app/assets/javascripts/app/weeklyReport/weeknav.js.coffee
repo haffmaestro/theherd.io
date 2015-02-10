@@ -1,6 +1,6 @@
 app = angular.module('app')
 
-app.directive('weekNavigation', ['WeeklyReport','messageCenterService', (WeeklyReport, messageCenterService)->
+app.directive('weekNavigation', ['messageCenterService','HerdActions','HerdStore', ( messageCenterService,HerdActions, HerdStore)->
   restrict: 'E'
   replace: true
   transclude: true
@@ -25,10 +25,11 @@ app.directive('weekNavigation', ['WeeklyReport','messageCenterService', (WeeklyR
       vm.data.next = data.next
       vm.data.user = data.user
       )
-    WeeklyReport.index()
-    .then((response)->
-      vm.data.reports = _.map(response.herd_weeklies, (herdWeekly)->
+    HerdActions.fetchWeeklyReports()
+    HerdStore.on('change',->
+      vm.data.reports = _.map(HerdStore.getWeeklyReports(), (herdWeekly)->
         herdWeekly.year_week_id))
+
     vm.goPrevious = ->
       console.log vm.data.user
       if reportExists(vm.data.previous)

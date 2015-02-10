@@ -4,6 +4,8 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
   _users = []
   _goals = []
   _nextGoal = []
+  _weeklyReports = []
+  _weeklyReport = null
 
   _addFocusArea = (newFocusArea)->
     user = _findUser(newFocusArea.user_id)
@@ -79,12 +81,16 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
     result
 
   store = FluxUtil.createStore({
-    getUsers: ()->
+    getUsers: ->
       return _users
     getCurrentUser: ->
       return _currentUser
     getGoals: ->
       return _goals
+    getWeeklyReport: ->
+      return _weeklyReport
+    getWeeklyReports: ->
+      return _weeklyReports
 
     dispatcherIndex: HerdDispatcher.register((payload)->
       action = payload.action
@@ -122,6 +128,15 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             _nextGoal.push(action.item.months)
           when HerdConstants.FETCH_GOALS
             _goals = action.response.goals
+            store.emitChange action
+          when HerdConstants.FETCH_WEEKLY_REPORT
+            _weeklyReport = action.response.herd_weekly
+            store.emitChange action
+          when HerdConstants.UPDATE_SECTION
+            #TODO: Update section in weeklyReport in Store
+            store
+          when HerdConstants.FETCH_WEEKLY_REPORTS
+            _weeklyReports = action.response.herd_weeklies
             store.emitChange action
       )
     })

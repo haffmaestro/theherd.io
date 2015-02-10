@@ -6,7 +6,7 @@ app.factory('HerdDispatcher', ['FluxUtil', (FluxUtil)->
 
 app.factory('HerdConstants', ['FluxUtil', (FluxUtil)->
   return FluxUtil.defineConstants(['FETCH_GOALS','ADD_GOAL','ADD_GOAL_INTERNAL', 'DELETE_GOAL', 'COMPLETE_GOAL', 'ADD_FOCUS_AREA', 'UPDATE_FOCUS_AREA', 
-    'DELETE_FOCUS_AREA', 'FETCH_USERS'])
+    'DELETE_FOCUS_AREA', 'FETCH_USERS', 'FETCH_WEEKLY_REPORT','FETCH_WEEKLY_REPORTS', 'UPDATE_SECTION'])
 ])
 
 app.factory('ApiConstants', ['FluxUtil', (FluxUtil)->
@@ -37,6 +37,12 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
       HerdApi.markGoalAsDone(goal)
     fetchGoals: ->
       HerdApi.fetchGoals()
+    fetchWeeklyReport: (id)->
+      HerdApi.fetchWeeklyReport(id)
+    fetchWeeklyReports: ->
+      HerdApi.fetchWeeklyReports()
+    updateSection: (section)->
+      HerdApi.updateSection(section)
 
 
   }
@@ -109,6 +115,23 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
       params = {}
       dispatch(key, ApiConstants.PENDING, params)
       $http.get('/api/goals').
+        then(handleResponse(key, params))
+    fetchWeeklyReport: (id)->
+      key = HerdConstants.FETCH_WEEKLY_REPORT
+      params = {id: id}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.get("/api/herd_weeklies/#{id}").
+        then(handleResponse(key, params))
+    fetchWeeklyReports: ->
+      key = HerdConstants.FETCH_WEEKLY_REPORTS
+      params = {}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.get('/api/herd_weeklies').
+        then(handleResponse(key, params))
+    updateSection: (section)->
+      key = HerdConstants.UPDATE_SECTION
+      params = {section: section, section_id: section.id}
+      $http.put("/api/sections/#{section.id}", params).
         then(handleResponse(key, params))
   }
 ])

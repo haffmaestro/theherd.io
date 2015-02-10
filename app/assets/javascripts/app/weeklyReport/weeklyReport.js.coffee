@@ -1,60 +1,30 @@
 app = angular.module('app')
 
-app.factory('Sections', ['$http', ($http)->
-  return {
-    update: (section)->
-      $http.put("/api/sections/#{section.id}", {section: section, section_id: section.id}).then((response)->
-        response.data
-        ).catch((data)->
-          console.log 'Error updating!')
-    }])
-
-app.factory('WeeklyReport', ['$http', ($http)->
-  return {
-    get: (id) ->
-      $http.get("/api/herd_weeklies/#{id}").then((response) ->
-        response.data
-        ).catch((data)->
-          return false)
-    index: ->
-      $http.get('/api/herd_weeklies')
-      .then((response)->
-        response.data)
-      .catch((response)->
-        return false)
-  }
-  ])
-
-app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','$scope','$stateParams','$rootScope', (WeeklyReport,WeeklyTask,currentUser, $scope, $stateParams, $rootScope) ->
+app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','WeeklyTask','$scope','$stateParams','$rootScope', (HerdStore,HerdActions,WeeklyTask, $scope, $stateParams, $rootScope) ->
   vm = $scope
   vm.data = {
     herdWeeklyId: $stateParams.herdWeeklyId
-    currentUser: currentUser
-    user: $stateParams.user || currentUser.first_name
+    currentUser: HerdStore.getCurrentUser()
+    user: $stateParams.user || HerdStore.getCurrentUser().first_name
+    users: []
     selectedIndex : 0
-    herdWeekly: null
+    herdWeekly: HerdStore.getWeeklyReport()
     year_week_regex: /(201[0-9]-[0-5]\d)/
     id_regex: /\/\d+/
   }
-
-  setTimeout( ->
-    WeeklyReport.get(vm.data.herdWeeklyId).then((response)->
-      vm.data.herdWeekly = response.herd_weekly
-      vm.data.users = _.map(vm.data.herdWeekly.user_weeklies, (user_weekly) ->
-        user_weekly.first_name)
-      vm.data.countUsers = (num for num in [0..vm.data.users.length-1])
-      vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
-      vm.data.previousWeek = if vm.data.herdWeekly.week < 11 then ('0'+(vm.data.herdWeekly.week-1)) else vm.data.herdWeekly.week-1
-      vm.data.nextWeek = if vm.data.herdWeekly.week < 9 then ('0'+(vm.data.herdWeekly.week+1)) else vm.data.herdWeekly.week+1
-      vm.data.fullPrevious = "#{vm.data.herdWeekly.year}-#{vm.data.previousWeek}"
-      vm.data.fullNext = "#{vm.data.herdWeekly.year}-#{vm.data.nextWeek}"
-      $rootScope.$emit('navigationData', {previous: vm.data.fullPrevious, next: vm.data.fullNext, user: vm.data.user})
-      )
-  , 750
-  )
-
-  
-
+  HerdActions.fetchWeeklyReport(vm.data.herdWeeklyId)
+  HerdStore.on('change', ->
+    vm.data.herdWeekly = HerdStore.getWeeklyReport()
+    vm.data.users = _.map(vm.data.herdWeekly.user_weeklies, (user_weekly) ->
+      user_weekly.first_name)
+    vm.data.countUsers = (num for num in [0..vm.data.users.length-1])
+    vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
+    vm.data.previousWeek = if vm.data.herdWeekly.week < 11 then ('0'+(vm.data.herdWeekly.week-1)) else vm.data.herdWeekly.week-1
+    vm.data.nextWeek = if vm.data.herdWeekly.week < 9 then ('0'+(vm.data.herdWeekly.week+1)) else vm.data.herdWeekly.week+1
+    vm.data.fullPrevious = "#{vm.data.herdWeekly.year}-#{vm.data.previousWeek}"
+    vm.data.fullNext = "#{vm.data.herdWeekly.year}-#{vm.data.nextWeek}"
+    $rootScope.$emit('navigationData', {previous: vm.data.fullPrevious, next: vm.data.fullNext, user: vm.data.user})
+    )
 
   vm.owner = (userWeekly) ->
     return false unless userWeekly?.user_id?
@@ -70,7 +40,7 @@ app.controller('WeeklyReportCtrl', ['WeeklyReport','WeeklyTask', 'currentUser','
     vm.data.selectedIndex = Math.max(vm.data.selectedIndex - 1, 0)
     ])
 
-app.directive('ownerSection', ['Sections', (Sections) ->
+app.directive('ownerSection', ['HerdActions', (HerdActions) ->
   restrict: 'E'
   replace: true
   scope: 
@@ -129,24 +99,12 @@ app.directive('ownerSection', ['Sections', (Sections) ->
 
     vm.saveForm =(section) ->
       vm.toggleEdit()
-      Sections.update(section).then((data)->
-        console.log data).
-        catch((data)->
-          console.log data
-          )
+      HerdActions.updateSection(section)
       ]
 
   ])
 
-app.config ["markedProvider", (markedProvider) ->
-    markedProvider.setOptions
-      gfm: true
-      tables: true
-      highlight: (code) ->
-        hljs.highlightAuto(code).value
-]
-
-app.directive('friendSection', ['Sections', (Sections) ->
+app.directive('friendSection', [ () ->
   restrict: 'E'
   replace: true
   scope: 
