@@ -36,8 +36,18 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       when 120
         focusArea.ten_year_goals.push(newGoal)
   
-  _markGoalAsDone = (goal)->
-    
+  _markGoalAsDone = (updated, queryGoal)->
+    if updated
+      locationInfo = {list: null, id: null}
+      user = _goals[_findIndexOfById(_goals, 'user_id', queryGoal.user_id)]
+      focusArea = user.focus_areas[_findIndexOfById(user.focus_areas, 'id', queryGoal.focus_area_id)]
+      time_stamps = ['one_month_goals', 'three_month_goals', 'one_year_goals', 'three_year_goals', 'ten_year_goals']
+      angular.forEach(time_stamps, (current)->
+        if focusArea[current].indexOf(queryGoal) >= 0
+          locationInfo.list = current
+          locationInfo.index = focusArea[current].indexOf(queryGoal)
+        )
+      focusArea[locationInfo.list][locationInfo.index].done = true
 
   _deleteGoal = (goal, oldGoal)->
     deleteInfo = {list: null, id: null}
@@ -103,8 +113,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             _addGoal(action.response.goal)
             store.emitChange action
           when HerdConstants.COMPLETE_GOAL
-            console.log payload
-            _markGoalAsDone(action.response.goal)
+            _markGoalAsDone(action.response, action.queryParams.goal)
             store.emitChange action
           when HerdConstants.DELETE_GOAL
             _deleteGoal(action.response.goal, action.queryParams.goal)

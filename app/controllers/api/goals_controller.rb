@@ -17,14 +17,12 @@ class Api::GoalsController < Api::BaseController
 	end
 
 	def create
-		# render json: {server: 'reached'}
 		focus_area = FocusArea.find params[:goal][:focus_area_id]
 		goal = focus_area.goals.new goal_params
 		goal.due_date = params[:goal][:months].months.from_now - 1.day
 		if goal.save
 			goal.create_activity :create, owner: current_user, herd_id: current_herd.id
-			goal = goal.attributes.merge({user_id: current_user.id})
-			render json: {saved: true, goal: goal}
+			render json:  goal, serializer: GoalSerializer
 		else
 			render json: {saved: false, goal: goal}
 		end
@@ -33,8 +31,7 @@ class Api::GoalsController < Api::BaseController
 	def destroy
 		goal = Goal.find params[:id]
 		if goal.destroy
-			goal = goal.attributes.merge({user_id: current_user.id})
-			render json: {destroyed: true, goal: goal}
+			render json: goal, serializer: GoalSerializer
 		else
 			render json: {destroyed: false}
 		end

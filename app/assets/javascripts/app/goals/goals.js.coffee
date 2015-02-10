@@ -26,7 +26,7 @@ app.factory('Goals', ['$http', ($http)->
           data)
     }])
 
-app.controller('GoalsCtrl', ['$scope', 'Goals','HerdActions','HerdStore','$rootScope', ($scope, Goals, HerdActions, HerdStore, $rootScope)->
+app.controller('GoalsCtrl', ['$scope','HerdActions','HerdStore','$rootScope', ($scope, HerdActions, HerdStore, $rootScope)->
   vm = $scope
   vm.currentUser = HerdStore.getCurrentUser()
   vm.users = []
@@ -89,7 +89,7 @@ app.directive('goalHeadlines', ->
   """
   )
 
-app.directive('goalsDisplay', ['Goals','HerdActions', (Goals, HerdActions)->
+app.directive('goalsDisplay', ['HerdActions', (HerdActions)->
   restrict: 'E'
   replace: true
   scope:
@@ -132,7 +132,7 @@ app.directive('goalsDisplay', ['Goals','HerdActions', (Goals, HerdActions)->
     ]
     ])
 
-app.directive('deleteButtonGoal', ['Goals','HerdActions', (Goals, HerdActions) ->
+app.directive('deleteButtonGoal', ['HerdActions', (HerdActions) ->
   restrict: 'E'
   replace: true
   scope:
