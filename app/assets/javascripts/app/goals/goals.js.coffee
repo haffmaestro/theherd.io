@@ -123,36 +123,30 @@ app.directive('goalsDisplay', ['Goals','HerdActions', (Goals, HerdActions)->
       isFriend = vm.user != vm.curruser
 
     vm.toggleGoalDone = (goal) ->
-      Goals.update(goal).then((response) ->
-        console.log("From Rails #{response}"))
+      HerdActions.markGoalAsDone(goal)
 
     vm.submitGoal = (focus_area)->
       goal = {body: vm.data.newGoal, focus_area_id: vm.focus.id, done: false, months: vm.months, id: null}
-      vm.goals.push(goal)
       vm.data.newGoal = ""
       HerdActions.addGoal(goal)
     ]
     ])
 
-app.directive('deleteButtonGoal', ['Goals', (Goals) ->
+app.directive('deleteButtonGoal', ['Goals','HerdActions', (Goals, HerdActions) ->
   restrict: 'E'
   replace: true
   scope:
     goal: '='
     list: '='
   template: """
-    <a ng-click="deleteTask(goal)" class="delete-goal">
+    <a ng-click="deleteGoal(goal)" class="delete-goal">
       <i class="fa fa-remove "></i>
     </a>
   """
   controller: ['$scope', ($scope) ->
     vm = $scope
-    vm.deleteTask = (goal) ->
-      Goals['delete'](goal).
-        then((response) -> console.log response).
-        catch((data) -> console.log data)
-      index = vm.list.indexOf(goal)
-      vm.list.splice(index, 1)
+    vm.deleteGoal = (goal) ->
+      HerdActions.deleteGoal(goal)
     ]
 
 ])

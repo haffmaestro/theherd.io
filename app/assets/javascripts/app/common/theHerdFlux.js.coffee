@@ -31,6 +31,10 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
     addGoal: (newGoal)->
       dispatch(HerdConstants.ADD_GOAL_INTERNAL, newGoal)
       HerdApi.addGoal(newGoal)
+    deleteGoal: (goal)->
+      HerdApi.deleteGoal(goal)
+    markGoalAsDone: (goal)->
+      HerdApi.markGoalAsDone(goal)
     fetchGoals: ->
       HerdApi.fetchGoals()
 
@@ -87,6 +91,18 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
       params = {goal: newGoal}
       dispatch(key, ApiConstants.PENDING, params)
       $http.post("/api/goals", params).
+        then(handleResponse(key, params))
+    markGoalAsDone: (goal)->
+      key = HerdConstants.COMPLETE_GOAL
+      params = {goal: goal}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.put("/api/goals/#{goal.id}", params).
+        then(handleResponse(key, params))
+    deleteGoal: (goal)->
+      key = HerdConstants.DELETE_GOAL
+      params = {goal: goal}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http['delete']("/api/goals/#{goal.id}").
         then(handleResponse(key, params))
     fetchGoals: ->
       key = HerdConstants.FETCH_GOALS

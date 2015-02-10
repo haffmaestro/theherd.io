@@ -23,6 +23,34 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
     index = _findIndexOfById(_goals, 'user_id', newGoal.user_id)
     time_stamp = _nextGoal.shift()
     user = _goals[index]
+    focusArea = user.focus_areas[_findIndexOfById(user.focus_areas, 'id', newGoal.focus_area_id)]
+    switch time_stamp
+      when 1
+        focusArea.one_month_goals.push(newGoal)
+      when 3
+        focusArea.three_month_goals.push(newGoal)
+      when 12
+        focusArea.one_year_goals.push(newGoal)
+      when 36
+        focusArea.three_year_goals.push(newGoal)
+      when 120
+        focusArea.ten_year_goals.push(newGoal)
+  
+  _markGoalAsDone = (goal)->
+    
+
+  _deleteGoal = (goal, oldGoal)->
+    deleteInfo = {list: null, id: null}
+    user = _goals[_findIndexOfById(_goals, 'user_id', goal.user_id)]
+    focusArea = user.focus_areas[_findIndexOfById(user.focus_areas, 'id', goal.focus_area_id)]
+    time_stamps = ['one_month_goals', 'three_month_goals', 'one_year_goals', 'three_year_goals', 'ten_year_goals']
+    angular.forEach(time_stamps, (current)->
+      if focusArea[current].indexOf(oldGoal) >= 0
+        deleteInfo.list = current
+        deleteInfo.id = focusArea[current].indexOf(oldGoal)
+      )
+    focusArea[deleteInfo.list].splice(deleteInfo.id, 1)
+
 
   _findIndexOfById = (list, key, idOfElement)->
     index = null
@@ -72,8 +100,14 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             _users = action.response.users
             store.emitChange action
           when HerdConstants.ADD_GOAL
-            console.log payload
             _addGoal(action.response.goal)
+            store.emitChange action
+          when HerdConstants.COMPLETE_GOAL
+            console.log payload
+            _markGoalAsDone(action.response.goal)
+            store.emitChange action
+          when HerdConstants.DELETE_GOAL
+            _deleteGoal(action.response.goal, action.queryParams.goal)
             store.emitChange action
           when HerdConstants.ADD_GOAL_INTERNAL
             _nextGoal.push(action.item.months)
