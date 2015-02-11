@@ -1,28 +1,6 @@
 app = angular.module("app")
 
-app.factory('WeeklyTask', ['$http', ($http)->
-  return {
-    update: (task) ->
-      $http.put("/api/weekly_tasks/#{task.id}", {weekly_task: task}).then((response) ->
-        response.data
-        ).catch((data)->
-          console.log 'Error updating!')
-    post: (task) ->
-      $http.post("/api/weekly_tasks", {weekly_task: task}).then((response)->
-        response.data
-        ).catch((data)->
-          console.log 'Error creating!'
-          data)
-    delete: (task) ->
-      $http.delete("/api/weekly_tasks/#{task.id}").then((response)->
-        response.data
-        ).catch((data)->
-          console.log 'Error deleting!'
-          data)
-  }
-  ])
-
-app.directive('deleteButton', ['WeeklyTask', (WeeklyTask) ->
+app.directive('deleteButton', ['HerdActions', (HerdActions) ->
   restrict: 'E'
   replace: true
   scope:
@@ -36,15 +14,11 @@ app.directive('deleteButton', ['WeeklyTask', (WeeklyTask) ->
   controller: [ '$scope', ($scope) ->
     vm = $scope
     vm.deleteTask = (task) ->
-      WeeklyTask['delete'](task).
-        then((response) -> console.log response).
-        catch((data) -> console.log data)
-      index = vm.list.weekly_tasks.indexOf(task)
-      vm.list.weekly_tasks.splice(index, 1)
+      HerdActions.deleteWeeklyTask(task)
   ]
 ])
 
-app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
+app.directive('weeklyTasks', ['HerdActions', (HerdActions)->
   restrict: 'E'
   replace: true
   scope:
@@ -71,23 +45,17 @@ app.directive('weeklyTasks', ['WeeklyTask', (WeeklyTask)->
       newWeeklyTask: ""
     }
     vm.toggleTaskDone = (task) ->
-      # task.done = !task.done
-      console.log(task.done)
-      WeeklyTask.update(task).then((response) ->
-        console.log(response))
+      HerdActions.completeWeeklyTask(task)
 
     vm.submitTask = (section)->
       task = {body: vm.data.newWeeklyTask, section_id: section.id, done: false, id: null}
-      section.weekly_tasks.push(task)
       vm.data.newWeeklyTask = ""
-      WeeklyTask.post(task).then((response)->
-        section.weekly_tasks[section.weekly_tasks.length-1].id = response.task.id
-        console.log(response))
+      HerdActions.addWeeklyTask(task)
     ]
   ])
 
 
-app.directive('weeklyTasksFriend', ['WeeklyTask', (WeeklyTask)->
+app.directive('weeklyTasksFriend', [ ()->
   restrict: 'E'
   replace: true
   scope:

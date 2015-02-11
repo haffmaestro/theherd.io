@@ -1,30 +1,6 @@
 app = angular.module('app')
 
-app.factory('FocusAreas', ['$http', ($http)->
-  return {
-    new: (focusArea) ->
-      $http.post("api/focus_areas", {focus_area: focusArea})
-      .then((response)->
-        response.data)
-      .catch((response)->
-        return false)
-    update:(focusArea) ->
-      $http.put("api/focus_areas/#{focusArea.id}", {focus_area: focusArea})
-      .then((response)->
-        response.data)
-      .catch((response)->
-        return false)
-    destroy:(focusArea)->
-      $http['delete']("api/focus_areas/#{focusArea.id}", {focus_area: focusArea})
-      .then((response)->
-        response.data)
-      .catch((response)->
-        return false)
-
-  }
-])
-
-app.directive('focusArea', ['FocusAreas','HerdActions',(FocusAreas, HerdActions)->
+app.directive('focusArea', ['HerdActions',( HerdActions)->
   restrict: 'E'
   replace: true
   scope:
@@ -47,7 +23,7 @@ app.directive('focusArea', ['FocusAreas','HerdActions',(FocusAreas, HerdActions)
       </div>
     </div>
   """
-  controller: ['$scope','$rootScope',($scope, $rootScope)->
+  controller: ['$scope',($scope)->
     vm = $scope
     vm.data = {
       edit: false
@@ -61,7 +37,7 @@ app.directive('focusArea', ['FocusAreas','HerdActions',(FocusAreas, HerdActions)
   ]
 ])
 
-app.directive('deleteFocusAreaButton', ['FocusAreas','HerdActions', (FocusAreas, HerdActions) ->
+app.directive('deleteFocusAreaButton', ['HerdActions', ( HerdActions) ->
   restrict: 'E'
   replace: true
   scope:
@@ -71,7 +47,7 @@ app.directive('deleteFocusAreaButton', ['FocusAreas','HerdActions', (FocusAreas,
       <i class="fa fa-remove "></i>
     </a>
   """
-  controller: [ '$scope','$rootScope',($scope, $rootScope) ->
+  controller: [ '$scope',($scope) ->
     vm = $scope
     vm.deleteFocusArea = (focusArea) ->
       HerdActions.deleteFocusArea(focusArea)

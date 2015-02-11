@@ -4,7 +4,7 @@ class Api::WeeklyTasksController < Api::BaseController
 		# render json: params
 		task = WeeklyTask.find params[:id]
 		if task.update task_params
-			render json: {updated: true}
+			render json: task, serializer: WeeklyTaskSerializer
 		else
 			render json: {updated: false}
 		end
@@ -14,7 +14,7 @@ class Api::WeeklyTasksController < Api::BaseController
 		section = Section.find params[:weekly_task][:section_id]
 		task = section.weekly_tasks.new task_params
 		if task.save
-			render json: {saved: true, task: task}
+			render json: task, serializer: WeeklyTaskSerializer
 		else
 			render json: {saved: false, task: task}
 		end
@@ -23,7 +23,7 @@ class Api::WeeklyTasksController < Api::BaseController
 	def destroy
 		task = WeeklyTask.find params[:id]
 		if task.destroy
-			render json: {destroyed: true}
+			render json: task, serializer: WeeklyTaskSerializer
 		else
 			render json: {destroyed: false}
 		end

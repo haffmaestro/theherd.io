@@ -1,22 +1,10 @@
 app = angular.module('app')
 
-app.factory('Activities', ['$http', ($http)->
-  return {
-    get: ->
-      $http.get('/api/activities')
-      .then((response)->
-        response.data)
-      .catch((response)->
-        false)
-
-    }
-  ])
-
 app.controller('HomeController', ['$stateParams', ($stateParams)->
   console.log $stateParams
   ])
 
-app.directive('newsfeed', ['Activities', (Activities)->
+app.directive('newsfeed', ['HerdActions', 'HerdStore', (HerdActions,HerdStore)->
   restrict: 'E'
   replace: true
   template: """
@@ -33,14 +21,11 @@ app.directive('newsfeed', ['Activities', (Activities)->
   controller: ['$scope', ($scope)->
     vm = $scope
     vm.data = {
-      newsfeed: []
+      newsfeed: HerdStore.getNewsFeed()
     }
-    Activities.get().then((response)->
-      if response
-        vm.data.newsfeed = response.activities
-      else
-        false
-        )
+    HerdActions.fetchActivity()
+    HerdStore.on('change', ->
+      vm.data.newsfeed = HerdStore.getNewsFeed())
   ]
 ])
 

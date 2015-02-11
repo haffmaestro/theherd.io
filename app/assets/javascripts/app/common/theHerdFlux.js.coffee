@@ -5,8 +5,10 @@ app.factory('HerdDispatcher', ['FluxUtil', (FluxUtil)->
 ])
 
 app.factory('HerdConstants', ['FluxUtil', (FluxUtil)->
-  return FluxUtil.defineConstants(['FETCH_GOALS','ADD_GOAL','ADD_GOAL_INTERNAL', 'DELETE_GOAL', 'COMPLETE_GOAL', 'ADD_FOCUS_AREA', 'UPDATE_FOCUS_AREA', 
-    'DELETE_FOCUS_AREA', 'FETCH_USERS', 'FETCH_WEEKLY_REPORT','FETCH_WEEKLY_REPORTS', 'UPDATE_SECTION'])
+  return FluxUtil.defineConstants(['FETCH_GOALS','ADD_GOAL','ADD_GOAL_INTERNAL', 'DELETE_GOAL',
+    'COMPLETE_GOAL', 'ADD_FOCUS_AREA', 'UPDATE_FOCUS_AREA', 'DELETE_FOCUS_AREA', 'FETCH_USERS',
+    'FETCH_WEEKLY_REPORT','FETCH_WEEKLY_REPORTS','UPDATE_WEEKLY_REPORT', 'UPDATE_SECTION','ADD_WEEKLY_TASK',
+    'DELETE_WEEKLY_TASK', 'COMPLETE_WEEKLY_TASK', 'FETCH_ACTIVITY'])
 ])
 
 app.factory('ApiConstants', ['FluxUtil', (FluxUtil)->
@@ -41,97 +43,17 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
       HerdApi.fetchWeeklyReport(id)
     fetchWeeklyReports: ->
       HerdApi.fetchWeeklyReports()
+    updateCurrentWeeklyReport: (userId) ->
+      HerdApi.updateCurrentWeeklyReport(userId)
     updateSection: (section)->
       HerdApi.updateSection(section)
-
-
-  }
-])
-
-app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants', ($http, HerdDispatcher, HerdConstants, ApiConstants)->
-  BASE_URL = ''
-  
-  ### Private Methods ###
-  handleResponse = (key, params) ->
-    (response) ->
-      if response.data.error
-        dispatch key, ApiConstants.ERROR, params
-      else
-        dispatch key, response.data, params
-
-  dispatch = (key, response, params) ->
-    payload =
-      actionType: key
-      response: response
-      queryParams: params
-    HerdDispatcher.handleServerAction payload
-
-  ### Public Interface ###
-  return {
-    addFocusArea: (newFocusArea)->
-      key = HerdConstants.ADD_FOCUS_AREA
-      params = {focusArea: newFocusArea}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.post("api/focus_areas", params).
-        then(handleResponse(key, params))
-    updateFocusArea: (focusArea)->
-      key = HerdConstants.UPDATE_FOCUS_AREA
-      params = {focusArea: focusArea}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.put("api/focus_areas/#{focusArea.id}", {focus_area: focusArea}).
-        then(handleResponse(key, params))
-    deleteFocusArea: (focusArea)->
-      key = HerdConstants.DELETE_FOCUS_AREA
-      params = {focusArea: focusArea}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http['delete']("api/focus_areas/#{focusArea.id}", params).
-        then(handleResponse(key, params))
-    fetchUsers:->
-      key = HerdConstants.FETCH_USERS
-      params = {}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.get("api/users").
-        then(handleResponse(key, params))
-    addGoal: (newGoal)->
-      key = HerdConstants.ADD_GOAL
-      params = {goal: newGoal}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.post("/api/goals", params).
-        then(handleResponse(key, params))
-    markGoalAsDone: (goal)->
-      key = HerdConstants.COMPLETE_GOAL
-      params = {goal: goal}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.put("/api/goals/#{goal.id}", params).
-        then(handleResponse(key, params))
-    deleteGoal: (goal)->
-      key = HerdConstants.DELETE_GOAL
-      params = {goal: goal}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http['delete']("/api/goals/#{goal.id}").
-        then(handleResponse(key, params))
-    fetchGoals: ->
-      key = HerdConstants.FETCH_GOALS
-      params = {}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.get('/api/goals').
-        then(handleResponse(key, params))
-    fetchWeeklyReport: (id)->
-      key = HerdConstants.FETCH_WEEKLY_REPORT
-      params = {id: id}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.get("/api/herd_weeklies/#{id}").
-        then(handleResponse(key, params))
-    fetchWeeklyReports: ->
-      key = HerdConstants.FETCH_WEEKLY_REPORTS
-      params = {}
-      dispatch(key, ApiConstants.PENDING, params)
-      $http.get('/api/herd_weeklies').
-        then(handleResponse(key, params))
-    updateSection: (section)->
-      key = HerdConstants.UPDATE_SECTION
-      params = {section: section, section_id: section.id}
-      $http.put("/api/sections/#{section.id}", params).
-        then(handleResponse(key, params))
+    addWeeklyTask: (newWeeklyTask)->
+      HerdApi.addWeeklyTask(newWeeklyTask)
+    completeWeeklyTask: (weeklyTask)->
+      HerdApi.completeWeeklyTask(weeklyTask)
+    deleteWeeklyTask: (weeklyTask)->
+      HerdApi.deleteWeeklyTask(weeklyTask)
+    fetchActivity: ->
+      HerdApi.fetchActivity()
   }
 ])

@@ -6,20 +6,25 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
   _nextGoal = []
   _weeklyReports = []
   _weeklyReport = null
+  _canUpdateCurrentReport = false
+  _newsFeed = []
 
   _addFocusArea = (newFocusArea)->
     user = _findUser(newFocusArea.user_id)
     user.focus_areas.push(newFocusArea)
+    _canUpdateCurrentReport = true
 
   _updateFocusArea = (focusArea)->
     user = _findUser(focusArea.user_id)
     index = _findIndexOfById(user.focus_areas, 'id', focusArea)
     user.focus_areas[index] = focusArea
+    _canUpdateCurrentReport = true
 
   _deleteFocusArea = (focusArea)->
     user = _findUser(focusArea.user_id)
     index = _findIndexOfById(user.focus_areas, 'id', focusArea.id)
     user.focus_areas.splice(index, 1)
+    _canUpdateCurrentReport = true
 
   _addGoal = (newGoal)->
     index = _findIndexOfById(_goals, 'user_id', newGoal.user_id)
@@ -53,7 +58,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
 
   _deleteGoal = (goal, oldGoal)->
     deleteInfo = {list: null, id: null}
-    user = _goals[_findIndexOfById(_goals, 'user_id', goal.user_id)]
+    user = _findInListByKey(_goals, 'user_id', goal.user_id)
     focusArea = user.focus_areas[_findIndexOfById(user.focus_areas, 'id', goal.focus_area_id)]
     time_stamps = ['one_month_goals', 'three_month_goals', 'one_year_goals', 'three_year_goals', 'ten_year_goals']
     angular.forEach(time_stamps, (current)->
@@ -63,6 +68,22 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       )
     focusArea[deleteInfo.list].splice(deleteInfo.id, 1)
 
+  _addWeeklyTask = (newWeeklyTask)->
+    user = _findInListByKey(_weeklyReport.user_weeklies, 'user_id', newWeeklyTask.user_id)
+    section = _findInListByKey(user.sections, 'id', newWeeklyTask.section_id)
+    section.weekly_tasks.push(newWeeklyTask)
+
+  _completeWeeklyTask = (weeklyTask)->
+    user = _findInListByKey(_weeklyReport.user_weeklies, 'user_id', weeklyTask.user_id)
+    section = _findInListByKey(user.sections, 'id', weeklyTask.section_id)
+    index = _findIndexOfById(section.weekly_tasks, 'id', weeklyTask.id)
+    section.weekly_tasks[index].done = true
+  
+  _deleteWeeklyTask = (weeklyTask)->
+    user = _findInListByKey(_weeklyReport.user_weeklies, 'user_id', weeklyTask.user_id)
+    section = _findInListByKey(user.sections, 'id', weeklyTask.section_id)
+    index = _findIndexOfById(section.weekly_tasks, 'id', weeklyTask.id)
+    section.weekly_tasks.splice(index, 1)
 
   _findIndexOfById = (list, key, idOfElement)->
     index = null
@@ -71,6 +92,14 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
         index = list.indexOf(current)
       )
     index
+
+  _findInListByKey = (list, key, idOfElement)->
+    index = _findIndexOfById(list, key, idOfElement)
+    result = null
+    if index || index == 0
+      result = list[index]
+    result
+
 
   _findUser = (id)->
     result = null
@@ -91,6 +120,10 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       return _weeklyReport
     getWeeklyReports: ->
       return _weeklyReports
+    canUpdateCurrentReport: ->
+      return _canUpdateCurrentReport
+    getNewsFeed: ->
+      return _newsFeed
 
     dispatcherIndex: HerdDispatcher.register((payload)->
       action = payload.action
@@ -137,6 +170,21 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             store
           when HerdConstants.FETCH_WEEKLY_REPORTS
             _weeklyReports = action.response.herd_weeklies
+            store.emitChange action
+          when HerdConstants.UPDATE_WEEKLY_REPORT
+            _canUpdateCurrentReport = false
+            store.emitChange action
+          when HerdConstants.ADD_WEEKLY_TASK
+            _addWeeklyTask(action.response.weekly_task)
+            store.emitChange action
+          when HerdConstants.COMPLETE_WEEKLY_TASK
+            _completeWeeklyTask(action.response.weekly_task)
+            store.emitChange action
+          when HerdConstants.DELETE_WEEKLY_TASK
+            _deleteWeeklyTask(action.response.weekly_task)
+            store.emitChange action
+          when HerdConstants.FETCH_ACTIVITY
+            _newsFeed = action.response.activities
             store.emitChange action
       )
     })

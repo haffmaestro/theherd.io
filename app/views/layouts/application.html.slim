@@ -6,7 +6,7 @@ html
     =stylesheet_link_tag 'application', media: 'all'
     =javascript_include_tag 'application'
     =csrf_meta_tags
-  body[class=('onboarding' if onboarding?) ng-app="app"]
+  body[class=('onboarding' if onboarding?) ng-app="app" ng-strict-di]
     script type="text/preloaded" name="user"
       =UserSerializer.new(current_user, scope: self).to_json.html_safe
     div ng-controller="SidenavCtrl"

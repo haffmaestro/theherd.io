@@ -1,6 +1,6 @@
 app = angular.module('app')
 
-app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','WeeklyTask','$scope','$stateParams','$rootScope', (HerdStore,HerdActions,WeeklyTask, $scope, $stateParams, $rootScope) ->
+app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','$scope','$stateParams','$rootScope', (HerdStore,HerdActions, $scope, $stateParams, $rootScope) ->
   vm = $scope
   vm.data = {
     herdWeeklyId: $stateParams.herdWeeklyId

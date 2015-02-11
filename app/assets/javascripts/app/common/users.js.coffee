@@ -1,25 +1,11 @@
 app = angular.module('app')
 
-app.factory('Users', ['$http', ($http) ->
-  {
-    get: ->
-      $http.get("api/users").then((response)->
-        response.data.users)
-    updateReport:(id) ->
-      $http.patch("api/user_weeklies/#{id}")
-      .then((response)->
-        response.data)
-      .catch((response)->
-        false)
-  }
-  ])
-
 app.factory('currentUser', ['$preloaded', ($preloaded)->
 	currentUser = $preloaded.user
 	currentUser.user
 	])
 
-app.directive('members', ['Users','HerdActions','HerdStore', (Users, HerdActions, HerdStore)->
+app.directive('members', ['HerdActions','HerdStore', (HerdActions, HerdStore)->
   restrict: 'E'
   replace: true
   template: """
@@ -39,7 +25,7 @@ app.directive('members', ['Users','HerdActions','HerdStore', (Users, HerdActions
   ]
 ])
 
-app.directive('member', ['Users','HerdStore','HerdActions', (Users, HerdStore, HerdActions)->
+app.directive('member', ['HerdStore','HerdActions', (HerdStore, HerdActions)->
   restrict: 'E'
   replace: true
   scope:
@@ -61,7 +47,7 @@ app.directive('member', ['Users','HerdStore','HerdActions', (Users, HerdStore, H
           </md-text-float>
         </form>
       </div>
-      <md-button class="md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport">Update Weekly Report</md-button>
+      <md-button class="md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport" ng-if="isOwner()">Update Weekly Report</md-button>
     </md-card>
   """
   controller: ['$scope','$rootScope', ($scope, $rootScope)->
@@ -69,12 +55,11 @@ app.directive('member', ['Users','HerdStore','HerdActions', (Users, HerdStore, H
     vm.data = {
       newFocusArea: ""
       currentUser: HerdStore.getCurrentUser()
-      showUpdateReport: false
+      showUpdateReport: HerdStore.canUpdateCurrentReport()
     } 
-    $rootScope.$on('showUpdateReport', (event, data)->
-      if vm.user.id == data.user.id
-        vm.showUpdateReport()
-      )
+
+    HerdStore.on('change', ->
+      vm.data.showUpdateReport = HerdStore.canUpdateCurrentReport())
     vm.addFocusArea = (user)->
       newFocusArea = {name: vm.data.newFocusArea, id: null}
       HerdActions.addFocusArea(newFocusArea)
@@ -85,18 +70,14 @@ app.directive('member', ['Users','HerdStore','HerdActions', (Users, HerdStore, H
 
     vm.friend = ->
       return false unless vm.user?
-      isFriend = vm.user.id != vm.data.currentUser.id  
+      isFriend = vm.user.id != vm.data.currentUser.id
+    vm.isOwner = ->
+      return !vm.friend()
 
     vm.showUpdateReport = ->
       vm.data.showUpdateReport = true
 
     vm.updateReport = ->
-      vm.data.showUpdateReport = false
-      Users.updateReport(vm.data.currentUser.id)
-      .then((response)->
-        if response
-        else
-          vm.data.showUpdateReport = true
-      )
+      HerdActions.updateCurrentWeeklyReport(vm.data.currentUser.id)
   ]
 ])
