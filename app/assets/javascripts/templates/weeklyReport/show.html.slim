@@ -8,8 +8,8 @@ div
         weekly-header year="data.herdWeekly.year" week="data.herdWeekly.week"
       report-archive
   / User Nav
-  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex" ng-init="data.selectedIndex = 0"
-    md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(tab)" md-on-deselect="announceDeselected(tab)"
+  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex"
+    md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(user)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
   / Loading screen

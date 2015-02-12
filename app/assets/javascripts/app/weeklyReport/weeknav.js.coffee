@@ -1,6 +1,6 @@
 app = angular.module('app')
 
-app.directive('weekNavigation', ['messageCenterService','HerdActions','HerdStore', ( messageCenterService,HerdActions, HerdStore)->
+app.directive('weekNavigation', ['Notification','HerdActions','HerdStore','NavigationStore', (Notification, HerdActions, HerdStore,NavigationStore)->
   restrict: 'E'
   replace: true
   transclude: true
@@ -18,37 +18,31 @@ app.directive('weekNavigation', ['messageCenterService','HerdActions','HerdStore
   controller: ['$scope','$rootScope','$state', ($scope, $rootScope, $state)->
     vm = $scope
     vm.data = {
-
+      reports: NavigationStore.getWeeklyReports()
+      nav: NavigationStore.getWeeklyReportRoutingData()
     }
-    $rootScope.$on('navigationData', (event, data)->
-      vm.data.previous = data.previous
-      vm.data.next = data.next
-      vm.data.user = data.user
-      )
-    HerdActions.fetchWeeklyReports()
-    HerdStore.on('change',->
-      vm.data.reports = _.map(HerdStore.getWeeklyReports(), (herdWeekly)->
-        herdWeekly.year_week_id))
+    HerdActions.fetchWeeklyReports() if vm.data.reports.length == 0
+    NavigationStore.bindState($scope, ->
+      vm.data.reports = _.map(NavigationStore.getWeeklyReports(), (herdWeekly)->
+        herdWeekly.year_week_id)
+      vm.data.nav = NavigationStore.getWeeklyReportRoutingData())
 
     vm.goPrevious = ->
-      console.log vm.data.user
-      if reportExists(vm.data.previous)
-        $state.go('weeklyReport', {herdWeeklyId: vm.data.previous, user: vm.data.user})
-        .then((response)->)
-        .catch((response)->
-          messageCenterService.add('warning', 'Please try again.', {timeout: 3000}))
+      if reportExists(vm.data.nav.previous)
+        $state.go('weeklyReport', {herdWeeklyId: vm.data.nav.previous, user: vm.data.nav.user}).
+          catch((response)->
+            Notification.show('Please try again', 2000)
+          )
       else
-        messageCenterService.add('warning', 'This week does not exist.', {timeout: 3000})
+        Notification.show('There are no more reports', 2000)
 
     vm.goNext = ->
-      console.log vm.data.user
-      if reportExists(vm.data.next)
-        $state.go('weeklyReport', {herdWeeklyId: vm.data.next, user: vm.data.user})
-        .then((response)->
-          messageCenterService.add('warning', 'Plase try again.', {timeout: 3000}))
-        .catch((response)->)
+      if reportExists(vm.data.nav.next)
+        $state.go('weeklyReport', {herdWeeklyId: vm.data.nav.next, user: vm.data.nav.user}).
+          catch((response)->
+            Notification.show('Please try again', 2000))
       else
-        messageCenterService.add('warning', 'This week does not exist.', {timeout: 3000})
+        Notification.show('There are no more reports', 2000)
 
     reportExists = (report) ->
       index = vm.data.reports.indexOf(report)

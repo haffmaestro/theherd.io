@@ -1,6 +1,6 @@
 app = angular.module('app')
 
-app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','$scope','$stateParams','$rootScope', (HerdStore,HerdActions, $scope, $stateParams, $rootScope) ->
+app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','Notification','$scope','$stateParams','$state', (HerdStore,HerdActions,Notification, $scope, $stateParams, $state) ->
   vm = $scope
   vm.data = {
     herdWeeklyId: $stateParams.herdWeeklyId
@@ -12,19 +12,23 @@ app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','$scope','$statePa
     year_week_regex: /(201[0-9]-[0-5]\d)/
     id_regex: /\/\d+/
   }
-  HerdActions.fetchWeeklyReport(vm.data.herdWeeklyId)
-  HerdStore.on('change', ->
-    vm.data.herdWeekly = HerdStore.getWeeklyReport()
-    vm.data.users = _.map(vm.data.herdWeekly.user_weeklies, (user_weekly) ->
-      user_weekly.first_name)
-    vm.data.countUsers = (num for num in [0..vm.data.users.length-1])
-    vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
-    vm.data.previousWeek = if vm.data.herdWeekly.week < 11 then ('0'+(vm.data.herdWeekly.week-1)) else vm.data.herdWeekly.week-1
-    vm.data.nextWeek = if vm.data.herdWeekly.week < 9 then ('0'+(vm.data.herdWeekly.week+1)) else vm.data.herdWeekly.week+1
-    vm.data.fullPrevious = "#{vm.data.herdWeekly.year}-#{vm.data.previousWeek}"
-    vm.data.fullNext = "#{vm.data.herdWeekly.year}-#{vm.data.nextWeek}"
-    $rootScope.$emit('navigationData', {previous: vm.data.fullPrevious, next: vm.data.fullNext, user: vm.data.user})
+  HerdActions.fetchWeeklyReport(vm.data.herdWeeklyId) if vm.data.herdWeekly == undefined || vm.data.herdWeekly != vm.data.herdWeeklyId
+  #Will redirect to use the currently Logged in user
+  if $stateParams.user == undefined
+    $state.go('weeklyReport', {herdWeeklyId: vm.data.herdWeeklyId, user: vm.data.user})
+
+  HerdStore.bindState($scope, ->
+    if HerdStore.getWeeklyReport()
+      vm.data.herdWeekly = HerdStore.getWeeklyReport()
+      vm.data.users = _.map(vm.data.herdWeekly.user_weeklies, (user_weekly) ->
+        user_weekly.first_name)
+      vm.data.countUsers = (num for num in [0..vm.data.users.length-1])
+      vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
     )
+
+  vm.onTabSelected = (user)->
+    $state.go('weeklyReport', {herdWeeklyId: vm.data.herdWeeklyId, user: user})
+    HerdActions.setWeeklyReportRoutingData({user: user})
 
   vm.owner = (userWeekly) ->
     return false unless userWeekly?.user_id?

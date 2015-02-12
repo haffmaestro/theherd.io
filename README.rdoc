@@ -8,6 +8,4 @@ It's an AngularJS served by a RoR API, implementing Google's new Material Design
 Currently live at [theherd.io](theherd.io)
 
 ===TODO
-- Implement ability to change focus areas
-- Implement activity stream
-- Implement 
+- Implement Navigation Store

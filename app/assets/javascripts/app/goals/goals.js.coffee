@@ -1,41 +1,52 @@
 app = angular.module('app')
 
-app.controller('GoalsCtrl', ['$scope','HerdActions','HerdStore','$rootScope', ($scope, HerdActions, HerdStore, $rootScope)->
+app.controller('GoalsCtrl', ['$scope','HerdActions','HerdStore','$rootScope','$stateParams','$state', ($scope, HerdActions, HerdStore, $rootScope,$stateParams,$state)->
   vm = $scope
-  vm.currentUser = HerdStore.getCurrentUser()
-  vm.users = []
-  vm.goals = HerdStore.getGoals()
-  vm.newGoal = "Please"
   vm.data = {
+    users: []
+    currentUser: HerdStore.getCurrentUser()
+    user: $stateParams.user || HerdStore.getCurrentUser().first_name
+    goals: HerdStore.getGoals()
     selectedIndex: 0,
-    goalIndex: 0
+    goalIndex: $stateParams.range || 0
   }
-  HerdActions.fetchGoals() if vm.goals = []
-  HerdStore.on('change', ->
-    vm.goals = HerdStore.getGoals()
-    if vm.users = []
-      for goal in vm.goals
-        vm.users.push(goal.first_name))
+  if $stateParams.user == undefined
+    console.log "THIS HAPPENED"
+    $state.go('goals', {user: vm.data.user})
+  HerdActions.fetchGoals() if vm.data.goals.length == 0
+  HerdStore.bindState($scope, ->
+    console.log "############START##############"
+    console.log vm.data
+    console.log "#############END###############"
+    vm.data.goals = HerdStore.getGoals()
+    if vm.data.users.length == 0
+      vm.data.users = _.map(vm.data.goals, (user)->
+        user.first_name)
+    vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
+  )
+  # console.log $stateParams
+  # $rootScope.$on('nextGoals', (args)->
+  #   vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
+  # $rootScope.$on('previousGoals', (args)->
+  #   vm.data.goalIndex = Math.max(vm.data.goalIndex - 1, 0))
 
-  $rootScope.$on('nextGoals', (args)->
-    vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
-  $rootScope.$on('previousGoals', (args)->
-    vm.data.goalIndex = Math.max(vm.data.goalIndex - 1, 0))
+  # vm.onTabSelected = (user)->
+  #   console.log user
   ])
 
-app.directive('previousGoals', ->
+app.directive('previousGoals',['NavigationStore', (NavigationStore) ->
   restrict: 'E'
   replace: true
   template: """
     <a>
       <i class="fa fa-chevron-left fa-2x" ng-click="previousGoals()"></i></a>
   """
-  controller: ['$rootScope', '$scope', ($rootScope, $scope) ->
+  controller: ['$rootScope', '$scope', ($rootScope, $scope, $state) ->
     vm = $scope
     vm.previousGoals = ->
-      console.log "previousGoals called"
       $rootScope.$emit('previousGoals', {change: true})
     ]
+  ]
 )
 
 app.directive('nextGoals', ->
@@ -45,10 +56,9 @@ app.directive('nextGoals', ->
     <a>
       <i class="fa fa-chevron-right fa-2x" ng-click="nextGoals()"></i></a>
   """
-  controller: ['$rootScope', '$scope', ($rootScope, $scope) ->
+  controller: ['$rootScope', '$scope', ($rootScope, $scope, $state) ->
     vm = $scope
     vm.nextGoals = ->
-      console.log "nextGoals called"
       $rootScope.$emit('nextGoals', {change: true})
     ]
 )

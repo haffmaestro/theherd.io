@@ -1,13 +1,14 @@
 app = angular.module('app')
-app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','FluxUtil','HerdApi','$preloaded', (HerdDispatcher, HerdConstants, ApiConstants, FluxUtil, HerdApi, $preloaded)->
+app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','FluxUtil','HerdApi','$preloaded','Notification', (HerdDispatcher, HerdConstants, ApiConstants, FluxUtil, HerdApi, $preloaded,Notification)->
   _currentUser = $preloaded.user.user
   _users = []
+  _usersByFirstName = []
   _goals = []
   _nextGoal = []
-  _weeklyReports = []
-  _weeklyReport = null
+  _weeklyReport = undefined
   _canUpdateCurrentReport = false
   _newsFeed = []
+  
 
   _addFocusArea = (newFocusArea)->
     user = _findUser(newFocusArea.user_id)
@@ -93,6 +94,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       )
     index
 
+
   _findInListByKey = (list, key, idOfElement)->
     index = _findIndexOfById(list, key, idOfElement)
     result = null
@@ -112,18 +114,19 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
   store = FluxUtil.createStore({
     getUsers: ->
       return _users
+    getUsersByFirstName: ->
+      return _usersByFirstName
     getCurrentUser: ->
       return _currentUser
     getGoals: ->
       return _goals
     getWeeklyReport: ->
       return _weeklyReport
-    getWeeklyReports: ->
-      return _weeklyReports
     canUpdateCurrentReport: ->
       return _canUpdateCurrentReport
     getNewsFeed: ->
       return _newsFeed
+    
 
     dispatcherIndex: HerdDispatcher.register((payload)->
       action = payload.action
@@ -137,53 +140,78 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       else
         switch action.actionType
           when HerdConstants.ADD_FOCUS_AREA
+            console.log action
             _addFocusArea(action.response.focus_area)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.UPDATE_FOCUS_AREA
+            console.log action
             _updateFocusArea(action.response.focus_area)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.DELETE_FOCUS_AREA
+            console.log action
             _deleteFocusArea(action.response.focus_area)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.FETCH_USERS
+            console.log action
             _users = action.response.users
             store.emitChange action
           when HerdConstants.ADD_GOAL
+            console.log action
             _addGoal(action.response.goal)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.COMPLETE_GOAL
+            console.log action
             _markGoalAsDone(action.response, action.queryParams.goal)
             store.emitChange action
+            Notification.show('Well done!', 2000)
           when HerdConstants.DELETE_GOAL
+            console.log action
             _deleteGoal(action.response.goal, action.queryParams.goal)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.ADD_GOAL_INTERNAL
+            console.log action
             _nextGoal.push(action.item.months)
           when HerdConstants.FETCH_GOALS
+            console.log action
             _goals = action.response.goals
             store.emitChange action
           when HerdConstants.FETCH_WEEKLY_REPORT
+            console.log action
             _weeklyReport = action.response.herd_weekly
             store.emitChange action
           when HerdConstants.UPDATE_SECTION
+            console.log action
+            Notification.show('Saved.', 2000)
             #TODO: Update section in weeklyReport in Store
             store
-          when HerdConstants.FETCH_WEEKLY_REPORTS
-            _weeklyReports = action.response.herd_weeklies
-            store.emitChange action
           when HerdConstants.UPDATE_WEEKLY_REPORT
+            console.log action
             _canUpdateCurrentReport = false
             store.emitChange action
+            Notification.show('Updated!', 2000)
+            console.log "_canUpdateCurrentReport: #{_canUpdateCurrentReport}"
           when HerdConstants.ADD_WEEKLY_TASK
+            console.log action
             _addWeeklyTask(action.response.weekly_task)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.COMPLETE_WEEKLY_TASK
+            console.log action
             _completeWeeklyTask(action.response.weekly_task)
             store.emitChange action
+            Notification.show('Well done!', 2000)
           when HerdConstants.DELETE_WEEKLY_TASK
+            console.log action
             _deleteWeeklyTask(action.response.weekly_task)
             store.emitChange action
+            Notification.show('Updated!', 2000)
           when HerdConstants.FETCH_ACTIVITY
+            console.log action
             _newsFeed = action.response.activities
             store.emitChange action
       )

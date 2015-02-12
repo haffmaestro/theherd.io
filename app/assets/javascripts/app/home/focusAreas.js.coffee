@@ -33,6 +33,7 @@ app.directive('focusArea', ['HerdActions',( HerdActions)->
         vm.data.showEdit = !vm.data.showEdit
     vm.updateFocusArea = (focusArea)->
       HerdActions.updateFocusArea(focusArea)
+      
       vm.showEdit()
   ]
 ])

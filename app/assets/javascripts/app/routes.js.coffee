@@ -11,20 +11,13 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', ($statePr
   $stateProvider.state "weeklyReport",
     url: "/herd_weeklies/:herdWeeklyId?user"
     templateUrl: 'weeklyReport/show.html'
-    controller: 'WeeklyReportCtrl'
+    controller: 'WeeklyReportCtrl'    
   
   $stateProvider.state "goals",
-    url: "/goals"
+    url: "/goals?range&user"
     templateUrl: 'goals/index.html'
     controller: 'GoalsCtrl'
     
   $urlRouterProvider.otherwise("herd_weeklies/current")
   ]
 )
-
-# app.config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider)->
-#   $routeProvider
-#   .when('/herd_weeklies/:herdId', {
-#     controller: "WeeklyReportCtrl"
-#     })
-#   ])

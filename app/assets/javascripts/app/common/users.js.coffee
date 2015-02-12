@@ -25,7 +25,7 @@ app.directive('members', ['HerdActions','HerdStore', (HerdActions, HerdStore)->
   ]
 ])
 
-app.directive('member', ['HerdStore','HerdActions', (HerdStore, HerdActions)->
+app.directive('member', ['HerdStore','HerdActions','Notification', (HerdStore, HerdActions,Notification)->
   restrict: 'E'
   replace: true
   scope:
@@ -58,8 +58,11 @@ app.directive('member', ['HerdStore','HerdActions', (HerdStore, HerdActions)->
       showUpdateReport: HerdStore.canUpdateCurrentReport()
     } 
 
-    HerdStore.on('change', ->
-      vm.data.showUpdateReport = HerdStore.canUpdateCurrentReport())
+    HerdStore.bindState($scope, ->
+      vm.data.showUpdateReport = HerdStore.canUpdateCurrentReport()
+      console.log "vm.data.showUpdateReport: #{vm.data.showUpdateReport}"
+      )
+
     vm.addFocusArea = (user)->
       newFocusArea = {name: vm.data.newFocusArea, id: null}
       HerdActions.addFocusArea(newFocusArea)

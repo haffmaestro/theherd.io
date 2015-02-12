@@ -1,19 +1,10 @@
 app = angular.module('app')
 
-app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state', ($scope, $mdSidenav, $state)->
+app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state','HerdStore', ($scope, $mdSidenav, $state,HerdStore)->
   vm = $scope
+  vm.user = HerdStore.getCurrentUser()
   vm.openLeftMenu = ->
     $mdSidenav('left').toggle()
-
-  vm.goPrevious = ->
-    console.log vm.data.user
-    if reportExists(vm.data.previous)
-      $state.go('weeklyReport', {herdWeeklyId: vm.data.previous, user: vm.data.user})
-      .then((response)->)
-      .catch((response)->
-        messageCenterService.add('warning', 'Please try again.', {timeout: 3000}))
-    else
-      messageCenterService.add('warning', 'This week does not exist.', {timeout: 3000})
 
   vm.goHome = ->
     $state.go('home')
@@ -21,12 +12,12 @@ app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state', ($scope, $mdSide
     .catch((response)->)
 
   vm.goWeekly = ->
-    $state.go('weeklyReport', {herdWeeklyId: 'current'})
+    $state.go('weeklyReport', {herdWeeklyId: 'current', user: vm.user.first_name})
     .then((response)->)
     .catch((response)->)
 
   vm.goGoals = ->
-    $state.go('goals')
+    $state.go('goals', {user: vm.user.first_name})
     .then((response)->)
     .catch((response)->)
 
