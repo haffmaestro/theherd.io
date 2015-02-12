@@ -4,8 +4,8 @@ app.factory('Notification', ['$mdToast', ($mdToast)->
   toastPosition = {
     bottom: true
     top: false
-    left: false
-    right: true
+    left: true
+    right: false
   }
   getToastPosition = ()->
     return Object.keys(toastPosition)

@@ -5,10 +5,10 @@ div
     md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(user)" md-on-deselect="announceDeselected(tab)"
       md-tab-label
         |{{user}}
-  div flex="30" offset="40"
+  
   / Goal Timestamp Navigation
-  previous-goals
-  next-goals
+  div flex="30" offset="40"
+    goals-navigation
   / Actual Goals
   div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex layout="row" layout-align="center"]
     .goalTab1-content.animate-switch aria-labelledby="goalTab1" flex="90" ng-switch-when="0"

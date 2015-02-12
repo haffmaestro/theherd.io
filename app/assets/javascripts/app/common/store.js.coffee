@@ -153,7 +153,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             console.log action
             _deleteFocusArea(action.response.focus_area)
             store.emitChange action
-            Notification.show('Updated!', 2000)
+            Notification.show('Deleted!', 2000)
           when HerdConstants.FETCH_USERS
             console.log action
             _users = action.response.users
@@ -172,7 +172,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             console.log action
             _deleteGoal(action.response.goal, action.queryParams.goal)
             store.emitChange action
-            Notification.show('Updated!', 2000)
+            Notification.show('Deleted!', 2000)
           when HerdConstants.ADD_GOAL_INTERNAL
             console.log action
             _nextGoal.push(action.item.months)

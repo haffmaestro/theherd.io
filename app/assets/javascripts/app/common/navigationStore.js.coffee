@@ -22,6 +22,7 @@ app.factory('NavigationStore', ['HerdDispatcher', 'HerdConstants','ApiConstants'
   _setGoalsNavigationData = ->
 
 
+
   store = FluxUtil.createStore({
     getWeeklyReportRoutingData: ->
       return _weeklyReportNavigationData
@@ -56,6 +57,7 @@ app.factory('NavigationStore', ['HerdDispatcher', 'HerdConstants','ApiConstants'
             store.emitChange action
           when HerdConstants.SET_GOALS_ROUTING_DATA
             console.log action
+            action.item.range = parseInt(action.item.range)
             angular.extend(_goalsNavigationData, action.item)
             store.emitChange action
     )

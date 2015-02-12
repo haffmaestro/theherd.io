@@ -11,56 +11,21 @@ app.controller('GoalsCtrl', ['$scope','HerdActions','HerdStore','$rootScope','$s
     goalIndex: $stateParams.range || 0
   }
   if $stateParams.user == undefined
-    console.log "THIS HAPPENED"
     $state.go('goals', {user: vm.data.user})
   HerdActions.fetchGoals() if vm.data.goals.length == 0
   HerdStore.bindState($scope, ->
-    console.log "############START##############"
-    console.log vm.data
-    console.log "#############END###############"
     vm.data.goals = HerdStore.getGoals()
     if vm.data.users.length == 0
       vm.data.users = _.map(vm.data.goals, (user)->
         user.first_name)
     vm.data.selectedIndex = vm.data.users.indexOf(vm.data.user)
   )
-  # console.log $stateParams
-  # $rootScope.$on('nextGoals', (args)->
-  #   vm.data.goalIndex = Math.min(vm.data.goalIndex + 1, 3))
-  # $rootScope.$on('previousGoals', (args)->
-  #   vm.data.goalIndex = Math.max(vm.data.goalIndex - 1, 0))
 
-  # vm.onTabSelected = (user)->
-  #   console.log user
-  ])
-
-app.directive('previousGoals',['NavigationStore', (NavigationStore) ->
-  restrict: 'E'
-  replace: true
-  template: """
-    <a>
-      <i class="fa fa-chevron-left fa-2x" ng-click="previousGoals()"></i></a>
-  """
-  controller: ['$rootScope', '$scope', ($rootScope, $scope, $state) ->
-    vm = $scope
-    vm.previousGoals = ->
-      $rootScope.$emit('previousGoals', {change: true})
-    ]
+  vm.onTabSelected = (user)->
+    params = {range: vm.data.goalIndex, user: user}
+    $state.go('goals', params)
+    HerdActions.setGoalsRoutingData(params)
   ]
-)
-
-app.directive('nextGoals', ->
-  restrict: 'E'
-  replace: true
-  template: """
-    <a>
-      <i class="fa fa-chevron-right fa-2x" ng-click="nextGoals()"></i></a>
-  """
-  controller: ['$rootScope', '$scope', ($rootScope, $scope, $state) ->
-    vm = $scope
-    vm.nextGoals = ->
-      $rootScope.$emit('nextGoals', {change: true})
-    ]
 )
 
 app.directive('goalHeadlines', ->
@@ -88,7 +53,7 @@ app.directive('goalsDisplay', ['HerdActions', (HerdActions)->
         <md-checkbox ng-disabled="friend()" md-no-ink ng-model="goal.done" aria-label="{{goal.body}}" ng-change="toggleGoalDone(goal)">
           {{goal.body}}
         </md-checkbox>
-        <delete-button-goal ng-hide="friend()" goal="goal" list="goals"/>
+        <delete-button-goal ng-hide="friend()" goal="goal"></delete-button-goal>
       </div>
       <form ng-submit="submitGoal(focus_area)" ng-hide="friend()" >
         <md-text-float label="New Goal" type="text" name="newGoal" ng-model="data.newGoal">
@@ -121,7 +86,6 @@ app.directive('deleteButtonGoal', ['HerdActions', (HerdActions) ->
   replace: true
   scope:
     goal: '='
-    list: '='
   template: """
     <a ng-click="deleteGoal(goal)" class="delete-goal">
       <i class="fa fa-remove "></i>
