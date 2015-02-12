@@ -2,17 +2,20 @@ doctype html
 html
   head
     title TheHerd
+    base href="/"
     =stylesheet_link_tag 'application', media: 'all'
     =javascript_include_tag 'application'
     =csrf_meta_tags
   body[class=('onboarding' if onboarding?) ng-app="app" ng-strict-di]
+    script type="text/preloaded" name="user"
+      =UserSerializer.new(current_user, scope: self).to_json.html_safe
     div ng-controller="SidenavCtrl"
       md-toolbar class="md-small"
         div.md-toolbar-tools layout-align="space-around"
-          // md-button ng-click='openLeftMenu()' aria-label="open menu" =fa_icon('navicon')
-          md-button aria-label="go home" href="#{root_url(subdomain: herd_subdomain)}" =fa_icon('home')
-          md-button href="#{weekly_url(Herd.find_last_weekly(current_herd, current_user), subdomain:herd_subdomain)}" Weekly Reports
-          md-button href="#{goals_url(subdomain: herd_subdomain)}"Goals
+          / md-button ng-click='openLeftMenu()' aria-label="open menu" =fa_icon('navicon')
+          md-button aria-label="go home" ng-click="goHome()" =fa_icon('home')
+          md-button ng-click="goWeekly()" Weekly Reports
+          md-button ng-click="goGoals()" Goals
           md-button Quarterly Report
       md-sidenav md-component-id="left" class="md-sidenav-left"
         md-content layout='column' flex='90' offset='10'

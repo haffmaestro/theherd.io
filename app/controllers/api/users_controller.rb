@@ -1,7 +1,11 @@
-class Api::UsersController < Api::BaseController
+module Api
+  class UsersController < Api::BaseController
 
-  def index
-    @users = current_herd.users
-    render json: @users, each_serializer: UserSerializer
+    def index
+      @user = current_user
+      @users = current_herd.users
+      render json: @users, each_serializer: UserSerializer, scope: self
+    end
+
   end
 end

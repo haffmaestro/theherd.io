@@ -1,14 +1,1 @@
-script type="text/preloaded" name="user"
-  =UserSerializer.new(current_user).to_json.html_safe
-h1 
-  |Welcome to the  
-  =current_herd.name
-  |  Herd
-
-div layout="row" layout-align="space-around start"
-  div flex="45" layout="column"
-    h2 Members
-    members
-  div class="news-feed" flex="45" layout="column"
-    h2 News
-    newsfeed
+div(ui-view)

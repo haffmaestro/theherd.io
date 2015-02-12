@@ -3,7 +3,4 @@ class HerdWeeklySerializer < ActiveModel::Serializer
 
   has_many :user_weeklies
 
-  def year_week_id
-    "#{object.year}-#{object.week}"
-  end
 end

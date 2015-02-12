@@ -1,31 +1,32 @@
-class Api::CommentsController < Api::BaseController
+module Api
+	class CommentsController < Api::BaseController
 
-	def index
-		section = Section.find params[:section_id]
-		render json: section.comments
-	end
-
-	def create
-		# render json: params
-		comment = Comment.new comment_params
-		if comment.save
-			comment_create_activity(comment)
-			render json: {saved: true}
-		else
-			render json: {saved: false}
+		def index
+			section = Section.find params[:section_id]
+			render json: section.comments
 		end
 
-	end
+		def create
+		# render json: params
+		comment = Comment.new comment_params
+			if comment.save
+				comment_create_activity(comment)
+				render json: {saved: true}
+			else
+				render json: {saved: false}
+			end
+		end
 
-	def destroy
-	end
+		def destroy
+		end
 
-	private
-	def comment_params
-		params.require(:comment).permit(:body, :user_id, :section_id)
-	end
+		private
+		def comment_params
+			params.require(:comment).permit(:body, :user_id, :section_id)
+		end
 
-	def comment_create_activity(comment)
-		comment.create_activity :create, owner: current_user, recipient: comment.section.user_weekly.user, herd_id: current_herd.id
+		def comment_create_activity(comment)
+			comment.create_activity :create, owner: current_user, recipient: comment.section.user_weekly.user, herd_id: current_herd.id
+		end
 	end
 end

@@ -16,31 +16,9 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                          PATCH    /users(.:format)                                 registrations#update
                          PUT      /users(.:format)                                 registrations#update
                          DELETE   /users(.:format)                                 registrations#destroy
-                   herds GET      /herds(.:format)                                 herds#index
-               edit_herd GET      /herds/:id/edit(.:format)                        herds#edit
-                    herd GET      /herds/:id(.:format)                             herds#show
-                         PATCH    /herds/:id(.:format)                             herds#update
-                         PUT      /herds/:id(.:format)                             herds#update
-                         DELETE   /herds/:id(.:format)                             herds#destroy
-            weekly_index GET      /herd_weeklies(.:format)                         herd_weeklies#index
-                         POST     /herd_weeklies(.:format)                         herd_weeklies#create
-              new_weekly GET      /herd_weeklies/new(.:format)                     herd_weeklies#new
-             edit_weekly GET      /herd_weeklies/:id/edit(.:format)                herd_weeklies#edit
-                  weekly GET      /herd_weeklies/:id(.:format)                     herd_weeklies#show
-                         PATCH    /herd_weeklies/:id(.:format)                     herd_weeklies#update
-                         PUT      /herd_weeklies/:id(.:format)                     herd_weeklies#update
-                         DELETE   /herd_weeklies/:id(.:format)                     herd_weeklies#destroy
-                   goals GET      /goals(.:format)                                 goals#index
-                         POST     /goals(.:format)                                 goals#create
-                new_goal GET      /goals/new(.:format)                             goals#new
-               edit_goal GET      /goals/:id/edit(.:format)                        goals#edit
-                    goal GET      /goals/:id(.:format)                             goals#show
-                         PATCH    /goals/:id(.:format)                             goals#update
-                         PUT      /goals/:id(.:format)                             goals#update
-                         DELETE   /goals/:id(.:format)                             goals#destroy
-                         GET      /                                                herds#show
-                  invite GET      /invite(.:format)                                herds#invite_friends
                     join GET      /join(.:format)                                  redirect(301, /users/sign_up)
+                         GET      /                                                herds#show
+                         GET      /*a(.:format)                                    herds#show
        api_herd_weeklies GET      /api/herd_weeklies(.:format)                     api/herd_weeklies#index
                          POST     /api/herd_weeklies(.:format)                     api/herd_weeklies#create
      new_api_herd_weekly GET      /api/herd_weeklies/new(.:format)                 api/herd_weeklies#new
@@ -74,7 +52,7 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                api_users GET      /api/users(.:format)                             api/users#index
          api_user_weekly PATCH    /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
                          PUT      /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
-              activities GET      /activities(.:format)                            activities#index
+          api_activities GET      /api/activities(.:format)                        api/activities#index
                 new_herd GET      /new(.:format)                                   herds#new
-                         POST     /herds(.:format)                                 herds#create
+                   herds POST     /herds(.:format)                                 herds#create
                     root GET      /                                                onboarding#index
