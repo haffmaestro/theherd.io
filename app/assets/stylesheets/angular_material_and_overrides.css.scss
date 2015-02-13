@@ -1,3 +1,4 @@
+$body-color: rgba(0, 0, 0, 0.73);
 
 body {
 	text-align: left;
@@ -214,4 +215,17 @@ textarea.section {
   z-index: 10;
   margin-right: 5px;
   margin-top: 5px;
+}
+
+.hover-hand {
+  cursor: pointer;
+  cursor: hand;
+}
+
+a.black-link {
+  text-decoration: none;
+  color: $body-color;
+  &:hover {
+    color: black;
+  }
 }

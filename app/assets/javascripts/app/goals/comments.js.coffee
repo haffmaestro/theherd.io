@@ -44,9 +44,20 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
       channel: "showComments-#{vm.section.id}"
       comments: null
     }
+    vm.toggleComments = ->
+      if vm.data.comments == null
+        setTimeout(->
+          HerdActions.fetchComments(vm.section)
+        , 200
+        )
+      vm.data.showComments =! vm.data.showComments
     $rootScope.$on(vm.data.channel, (args)->
       vm.toggleComments()
       )
+    console.log CommentsStore.getCommentToOpen()
+    if vm.section.id == CommentsStore.getCommentToOpen()
+      vm.toggleComments()
+      # HerdActions.commentShown()  
     CommentsStore.bindState($scope, ->
       vm.data.comments = CommentsStore.getComments(vm.section))
 
@@ -60,22 +71,5 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
       vm.data.newComment = ""
       vm.data.addComment = false
       HerdActions.addComment(comment, vm.section)
-      
-    vm.toggleComments = ->
-      if vm.data.comments == null
-        setTimeout(->
-          HerdActions.fetchComments(vm.section)
-        , 200
-        )
-      vm.data.showComments =! vm.data.showComments
-      # if vm.data.comments == null
-      #   # setTimeout( ->
-      #   #   # Comments.get(vm.section).then((response)->
-      #   #   #   console.log response.comments
-      #   #   #   vm.data.comments = response.comments
-      #   #     # )
-      #   # , 750
-      #   # )
-      # true
     ]
   ])

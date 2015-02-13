@@ -23,6 +23,8 @@ class ActivitiesSerializer < ActiveModel::Serializer
     if target
       if object.trackable_type == "Goal"
         return ExtendedGoalSerializer.new(target, root: false)
+      elsif object.trackable_type == "UserWeekly"
+        return SimpleUserWeeklySerializer.new(target, root: false)
       else
         return "#{object.trackable_type}Serializer".classify.constantize.new(target, root: false)
       end

@@ -1,6 +1,6 @@
 app = angular.module('app')
 
-app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','Notification','$scope','$stateParams','$state', (HerdStore,HerdActions,Notification, $scope, $stateParams, $state) ->
+app.controller('WeeklyReportCtrl', ['HerdStore','NavigationStore','HerdActions','Notification','$scope','$rootScope','$stateParams','$state', (HerdStore,NavigationStore,HerdActions,Notification, $scope,$rootScope, $stateParams, $state) ->
   vm = $scope
   vm.data = {
     herdWeeklyId: $stateParams.herdWeeklyId
@@ -29,6 +29,7 @@ app.controller('WeeklyReportCtrl', ['HerdStore','HerdActions','Notification','$s
   vm.onTabSelected = (user)->
     $state.go('weeklyReport', {herdWeeklyId: vm.data.herdWeeklyId, user: user})
     HerdActions.setWeeklyReportRoutingData({user: user})
+
 
   vm.owner = (userWeekly) ->
     return false unless userWeekly?.user_id?

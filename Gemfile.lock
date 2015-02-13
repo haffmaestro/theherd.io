@@ -117,6 +117,9 @@ GEM
     ffi (1.9.6)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
+    goldiloader (0.0.8)
+      activerecord (>= 3.2, < 4.3)
+      activesupport (>= 3.2, < 4.3)
     hashie (3.3.1)
     hike (1.2.3)
     hirb (0.7.2)
@@ -311,6 +314,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   font-awesome-rails
+  goldiloader
   hirb
   interactive_editor
   jquery-rails

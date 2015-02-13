@@ -5,8 +5,8 @@ app.directive('goalsNavigation',['NavigationStore','Notification', (NavigationSt
   replace: true
   template: """
     <div>
-      <a><i class="fa fa-chevron-left fa-2x" ng-click="previousGoalRange()"></i></a>
-      <a><i class="fa fa-chevron-right fa-2x" ng-click="nextGoalRange()"></i></a>
+      <a class="hand-hover"><i class="hand-hover fa fa-chevron-left fa-2x" ng-click="previousGoalRange()"></i></a>
+      <a class="hand-hover"><i class="hand-hover fa fa-chevron-right fa-2x" ng-click="nextGoalRange()"></i></a>
     </div>
   """
   controller: ['$rootScope', '$scope','$state', ($rootScope, $scope, $state) ->

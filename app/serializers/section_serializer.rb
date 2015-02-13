@@ -1,5 +1,5 @@
 class SectionSerializer < ActiveModel::Serializer
-  attributes :user_weekly_id, :name, :body, :id, :href
+  attributes :user_weekly_id, :name, :body, :id, :href, :year_week_id
   has_many :weekly_tasks
   # TODO: has_many :comments, 
   # 

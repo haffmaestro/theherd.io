@@ -3,6 +3,7 @@ class UserWeekly < ActiveRecord::Base
   belongs_to :herd_weekly
   belongs_to :user
   has_many :sections, -> {order 'name ASC'}, dependent: :destroy
+  delegate :year_week_id, to: :herd_weekly
 
   def self.is_done?(user_weekly)
     done = false

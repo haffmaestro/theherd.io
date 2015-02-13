@@ -29,6 +29,8 @@ app.factory('NavigationStore', ['HerdDispatcher', 'HerdConstants','ApiConstants'
       return _goalsNavigationData
     getWeeklyReports: ->
       return _weeklyReports
+    getCommentToOpen: ->
+      return _commentOpenQueue
 
     dispatcherIndex: HerdDispatcher.register((payload)->
       action = payload.action

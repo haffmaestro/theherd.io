@@ -9,9 +9,9 @@ app.directive('weekNavigation', ['Notification','HerdActions','HerdStore','Navig
     previous: '='
   template: """
     <div ng-cloak>
-      <a class="week-nav" ng-click="goPrevious()">
+      <a class="week-nav hover-hand" ng-click="goPrevious()">
         <i class="fa fa-chevron-left"></i></a>
-      <a class="week-nav" ng-click="goNext()">
+      <a class="week-nav hover-hand" ng-click="goNext()">
         <i class="fa fa-chevron-right"></i></a>
     </div>
   """

@@ -85,6 +85,15 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
     index = _findIndexOfById(section.weekly_tasks, 'id', weeklyTask.id)
     section.weekly_tasks.splice(index, 1)
 
+  _setNewsFeed = (activities)->
+    activitiesWithTarget = []
+    angular.forEach(activities, (current)->
+      if current.target == null
+      else
+        activitiesWithTarget.push(current)
+      )
+    _newsFeed = activitiesWithTarget
+
   _findIndexOfById = (list, key, idOfElement)->
     index = null
     angular.forEach(list, (current)->
@@ -216,7 +225,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             Notification.show('Deleted!', 2000)
           when HerdConstants.FETCH_ACTIVITY
             console.log action
-            _newsFeed = action.response.activities
+            _setNewsFeed(action.response.activities)
             store.emitChange action
       )
     })

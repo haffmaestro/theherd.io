@@ -1,6 +1,7 @@
 app = angular.module('app')
 
 app.factory('CommentsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','FluxUtil','HerdApi', (HerdDispatcher, HerdConstants, ApiConstants, FluxUtil, HerdApi)->
+  _commentToOpen = null
   _comments = {}
 
   _setComments = (comments, section)->
@@ -15,6 +16,8 @@ app.factory('CommentsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','
         _comments[section.id]
       else
         null 
+    getCommentToOpen: ->
+      return _commentToOpen
 
     dispatcherIndex: HerdDispatcher.register((payload)->
       action = payload.action
@@ -35,6 +38,11 @@ app.factory('CommentsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','
             console.log action
             _addComment(action.response.comment)
             store.emitChange(action)
+          when HerdConstants.ADD_COMMENT_OPEN_QUEUE
+            console.log action
+            _commentToOpen = action.item
+          when HerdConstants.COMMENT_SHOWN
+            _commentToOpen = null
 
     )
   })

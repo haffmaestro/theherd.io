@@ -10,7 +10,9 @@ module Api
 			# render json: params
 			goal = Goal.find params[:id]
 			if goal.update goal_params
-				goal.reload
+				if goal.done
+					goal.create_activity key: 'goal.completed', owner: current_user, herd_id: current_herd.id
+				end
 				render json: goal.done
 			else
 				render json: {updated: false}
