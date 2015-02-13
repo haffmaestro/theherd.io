@@ -45,17 +45,16 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
         focusArea.ten_year_goals.push(newGoal)
   
   _markGoalAsDone = (updated, queryGoal)->
-    if updated
-      locationInfo = {list: null, id: null}
-      user = _goals[_findIndexOfById(_goals, 'user_id', queryGoal.user_id)]
-      focusArea = user.focus_areas[_findIndexOfById(user.focus_areas, 'id', queryGoal.focus_area_id)]
-      time_stamps = ['one_month_goals', 'three_month_goals', 'one_year_goals', 'three_year_goals', 'ten_year_goals']
-      angular.forEach(time_stamps, (current)->
-        if focusArea[current].indexOf(queryGoal) >= 0
-          locationInfo.list = current
-          locationInfo.index = focusArea[current].indexOf(queryGoal)
-        )
-      focusArea[locationInfo.list][locationInfo.index].done = true
+    locationInfo = {list: null, id: null}
+    user = _goals[_findIndexOfById(_goals, 'user_id', queryGoal.user_id)]
+    focusArea = user.focus_areas[_findIndexOfById(user.focus_areas, 'id', queryGoal.focus_area_id)]
+    time_stamps = ['one_month_goals', 'three_month_goals', 'one_year_goals', 'three_year_goals', 'ten_year_goals']
+    angular.forEach(time_stamps, (current)->
+      if focusArea[current].indexOf(queryGoal) >= 0
+        locationInfo.list = current
+        locationInfo.index = focusArea[current].indexOf(queryGoal)
+      )
+    focusArea[locationInfo.list][locationInfo.index].done = updated
 
   _deleteGoal = (goal, oldGoal)->
     deleteInfo = {list: null, id: null}
@@ -78,7 +77,7 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
     user = _findInListByKey(_weeklyReport.user_weeklies, 'user_id', weeklyTask.user_id)
     section = _findInListByKey(user.sections, 'id', weeklyTask.section_id)
     index = _findIndexOfById(section.weekly_tasks, 'id', weeklyTask.id)
-    section.weekly_tasks[index].done = true
+    section.weekly_tasks[index].done = weeklyTask.done
   
   _deleteWeeklyTask = (weeklyTask)->
     user = _findInListByKey(_weeklyReport.user_weeklies, 'user_id', weeklyTask.user_id)
@@ -167,7 +166,10 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             console.log action
             _markGoalAsDone(action.response, action.queryParams.goal)
             store.emitChange action
-            Notification.show('Well done!', 2000)
+            if action.response
+              Notification.show('Well done!', 2000)
+            else
+              Notification.show('Ok.', 2000)
           when HerdConstants.DELETE_GOAL
             console.log action
             _deleteGoal(action.response.goal, action.queryParams.goal)
@@ -194,22 +196,24 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             _canUpdateCurrentReport = false
             store.emitChange action
             Notification.show('Updated!', 2000)
-            console.log "_canUpdateCurrentReport: #{_canUpdateCurrentReport}"
           when HerdConstants.ADD_WEEKLY_TASK
             console.log action
             _addWeeklyTask(action.response.weekly_task)
             store.emitChange action
-            Notification.show('Updated!', 2000)
+            Notification.show('Added!', 2000)
           when HerdConstants.COMPLETE_WEEKLY_TASK
             console.log action
             _completeWeeklyTask(action.response.weekly_task)
             store.emitChange action
-            Notification.show('Well done!', 2000)
+            if action.response.weekly_task.done
+              Notification.show('Well done!', 2000)
+            else
+              Notification.show('Ok.', 2000)
           when HerdConstants.DELETE_WEEKLY_TASK
             console.log action
             _deleteWeeklyTask(action.response.weekly_task)
             store.emitChange action
-            Notification.show('Updated!', 2000)
+            Notification.show('Deleted!', 2000)
           when HerdConstants.FETCH_ACTIVITY
             console.log action
             _newsFeed = action.response.activities

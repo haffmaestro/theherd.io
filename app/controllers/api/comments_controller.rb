@@ -7,7 +7,6 @@ module Api
 		end
 
 		def create
-		# render json: params
 		comment = Comment.new comment_params
 			if comment.save
 				comment_create_activity(comment)

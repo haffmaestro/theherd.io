@@ -12,9 +12,9 @@ app.factory('CommentsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','
   store = FluxUtil.createStore({
     getComments: (section)->
       if _comments[section.id]
-        return _comments[section.id]
+        _comments[section.id]
       else
-        return []
+        null 
 
     dispatcherIndex: HerdDispatcher.register((payload)->
       action = payload.action
@@ -30,10 +30,11 @@ app.factory('CommentsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','
           when HerdConstants.FETCH_COMMENTS
             console.log action
             _setComments(action.response.comments, action.queryParams.section)
-            emitChange action
+            store.emitChange(action)
           when HerdConstants.ADD_COMMENT
+            console.log action
             _addComment(action.response.comment)
-            emitChange action
+            store.emitChange(action)
 
     )
   })

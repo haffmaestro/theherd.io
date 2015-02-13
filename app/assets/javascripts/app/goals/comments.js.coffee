@@ -1,23 +1,5 @@
 app = angular.module('app')
 
-app.factory('Comments', ['$http', ($http)->
-  return {
-    get:(section) ->
-      $http.get("/api/sections/#{section.id}/comments").then((response)->
-        response.data
-      ).catch((data)->
-        console.log 'Error getting comments!'
-        data)
-    post:(comment, section_id)->
-      $http.post("/api/sections/#{section_id}/comments", {comment: comment}).then((response)->
-        response.data
-      ).catch((data)->
-        console.log 'Error posting comment!'
-        data)
-
-  }
-  ])
-
 app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (HerdActions, HerdStore, CommentsStore)->
   restrict: 'E'
   replace: true
@@ -29,7 +11,7 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
         <br>
         <md-progress-circular offset="45" md-mode="indeterminate"></md-progress-circular>
       </div>
-      <div flex class="comments" ng-hide="data.comments === null" >
+      <div flex class="comments" ng-hide="data.comments === undefined" >
         <h4 class="comments">
           Comments
         </h4>
@@ -60,7 +42,7 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
       addComment: false
       newComment: ""
       channel: "showComments-#{vm.section.id}"
-      comments: []
+      comments: null
     }
     $rootScope.$on(vm.data.channel, (args)->
       vm.toggleComments()
@@ -80,8 +62,11 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
       HerdActions.addComment(comment, vm.section)
       
     vm.toggleComments = ->
-      HerdActions.fetchComments(vm.section) if vm.data.comments.length == 0
-      vm.data.comments = CommentsStore.getComments(vm.section)
+      if vm.data.comments == null
+        setTimeout(->
+          HerdActions.fetchComments(vm.section)
+        , 200
+        )
       vm.data.showComments =! vm.data.showComments
       # if vm.data.comments == null
       #   # setTimeout( ->

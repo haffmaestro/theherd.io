@@ -20,8 +20,7 @@ app.factory('NavigationStore', ['HerdDispatcher', 'HerdConstants','ApiConstants'
     _weeklyReportNavigationData.next = "#{_weeklyReport.year}-#{nextWeek}"
 
   _setGoalsNavigationData = ->
-
-
+    
 
   store = FluxUtil.createStore({
     getWeeklyReportRoutingData: ->
