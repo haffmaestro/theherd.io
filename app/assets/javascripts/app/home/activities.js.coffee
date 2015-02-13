@@ -70,7 +70,7 @@ app.directive('goalActivity', ['Notification',(Notification)->
     }
     vm.goToTarget = ->
       if vm.activity.target
-        $state.go('weeklyReport', {herdWeeklyId: vm.activity.target.year_week_id, user: vm.activity.owner.first_name}).
+        $state.go('goals', {user: vm.activity.owner.first_name, range: vm.activity.target.range}).
           catch((response)->
             Notification.show('Please try again', 2000))
       else
