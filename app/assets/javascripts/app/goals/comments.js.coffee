@@ -18,7 +18,7 @@ app.factory('Comments', ['$http', ($http)->
   }
   ])
 
-app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded)->
+app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (HerdActions, HerdStore, CommentsStore)->
   restrict: 'E'
   replace: true
   scope:
@@ -54,18 +54,19 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
   """
   controller: ['$scope', '$rootScope', ($scope, $rootScope)->
     vm = $scope
-    vm.currentUser = $preloaded.user.user
+    vm.currentUser = HerdStore.getCurrentUser()
     vm.data = {
       showComments: false
       addComment: false
       newComment: ""
       channel: "showComments-#{vm.section.id}"
-      comments: null
+      comments: []
     }
-
     $rootScope.$on(vm.data.channel, (args)->
       vm.toggleComments()
       )
+    CommentsStore.bindState($scope, ->
+      vm.data.comments = CommentsStore.getComments(vm.section))
 
     vm.newComment = ->
       vm.data.addComment =! vm.data.addComment
@@ -75,22 +76,21 @@ app.directive('commentsSection', ['Comments','$preloaded', (Comments, $preloaded
       today = today.toDateString()
       comment = {section_id: vm.section.id, user_id: vm.currentUser.id, first_name: vm.currentUser.first_name, body: vm.data.newComment, date: today}
       vm.data.newComment = ""
-      vm.data.comments.push(comment)
       vm.data.addComment = false
-      Comments.post(comment, vm.section.id).then((response)->
-        console.log response)
-
-
+      HerdActions.addComment(comment, vm.section)
+      
     vm.toggleComments = ->
+      HerdActions.fetchComments(vm.section) if vm.data.comments.length == 0
+      vm.data.comments = CommentsStore.getComments(vm.section)
       vm.data.showComments =! vm.data.showComments
-      if vm.data.comments == null
-        setTimeout( ->
-          Comments.get(vm.section).then((response)->
-            console.log response.comments
-            vm.data.comments = response.comments
-            )
-        , 750
-        )
-      true
+      # if vm.data.comments == null
+      #   # setTimeout( ->
+      #   #   # Comments.get(vm.section).then((response)->
+      #   #   #   console.log response.comments
+      #   #   #   vm.data.comments = response.comments
+      #   #     # )
+      #   # , 750
+      #   # )
+      # true
     ]
   ])

@@ -11,7 +11,7 @@ module Api
 		comment = Comment.new comment_params
 			if comment.save
 				comment_create_activity(comment)
-				render json: {saved: true}
+				render json: comment, serializer: CommentSerializer
 			else
 				render json: {saved: false}
 			end

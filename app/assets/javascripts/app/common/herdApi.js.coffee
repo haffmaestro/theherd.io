@@ -116,5 +116,17 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
       dispatch(key, ApiConstants.PENDING, params)
       $http.get('/api/activities').
         then(handleResponse(key, params))
+    fetchComments: (section)->
+      key = HerdConstants.FETCH_COMMENTS
+      params = {section: section}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.get("/api/sections/#{section.id}/comments").
+        then(handleResponse(key, params))
+    addComment: (comment, section)->
+      key = HerdConstants.ADD_COMMENT
+      params = {comment: comment, section: section}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.post("/api/sections/#{section.id}/comments", params).
+        then(handleResponse(key, params))
   }
 ])

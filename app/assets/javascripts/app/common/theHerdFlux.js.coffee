@@ -9,7 +9,7 @@ app.factory('HerdConstants', ['FluxUtil', (FluxUtil)->
     'COMPLETE_GOAL', 'ADD_FOCUS_AREA', 'UPDATE_FOCUS_AREA', 'DELETE_FOCUS_AREA', 'FETCH_USERS',
     'FETCH_WEEKLY_REPORT','FETCH_WEEKLY_REPORTS','UPDATE_WEEKLY_REPORT', 'UPDATE_SECTION','ADD_WEEKLY_TASK',
     'DELETE_WEEKLY_TASK', 'COMPLETE_WEEKLY_TASK', 'FETCH_ACTIVITY', 'SET_WEEKLY_REPORT_ROUTING_DATA',
-    'SET_GOALS_ROUTING_DATA'])
+    'SET_GOALS_ROUTING_DATA','FETCH_COMMENTS', 'ADD_COMMENT'])
 ])
 
 app.factory('ApiConstants', ['FluxUtil', (FluxUtil)->
@@ -60,5 +60,9 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
       dispatch(HerdConstants.SET_WEEKLY_REPORT_ROUTING_DATA, data)
     setGoalsRoutingData: (data)->
       dispatch(HerdConstants.SET_GOALS_ROUTING_DATA, data)
+    fetchComments: (section)->
+      HerdApi.fetchComments(section)
+    addComment: (comment, section)->
+      HerdApi.addComment(comment, section)
   }
 ])
