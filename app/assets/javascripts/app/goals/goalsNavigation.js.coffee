@@ -18,14 +18,15 @@ app.directive('goalsNavigation',['NavigationStore','Notification', (NavigationSt
       if data.range > 0
         goRange = data.range-1
         $state.go('goals', {user: data.user, range: goRange })
-      else
-        Notification.show('Nothing more this way!', 2000)
+      else if data.range == 0
+        $state.go('goals', {user: data.user, range: 3 })
     vm.nextGoalRange = ->
       if data.range < 3
         goRange = data.range+1
         $state.go('goals', {user: data.user, range: goRange})
-      else
-        Notification.show('Nothing more this way!', 2000)
+      else if data.range == 3
+        $state.go('goals', {user: data.user, range: 0})
+
     ]
   ]
 )
