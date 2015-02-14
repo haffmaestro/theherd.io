@@ -54,7 +54,6 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
     $rootScope.$on(vm.data.channel, (args)->
       vm.toggleComments()
       )
-    console.log CommentsStore.getCommentToOpen()
     if vm.section.id == CommentsStore.getCommentToOpen()
       vm.toggleComments()
       # HerdActions.commentShown()  

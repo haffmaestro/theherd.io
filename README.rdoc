@@ -3,9 +3,12 @@
 
 theHerd is platform for stimulating personal growth through a transparent and close knit team of friends. theHerd helps you to plan the path, and keeps you accountable every step of the way by facilitating long and short term goal setting.
 
-It's an AngularJS served by a RoR API, implementing Google's new Material Design Specification.
+It's an Angular Flux client app served by a RoR API, implementing Google's new Material Design Specification.
 
 Currently live at [theherd.io](theherd.io)
 
 ===TODO
-- Implement Navigation Store
+- Figure out Autoloading bug
+- Integrate with Todoist
+- Add User Tour
+- Add Video to homepage

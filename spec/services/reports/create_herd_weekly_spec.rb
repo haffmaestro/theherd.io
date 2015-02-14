@@ -7,7 +7,7 @@
       let(:herd) {create(:herd_with_4)}
 
       def create_herd_weekly
-        service = Reports::CreateHerdWeekly.new(herd: herd)
+        service = Reports::CreateHerdWeekly.new(herd: herd, week: Date.today.cweek, year: Date.today.year)
         herd_weekly = service.call
         return herd_weekly
       end
@@ -34,7 +34,8 @@
 
       it "the year_week_id method works" do
         herd_weekly = create_herd_weekly
-        expect(herd_weekly.year_week_id).to eq("#{Date.today.year}-#{Date.today.cweek}")
+        week = Date.today.cweek > 10 ? Date.today.cweek : "0#{Date.today.cweek}"
+        expect(herd_weekly.year_week_id).to eq("#{Date.today.year}-#{week}")
       end
 
       it "finds the herd_weekly with find_for_week" do
@@ -53,7 +54,7 @@
     context "with 1 user" do
       let(:herd) {create(:herd_with_1)}
       def create_herd_weekly
-        service = Reports::CreateHerdWeekly.new(herd: herd)
+        service = Reports::CreateHerdWeekly.new(herd: herd, week: Date.today.cweek, year: Date.today.year)
         herd_weekly = service.call
         return herd_weekly
       end
@@ -80,7 +81,8 @@
 
       it "the year_week_id method works" do
         herd_weekly = create_herd_weekly
-        expect(herd_weekly.year_week_id).to eq("#{Date.today.year}-#{Date.today.cweek}")
+        week = Date.today.cweek > 10 ? Date.today.cweek : "0#{Date.today.cweek}"
+        expect(herd_weekly.year_week_id).to eq("#{Date.today.year}-#{week}")
       end
 
       it "finds the herd_weekly with find_for_week" do

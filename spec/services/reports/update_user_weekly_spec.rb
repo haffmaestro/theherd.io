@@ -12,12 +12,11 @@ RSpec.describe Reports::UpdateUserWeekly, :type => :service do
 
     it "doesnt change anything if nothing changed" do
       user_weekly = create_user_weekly
-      copy = user_weekly.attributes
+      copy = user_weekly.clone
       service = Reports::UpdateUserWeekly.new(user)
       service.call
       user_weekly.reload
-      original = user_weekly.attributes
-      expect(original).to eq(copy)
+      expect(user_weekly).to eq(copy)
     end
 
     it "deletes sections" do

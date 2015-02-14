@@ -15,6 +15,7 @@ module Api
     end
 
     private
+    
     def year_week_id_format?
       params[:id] =~ YEARWEEKREGEX 
     end
