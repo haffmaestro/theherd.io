@@ -37,6 +37,7 @@ gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_
 gem 'rails-assets-angular-preloaded'
 gem 'ngannotate-rails', '~> 0.14.1'
 gem 'angular-rails-templates'
+gem 'faraday'
 
 # Devise 
 gem 'devise'
