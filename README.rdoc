@@ -10,5 +10,6 @@ Currently live at [theherd.io](theherd.io)
 ===TODO
 - Figure out Autoloading bug
 - Integrate with Todoist
+  - Add a way to Log in to Todoist
 - Add User Tour
 - Add Video to homepage
