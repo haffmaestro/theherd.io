@@ -8,7 +8,9 @@ module Todoist
 
   def self.login(email, password)
     response = @connection.post '/API/login', {email: email, password: password}
-    if response.status == 200
+    if response.body == "\"LOGIN_ERROR\""
+      return "WRONG_PASSWORD_OR_EMAIL"
+    elsif response.status == 200
       return JSON.parse(response.body)
     else
       return false

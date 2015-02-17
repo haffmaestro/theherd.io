@@ -1,8 +1,11 @@
 app = angular.module('app')
 app.factory('SettingsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','FluxUtil','HerdApi','$preloaded','Notification', (HerdDispatcher, HerdConstants, ApiConstants, FluxUtil, HerdApi, $preloaded,Notification)->
+  _currentUser = $preloaded.user.user
   _showSettingsDialog = false
 
   store = FluxUtil.createStore({
+    getCurrentUser: ->
+      return _currentUser
     showSettingsDialog: ->
       return _showSettingsDialog
 
@@ -21,6 +24,8 @@ app.factory('SettingsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','
             _showSettingsDialog = !_showSettingsDialog
             console.log _showSettingsDialog
             store.emitChange action
+          when HerdConstants.LOGIN_TODOIST
+            console.log action
     )
   })
 ])
