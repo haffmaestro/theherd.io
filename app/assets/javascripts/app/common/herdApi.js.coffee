@@ -128,5 +128,11 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
       dispatch(key, ApiConstants.PENDING, params)
       $http.post("/api/sections/#{section.id}/comments", params).
         then(handleResponse(key, params))
+    loginTodoist: (user, email, password)->
+      key = HerdConstants.LOGIN_TODOIST
+      params = {todoistEmail: email, todoistPassword: password}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.post("/api/users/#{user.id}/login_todoist").
+        then(handleResponse(key, params))
   }
 ])

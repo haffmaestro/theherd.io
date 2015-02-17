@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216030035) do
+ActiveRecord::Schema.define(version: 20150216231055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20150216030035) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "body"
+    t.integer  "todoist_id"
   end
 
   add_index "goals", ["focus_area_id"], name: "index_goals_on_focus_area_id", using: :btree
@@ -106,12 +107,12 @@ ActiveRecord::Schema.define(version: 20150216030035) do
   add_index "user_weeklies", ["user_id"], name: "index_user_weeklies_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",  null: false
+    t.string   "encrypted_password",     default: "",  null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,   null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -128,7 +129,7 @@ ActiveRecord::Schema.define(version: 20150216030035) do
     t.datetime "updated_at"
     t.integer  "herd_id"
     t.string   "subdomain"
-    t.string   "todoist_api_token"
+    t.string   "todoist_api_token",      default: "f"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -143,6 +144,7 @@ ActiveRecord::Schema.define(version: 20150216030035) do
     t.integer  "section_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "todoist_id"
   end
 
   add_index "weekly_tasks", ["section_id"], name: "index_weekly_tasks_on_section_id", using: :btree

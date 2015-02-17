@@ -9,7 +9,8 @@ app.factory('HerdConstants', ['FluxUtil', (FluxUtil)->
     'COMPLETE_GOAL', 'ADD_FOCUS_AREA', 'UPDATE_FOCUS_AREA', 'DELETE_FOCUS_AREA', 'FETCH_USERS',
     'FETCH_WEEKLY_REPORT','FETCH_WEEKLY_REPORTS','UPDATE_WEEKLY_REPORT', 'UPDATE_SECTION','ADD_WEEKLY_TASK',
     'DELETE_WEEKLY_TASK', 'COMPLETE_WEEKLY_TASK', 'FETCH_ACTIVITY', 'SET_WEEKLY_REPORT_ROUTING_DATA',
-    'SET_GOALS_ROUTING_DATA','FETCH_COMMENTS', 'ADD_COMMENT', 'ADD_COMMENT_OPEN_QUEUE', 'COMMENT_SHOWN'])
+    'SET_GOALS_ROUTING_DATA','FETCH_COMMENTS', 'ADD_COMMENT', 'ADD_COMMENT_OPEN_QUEUE', 'COMMENT_SHOWN',
+    'LOGIN_TODOIST','TOGGLE_SETTINGS_DIALOG'])
 ])
 
 app.factory('ApiConstants', ['FluxUtil', (FluxUtil)->
@@ -68,5 +69,10 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
       dispatch(HerdConstants.ADD_COMMENT_OPEN_QUEUE, sectionId)
     commentShown: ->
       dispatch(HerdConstants.COMMENT_SHOWN)
+    loginTodoist:(user, email, password) ->
+      HerdApi.loginTodoist(user, email, password)
+    toggleSettingsDialog: ->
+      dispatch(HerdConstants.TOGGLE_SETTINGS_DIALOG)
+
   }
 ])

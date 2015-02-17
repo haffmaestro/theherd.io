@@ -10,9 +10,12 @@ Rails.application.routes.draw do
         resources :comments, only: [:index, :create, :destroy]
       end
       resources :focus_areas, only: [:index, :create, :destroy, :update]
-      resources :users, only: [:index]
+      resources :users, only: [:index] do
+        post 'login_todoist', on: :member
+      end
       resources :user_weeklies, only: [:update]
       resources :activities, only: [:index]
+
     end
 
     get '/join', to: redirect('/users/sign_up')

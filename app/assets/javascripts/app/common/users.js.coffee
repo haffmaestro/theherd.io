@@ -25,7 +25,7 @@ app.directive('members', ['HerdActions','HerdStore', (HerdActions, HerdStore)->
   ]
 ])
 
-app.directive('member', ['HerdStore','HerdActions','Notification', (HerdStore, HerdActions,Notification)->
+app.directive('member', ['HerdStore', 'SettingsStore','HerdActions','Notification', (HerdStore, SettingsStore, HerdActions,Notification)->
   restrict: 'E'
   replace: true
   scope:
@@ -48,6 +48,7 @@ app.directive('member', ['HerdStore','HerdActions','Notification', (HerdStore, H
         </form>
       </div>
       <md-button class="md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport" ng-if="isOwner()">Update Weekly Report</md-button>
+      <md-button class="md-primary md-raised upper-right-corner" ng-click="showSettingsDialog()" ng-if="isOwner()">Settings</md-button>
     </md-card>
   """
   controller: ['$scope','$rootScope', ($scope, $rootScope)->
@@ -60,7 +61,6 @@ app.directive('member', ['HerdStore','HerdActions','Notification', (HerdStore, H
 
     HerdStore.bindState($scope, ->
       vm.data.showUpdateReport = HerdStore.canUpdateCurrentReport()
-      console.log "vm.data.showUpdateReport: #{vm.data.showUpdateReport}"
       )
 
     vm.addFocusArea = (user)->
@@ -79,6 +79,8 @@ app.directive('member', ['HerdStore','HerdActions','Notification', (HerdStore, H
 
     vm.showUpdateReport = ->
       vm.data.showUpdateReport = true
+    vm.showSettingsDialog = ->
+      HerdActions.toggleSettingsDialog()
 
     vm.updateReport = ->
       HerdActions.updateCurrentWeeklyReport(vm.data.currentUser.id)

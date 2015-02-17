@@ -7,5 +7,8 @@ module Api
       render json: @users, each_serializer: UserSerializer, scope: self
     end
 
+    def login_todoist
+    end
+
   end
 end

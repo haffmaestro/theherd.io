@@ -16,9 +16,6 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                          PATCH    /users(.:format)                                 registrations#update
                          PUT      /users(.:format)                                 registrations#update
                          DELETE   /users(.:format)                                 registrations#destroy
-                    join GET      /join(.:format)                                  redirect(301, /users/sign_up)
-                         GET      /                                                herds#show
-                         GET      /*a(.:format)                                    herds#show
        api_herd_weeklies GET      /api/herd_weeklies(.:format)                     api/herd_weeklies#index
                          POST     /api/herd_weeklies(.:format)                     api/herd_weeklies#create
      new_api_herd_weekly GET      /api/herd_weeklies/new(.:format)                 api/herd_weeklies#new
@@ -49,10 +46,14 @@ cancel_user_registration GET      /users/cancel(.:format)                       
           api_focus_area PATCH    /api/focus_areas/:id(.:format)                   api/focus_areas#update
                          PUT      /api/focus_areas/:id(.:format)                   api/focus_areas#update
                          DELETE   /api/focus_areas/:id(.:format)                   api/focus_areas#destroy
+  login_todoist_api_user POST     /api/users/:id/login_todoist(.:format)           api/users#login_todoist
                api_users GET      /api/users(.:format)                             api/users#index
          api_user_weekly PATCH    /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
                          PUT      /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
           api_activities GET      /api/activities(.:format)                        api/activities#index
+                    join GET      /join(.:format)                                  redirect(301, /users/sign_up)
+                         GET      /                                                herds#show
+                         GET      /*a(.:format)                                    herds#show
                 new_herd GET      /new(.:format)                                   herds#new
                    herds POST     /herds(.:format)                                 herds#create
                     root GET      /                                                onboarding#index
