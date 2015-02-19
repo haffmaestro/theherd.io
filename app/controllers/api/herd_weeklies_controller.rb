@@ -11,7 +11,7 @@ module Api
     end
 
     def show
-      render json: HerdWeeklySerializer.new(@herd_weekly)
+      render json: @herd_weekly, each_serializer: HerdWeeklySerializer
     end
 
     private

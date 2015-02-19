@@ -26,7 +26,13 @@ gem 'draper', '~> 1.3'
 
 gem 'bootstrap-sass','~> 3.2.0'
 gem 'font-awesome-rails'
+#Fix N+1 Queries
 gem 'goldiloader'
+#Bugs and tracking
+gem 'exception_notification'
+gem 'paper_trail', '~> 4.0.0.beta'
+gem 'newrelic_rpm'
+
 
 
 #Angular and API Gems

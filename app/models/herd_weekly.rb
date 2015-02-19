@@ -1,4 +1,5 @@
 class HerdWeekly < ActiveRecord::Base
+  has_paper_trail
   belongs_to :herd
   has_many :user_weeklies, dependent: :destroy
   has_many :users, through: :user_weeklies

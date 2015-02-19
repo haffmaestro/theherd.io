@@ -26,6 +26,12 @@ Rails.application.configure do
   }
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.delivery_method = :smtp
+  Whatever::Application.config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[theHerdException] ",
+      :sender_address => %{"theHerdBugMinion" <halfdanhem@theherd.io>},
+      :exception_recipients => %w{halfdanhem@gmail.com}
+    }
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
@@ -76,7 +82,7 @@ Rails.application.configure do
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
-config.i18n.fallbacks = true
+  config.i18n.fallbacks = true
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify

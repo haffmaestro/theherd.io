@@ -1,4 +1,5 @@
 class Section < ActiveRecord::Base
+  has_paper_trail
   belongs_to :user_weekly
   belongs_to :focus_area
   has_many   :weekly_tasks, dependent: :destroy

@@ -1,4 +1,5 @@
 class Herd < ActiveRecord::Base
+  has_paper_trail
   validates :name, presence: true, uniqueness: true
   validates :subdomain, presence: true, uniqueness: true,length: {maximum: 25 }, subdomain_format: true
 
