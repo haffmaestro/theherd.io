@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   delegate :current_user, to: :scope
-  attributes :id, :first_name, :last_name, :email
+  attributes :id, :first_name, :last_name, :email, :has_todoist
   attributes :comment_count, :goals_count, :weekly_tasks_count, :weekly_reports_count, :focus_areas
   def comment_count
     object.comments.count
@@ -28,6 +28,14 @@ class UserSerializer < ActiveModel::Serializer
       count+= 1 if task.done
     end
     return count
+  end
+
+  def has_todoist
+    if object.todoist_api_token
+      true
+    else
+      false
+    end
   end
 
   def focus_areas
