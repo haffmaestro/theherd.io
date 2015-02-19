@@ -30,14 +30,6 @@ class UserSerializer < ActiveModel::Serializer
     return count
   end
 
-  def has_todoist
-    if object.todoist_api_token
-      true
-    else
-      false
-    end
-  end
-
   def focus_areas
     result = []
     object.focus_areas.each do |focus_area|

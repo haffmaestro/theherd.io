@@ -57,6 +57,14 @@ class User < ActiveRecord::Base
     UserMailer.welcome_email(self).deliver
   end
 
+  def has_todoist
+    if self.todoist_api_token
+      true
+    else
+      false
+    end
+  end
+
 
 end
 
