@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title TheHerd
+    =stylesheet_link_tag 'application', media: 'all'
+  body
+    h1   
+      = @user.first_name
+      |  sent you some feedback
+
+    p
+      = @feedback

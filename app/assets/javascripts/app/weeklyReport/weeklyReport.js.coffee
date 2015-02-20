@@ -63,6 +63,7 @@ app.directive('ownerSection', ['HerdActions', (HerdActions) ->
           <div class="edit" ng-show="data.showForm" flex>
             <form flex ng-submit="saveForm(section)">
               <textarea class="section" style="width:99%" msd-elastic ng-model="section.body" ng-blur="saveForm(section)"></textarea>
+            </form>
           </div>
           <a class="comments-toggle" ng-click="toggleComments()">
             <i class="fa fa-comments fa-2x"></i></a>

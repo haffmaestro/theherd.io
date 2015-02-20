@@ -1,6 +1,6 @@
 app = angular.module('app')
 
-app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state','HerdStore', ($scope, $mdSidenav, $state,HerdStore)->
+app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state','HerdStore','Feedback', ($scope, $mdSidenav, $state,HerdStore,Feedback)->
   vm = $scope
   vm.user = HerdStore.getCurrentUser()
   vm.openLeftMenu = ->
@@ -20,5 +20,12 @@ app.controller('SidenavCtrl', ['$scope', '$mdSidenav','$state','HerdStore', ($sc
     $state.go('goals', {user: vm.user.first_name})
     .then((response)->)
     .catch((response)->)
+  vm.openFeedback = (event) ->
+    Feedback.show(event)
+    setTimeout( ->
+      edit = angular.element(".feedback")
+      edit.focus()
+    , 15
+    )
 
     ])

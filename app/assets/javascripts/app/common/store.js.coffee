@@ -88,11 +88,12 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
   _setNewsFeed = (activities)->
     activitiesWithTarget = []
     angular.forEach(activities, (current)->
-      if current.target == null
+      if current.target.focus_area == null
       else
         activitiesWithTarget.push(current)
       )
     _newsFeed = activitiesWithTarget
+
 
   _findIndexOfById = (list, key, idOfElement)->
     index = null
@@ -227,6 +228,9 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             console.log action
             _setNewsFeed(action.response.activities)
             store.emitChange action
+          when HerdConstants.SEND_FEEDBACK
+            console.log action
+            Notification.show("Feedback sent.", 2000)
       )
     })
 

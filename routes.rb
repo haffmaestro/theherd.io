@@ -47,6 +47,7 @@ cancel_user_registration GET      /users/cancel(.:format)                       
                          PUT      /api/focus_areas/:id(.:format)                   api/focus_areas#update
                          DELETE   /api/focus_areas/:id(.:format)                   api/focus_areas#destroy
   login_todoist_api_user POST     /api/users/:id/login_todoist(.:format)           api/users#login_todoist
+      feedback_api_users POST     /api/users/feedback(.:format)                    api/users#feedback
                api_users GET      /api/users(.:format)                             api/users#index
          api_user_weekly PATCH    /api/user_weeklies/:id(.:format)                 api/user_weeklies#update
                          PUT      /api/user_weeklies/:id(.:format)                 api/user_weeklies#update

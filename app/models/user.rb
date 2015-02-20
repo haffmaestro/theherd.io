@@ -44,6 +44,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def has_todoist
+    if self.todoist_api_token.blank?
+      false
+    else
+      true
+    end
+  end
+
   private
 
   def set_default_focus_areas
@@ -57,13 +65,6 @@ class User < ActiveRecord::Base
     UserMailer.welcome_email(self).deliver
   end
 
-  def has_todoist
-    if self.todoist_api_token
-      true
-    else
-      false
-    end
-  end
 
 
 end

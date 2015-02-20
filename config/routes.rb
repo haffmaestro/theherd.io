@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :focus_areas, only: [:index, :create, :destroy, :update]
       resources :users, only: [:index] do
         post 'login_todoist', on: :member
+        post 'feedback', on: :collection
       end
       resources :user_weeklies, only: [:update]
       resources :activities, only: [:index]

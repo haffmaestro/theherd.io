@@ -1,6 +1,6 @@
 app = angular.module('app')
-app.factory('SettingsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','FluxUtil','HerdApi','$preloaded','Notification', (HerdDispatcher, HerdConstants, ApiConstants, FluxUtil, HerdApi, $preloaded,Notification)->
-  _currentUser = $preloaded.user.user
+app.factory('SettingsStore', ['HerdDispatcher', 'HerdStore', 'HerdConstants','ApiConstants','FluxUtil','HerdApi','$preloaded','Notification', (HerdDispatcher, HerdStore, HerdConstants, ApiConstants, FluxUtil, HerdApi, $preloaded,Notification)->
+  _currentUser = HerdStore.getCurrentUser()
   _showSettingsDialog = false
 
   store = FluxUtil.createStore({
@@ -25,7 +25,13 @@ app.factory('SettingsStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','
             console.log _showSettingsDialog
             store.emitChange action
           when HerdConstants.LOGIN_TODOIST
+            if action.response.hasOwnProperty("user")
+              _currentUser = action.response.user
+              Notification.show("Todoist Integration added.", 2000)
+            else
+              Notification.show(action.response.msg, 3000)
             console.log action
+            store.emitChange action
     )
   })
 ])

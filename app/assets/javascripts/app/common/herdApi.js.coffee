@@ -134,5 +134,11 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
       dispatch(key, ApiConstants.PENDING, params)
       $http.post("/api/users/#{user.id}/login_todoist", params).
         then(handleResponse(key, params))
+    sendFeedback: (user, feedback)->
+      key = HerdConstants.SEND_FEEDBACK
+      params = {user: user, feedback, feedback}
+      dispatch(key, ApiConstants.PENDING, params)
+      $http.post("/api/users/feedback", params).
+        then(handleResponse(key, params))
   }
 ])
