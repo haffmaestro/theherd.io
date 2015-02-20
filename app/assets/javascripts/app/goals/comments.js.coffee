@@ -6,12 +6,12 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
   scope:
     section: '='
   template: """
-    <md-card class="comments" ng-show="data.showComments" flex="90" offset="5">   
-      <div flex class="loading" ng-show="data.comments === null">
+    <md-card class="comments" ng-show="data.showComments" flex="80" layout-padding>   
+      <div flex class="loading" ng-show="data.comments === null" layout="column" layout-align="center start">
         <br>
-        <md-progress-circular offset="45" md-mode="indeterminate"></md-progress-circular>
+        <md-progress-linear md-mode="indeterminate"></md-progress-linear>
       </div>
-      <div flex class="comments" ng-hide="data.comments === undefined" >
+      <div flex class="comments" ng-hide="data.comments === undefined" layout="column" layout-align="start">
         <h4 class="comments">
           Comments
         </h4>
@@ -24,12 +24,10 @@ app.directive('commentsSection', ['HerdActions','HerdStore','CommentsStore', (He
             {{comment.body}}
           </p>
         </div>
-        <a class="add-comments-toggle" ng-click="newComment()">
-          <i class="fa fa-plus fa-2x"></i></a>
-        <div class="edit" ng-show="data.addComment" flex>
+        <div class="edit" ng-hide="data.comments === undefined" flex>
           <form flex ng-submit="createComment()">
-            <textarea class="section" style="width:50%" msd-elastic ng-model="data.newComment" ></textarea>
-            <md-button type="submit">Add</md-button>
+            <textarea class="section" style="width:30%" msd-elastic ng-model="data.newComment" ></textarea>
+            <md-button class="md-accent md-raised" type="submit">Add</md-button>
         </div>
       </div>  
     </md-card>

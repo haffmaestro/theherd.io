@@ -53,7 +53,7 @@ app.directive('ownerSection', ['HerdActions', (HerdActions) ->
   template: """
   <div layout="column" layout-align="start">
     <md-card id="{{section.name.toLowerCase()}}">
-      <div flex layout="vertical">
+      <div flex layout="row" layout-padding>
         <div flex="70" ng-dblclick="showEdit($event)">
           <h4>
             {{section.name}} This Week
@@ -70,7 +70,7 @@ app.directive('ownerSection', ['HerdActions', (HerdActions) ->
         </div>
         <div flex="30">
           <h4> 
-            Goals Next Week
+            {{section.name}} Next Week
           </h4>
           <weekly-tasks tasks="section.weekly_tasks" section="section"/>
         </div>
@@ -118,7 +118,7 @@ app.directive('friendSection', [ () ->
   template: """
   <div>
     <md-card id="{{section.name.toLowerCase()}}">
-      <md-content flex layout="vertical">
+      <md-content flex layout="row" layout-padding>
         <div flex="70">
           <h4>
             {{section.name}} This Week
@@ -131,7 +131,7 @@ app.directive('friendSection', [ () ->
         </div>
         <div flex="30">
           <h4> 
-            Goals Next Week
+            {{section.name}} Next Week
           </h4>
           <weekly-tasks-friend tasks="section.weekly_tasks" section="section"/>
         </div>

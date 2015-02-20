@@ -36,4 +36,17 @@
 
 angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked', 'MessageCenterModule', 'monospaced.elastic', 'ui.router', 'templates', 'ngFlux']).
   controller('ApplicationController', function($scope) {
-  });
+  }).
+  config(['$mdThemingProvider', function($mdThemingProvider){
+    $mdThemingProvider.theme('default')
+      .primaryPalette('blue', {
+        'default':'600',
+        'hue-1' : 'A100',
+        'hue-2' : '600',
+        'hue-3' : '900'
+
+      })
+      .accentPalette('orange', {
+        'default': '800'
+      })
+  }]);

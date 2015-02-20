@@ -1,4 +1,5 @@
 $body-color: rgba(0, 0, 0, 0.73);
+$default-color: #039be5;
 
 body {
 	text-align: left;
@@ -72,7 +73,7 @@ md-input-group {
 	width: 50%;
 }
 a {
-	color: #66CCFF;
+	color: $default-color;
 	&.delete-task {
 		margin-top: 9px;
 	}
@@ -116,9 +117,6 @@ md-card {
 	background-color: white;
 	h4 {
 		margin-top: 0.7em;
-		&.comments{
-			text-align: center;
-		}
 	}
 	&.comments {
 		position: relative;
@@ -148,7 +146,7 @@ div.week-nav {
 
 
 textarea.section {
-	border-color: #66ccff
+	border-color: $default-color
 }
 
 .fadeDown {
@@ -161,38 +159,6 @@ textarea.section {
 
 .comments.ng-hide-add,
 .comments.ng-hide-remove {
-}
-
-
-.alert {
-  padding: 0.25em;
-  margin: 0.25em 0;
-  border-radius: 2px;
-}
-.alert:last-child {
-  margin-bottom: 0;
-}
-@media screen and (min-width: 568px) {
-  .alert {
-    padding: 1em;
-    margin: 0.5em 0;
-  }
-}
-.alert-success {
-  background: #dbefdc;
-  color: #265828;
-}
-.alert-info {
-  background: #d3eafd;
-  color: #074c83;
-}
-.alert-warning {
-  background: #ffeacc;
-  color: #804c00;
-}
-.alert-danger {
-  background: #fdd9d7;
-  color: #8d1108;
 }
 
 .no-margin {
@@ -236,4 +202,8 @@ md-toast {
 textarea.feedback {
   min-width: 300px;
   min-height: 200px;
+}
+
+md-tab {
+  padding-top: 12px;
 }

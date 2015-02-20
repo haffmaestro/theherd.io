@@ -26,8 +26,43 @@ app.directive('members', ['HerdActions','HerdStore', (HerdActions, HerdStore)->
 ])
 
 app.directive('homeGrid', ['HerdActions', 'HerdStore', (HerdActions, HerdStore)->
-  restrict: 'E',
-  ])
+  restrict: 'E'
+  replace: true
+  template: """
+    <md-grid-list md-cols-lg="4" md-cols-md="2" md-row-height="200px">
+      <md-grid-tile md-rowspan="2" md-colspan="1">
+        <md-grid-tile-footer>
+          <h3>This is a footer</h3>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+      <md-grid-tile>
+        <md-grid-tile-footer>
+          <h3>This is a footer</h3>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+      <md-grid-tile>
+        <md-grid-tile-footer>
+          <h3>This is a footer</h3>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+      <md-grid-tile>
+        <md-grid-tile-footer>
+          <h3>This is a footer</h3>
+        </md-grid-tile-footer>
+      </md-grid-tile>
+    </md-grid-list>
+  """
+  controller: controller: ['$scope', ($scope)->
+    vm = $scope
+    vm.data = {
+      users: HerdStore.getUsers()
+      newFocusArea: ""
+    }
+    HerdActions.fetchUsers()
+    HerdStore.on('change', ->
+      vm.data.users = HerdStore.getUsers())
+  ]
+])
 
 app.directive('member', ['HerdStore', 'SettingsStore','Settings','HerdActions','Notification', (HerdStore, SettingsStore,Settings, HerdActions,Notification)->
   restrict: 'E'

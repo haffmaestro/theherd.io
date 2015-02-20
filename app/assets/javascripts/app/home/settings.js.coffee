@@ -28,18 +28,24 @@ app.factory('Settings', ['SettingsStore','HerdStore','HerdActions', '$mdDialog',
                 <br>
                 <focus-area focus-area="focusArea" ng-repeat="focusArea in data.currentUser.focus_areas"></focus-area>
                 <form ng-submit="addFocusArea(user)" ng-hide="friend()">
-                  <md-text-float type="text" label="New Focus Area" name="newWeeklyTask" ng-model="data.newFocusArea">
-                  </md-text-float>
+                  <md-input-container>
+                    <label>New Focus Area</label>
+                    <input type="text"  name="newWeeklyTask" ng-model="data.newFocusArea">
+                  </md-input-container>
                 </form>
               <md-subheader class="md-primary">
                 <h2>Todoist Integration</h2>
               </md-subheader>
               <div class="edit" ng-hide="hasTodoist() && data.showForm">
                 <form ng-submit="submitTodoist()" >
-                  <md-text-float type="text" name="todoistEmail" ng-model="data.todoistEmail" label="Todoist Email">
-                  </md-text-float>
-                  <md-text-float type="password" name="todoistPassword" ng-model="data.todoistPassword" label="Todoist Password">
-                  </md-text-float>
+                  <md-input-container>
+                    <label>Todoist Email</label>
+                    <input type="text" name="todoistEmail" ng-model="data.todoistEmail" >
+                  </md-input-container>
+                  <md-input-container>
+                    <label>Todoist Password</label>
+                    <input type="password" name="todoistPassword" ng-model="data.todoistPassword">
+                  </md-input-container>
                 </form>
               </div>
               <div class="show" ng-show="hasTodoist() && data.showForm">

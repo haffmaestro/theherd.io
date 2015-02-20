@@ -56,8 +56,10 @@ app.directive('goalsDisplay', ['HerdActions', (HerdActions)->
         <delete-button-goal ng-hide="friend()" goal="goal"></delete-button-goal>
       </div>
       <form ng-submit="submitGoal(focus_area)" ng-hide="friend()" >
-        <md-text-float label="New Goal" type="text" name="newGoal" ng-model="data.newGoal">
-        </md-text-float>
+        <md-input-container> 
+          <label>New Goal</label> 
+          <input type="text" name="newGoal" ng-model="data.newGoal">
+        </md-input-container>
       </form>
     </div>
   """

@@ -26,15 +26,21 @@ app.directive('weeklyTasks', ['HerdActions', (HerdActions)->
     section: '='
   template: """
     <div>
-      <div class="row" layout="horizontal" ng-repeat="task in tasks">
-        <md-checkbox md-no-ink ng-model="task.done" aria-label="{{task.body}}" ng-change="toggleTaskDone(task)">
-          {{task.body}}
-        </md-checkbox>
-        <delete-button task="task" list="section"/>
+      <div layout="column" ng-repeat="task in tasks">
+        <div layout="row">
+          <div flex="90">
+            <md-checkbox md-no-ink ng-model="task.done" aria-label="{{task.body}}" ng-change="toggleTaskDone(task)">
+              {{task.body}}
+            </md-checkbox>
+          </div>
+          <delete-button task="task" list="section" flex></delete-button>
+        </div>
       </div>
       <form ng-submit="submitTask(section)">
-        <md-text-float label="New Task" type="text" name="newWeeklyTask" ng-model="data.newWeeklyTask">
-        </md-text-float>
+        <md-input-container>
+          <label>New Task</label> 
+          <input type="text" name="newWeeklyTask" ng-model="data.newWeeklyTask">
+        </md-input-container>
       </form>
     </div>
   """

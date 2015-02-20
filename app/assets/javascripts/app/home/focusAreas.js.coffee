@@ -17,8 +17,9 @@ app.directive('focusArea', ['HerdActions',( HerdActions)->
       </div>
       <div class="edit" ng-show="data.showEdit" ng-if="focusArea.is_owner">
         <form ng-submit="updateFocusArea(focusArea)" >
-          <md-text-float type="text" name="updateFocusArea" ng-model="focusArea.name">
-          </md-text-float>
+          <md-input-container 
+            <input type="text" name="updateFocusArea" ng-model="focusArea.name">
+          </md-input-container>
         </form>
       </div>
     </div>

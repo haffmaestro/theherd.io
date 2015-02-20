@@ -1,13 +1,13 @@
 div
   scroll-list list="data.goals[data.selectedIndex].focus_areas"
   / Top Nav
-  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex"
-    md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(user)" md-on-deselect="announceDeselected(tab)"
+  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex" class="md-primary"
+    md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(user)"
       md-tab-label
         |{{user}}
   
   / Goal Timestamp Navigation
-  div flex="30" offset="40"
+  div(layout-padding)
     goals-navigation
   / Actual Goals
   div[ng-switch on="data.goalIndex" aria-labelledby="goals" flex layout="row" layout-align="center"]
@@ -15,12 +15,12 @@ div
       goal-headlines headlines="['One Month Goals','Three Month Goals']"
       .row layout="row" layout-align="space-around" ng-repeat="focus_area in data.goals[data.selectedIndex].focus_areas" flex="100"  id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
-          md-card 
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.one_month_goals" focus='focus_area' user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id"  months="1"
         div flex="50"
-          md-card 
+          md-card(layout-padding) 
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.three_month_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id" months="3"
@@ -28,12 +28,12 @@ div
       goal-headlines headlines="['Three Month Goals','One Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in data.goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
-          md-card
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.three_month_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id" months="3"
         div flex="50"
-          md-card
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.one_year_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id"  months="12" 
@@ -41,12 +41,12 @@ div
       goal-headlines headlines="['One Year Goals','Three Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in data.goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
-          md-card
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.one_year_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id"  months="12" 
         div flex="50"
-          md-card
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.three_year_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id"  months="36"
@@ -54,12 +54,12 @@ div
       goal-headlines headlines="['Three Year Goals', 'Ten Year Goals']"
       .row layout="horizontal" ng-repeat="focus_area in data.goals[data.selectedIndex].focus_areas" flex="100" id="{{focus_area.name.toLowerCase()}}"
         div flex="50"
-          md-card
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.three_year_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id"  months="36" 
         div flex="50"
-          md-card
+          md-card(layout-padding)
             h4
               |{{focus_area.name}}
             goals-display goals="focus_area.ten_year_goals" focus="focus_area" user='data.goals[data.selectedIndex].user_id' curruser="data.currentUser.id"  months="120 "
