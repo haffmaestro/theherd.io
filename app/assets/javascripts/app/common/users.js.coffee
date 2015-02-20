@@ -25,6 +25,10 @@ app.directive('members', ['HerdActions','HerdStore', (HerdActions, HerdStore)->
   ]
 ])
 
+app.directive('homeGrid', ['HerdActions', 'HerdStore', (HerdActions, HerdStore)->
+  restrict: 'E',
+  ])
+
 app.directive('member', ['HerdStore', 'SettingsStore','Settings','HerdActions','Notification', (HerdStore, SettingsStore,Settings, HerdActions,Notification)->
   restrict: 'E'
   replace: true
