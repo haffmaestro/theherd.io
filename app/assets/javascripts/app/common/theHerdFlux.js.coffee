@@ -71,8 +71,6 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
       dispatch(HerdConstants.COMMENT_SHOWN)
     loginTodoist:(user, email, password) ->
       HerdApi.loginTodoist(user, email, password)
-    toggleSettingsDialog: ->
-      dispatch(HerdConstants.TOGGLE_SETTINGS_DIALOG)
     sendFeedback: (user, feedback)->
       HerdApi.sendFeedback(user, feedback)
 

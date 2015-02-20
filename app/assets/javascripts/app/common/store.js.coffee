@@ -148,21 +148,6 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
         console.log 'Error received from dispatcher'
       else
         switch action.actionType
-          when HerdConstants.ADD_FOCUS_AREA
-            console.log action
-            _addFocusArea(action.response.focus_area)
-            store.emitChange action
-            Notification.show('Updated!', 2000)
-          when HerdConstants.UPDATE_FOCUS_AREA
-            console.log action
-            _updateFocusArea(action.response.focus_area)
-            store.emitChange action
-            Notification.show('Updated!', 2000)
-          when HerdConstants.DELETE_FOCUS_AREA
-            console.log action
-            _deleteFocusArea(action.response.focus_area)
-            store.emitChange action
-            Notification.show('Deleted!', 2000)
           when HerdConstants.FETCH_USERS
             console.log action
             _users = action.response.users

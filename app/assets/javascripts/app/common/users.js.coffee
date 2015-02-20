@@ -39,16 +39,7 @@ app.directive('member', ['HerdStore', 'SettingsStore','Settings','HerdActions','
       <h4> Comments Made: {{user.comment_count}} </h4>
       <h4> Weekly Tasks Completed: {{user.weekly_tasks_count}}  </h4>
       </div>
-      <div flex="40">
-        <h3>Focus Areas  </h3>
-          <focus-area focus-area="focusArea" ng-repeat="focusArea in user.focus_areas"></focus-area>
-        <form ng-submit="addFocusArea(user)" ng-hide="friend()">
-          <md-text-float type="text" label="New Focus Area" name="newWeeklyTask" ng-model="data.newFocusArea">
-          </md-text-float>
-        </form>
-      </div>
       <md-button class="md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport" ng-if="isOwner()">Update Weekly Report</md-button>
-      <md-button class="md-primary md-raised upper-right-corner" ng-click="showSettingsDialog($event)" ng-if="isOwner()">Settings</md-button>
     </md-card>
   """
   controller: ['$scope','$rootScope', ($scope, $rootScope)->
@@ -62,14 +53,6 @@ app.directive('member', ['HerdStore', 'SettingsStore','Settings','HerdActions','
     HerdStore.bindState($scope, ->
       vm.data.showUpdateReport = HerdStore.canUpdateCurrentReport()
       )
-
-    vm.addFocusArea = (user)->
-      newFocusArea = {name: vm.data.newFocusArea, id: null}
-      HerdActions.addFocusArea(newFocusArea)
-      vm.data.newFocusArea = ""
-
-    vm.deleteFocusArea = (focusArea, user) ->
-      HerdActions.deleteFocusArea(focusArea)
 
     vm.friend = ->
       return false unless vm.user?
