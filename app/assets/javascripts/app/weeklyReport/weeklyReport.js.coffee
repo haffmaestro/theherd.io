@@ -53,7 +53,7 @@ app.directive('ownerSection', ['HerdActions', (HerdActions) ->
   template: """
   <div layout="column" layout-align="start">
     <md-card id="{{section.name.toLowerCase()}}">
-      <div flex layout="row" layout-padding>
+      <div flex layout="column" layout-gt-md="row" layout-padding>
         <div flex="70" ng-dblclick="showEdit($event)">
           <h4>
             {{section.name}} This Week
@@ -118,7 +118,7 @@ app.directive('friendSection', [ () ->
   template: """
   <div>
     <md-card id="{{section.name.toLowerCase()}}">
-      <md-content flex layout="row" layout-padding>
+      <md-content flex layout="column" layout-gt-md="row" layout-padding>
         <div flex="70">
           <h4>
             {{section.name}} This Week

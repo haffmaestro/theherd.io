@@ -1,5 +1,6 @@
 $body-color: rgba(0, 0, 0, 0.73);
 $default-color: #039be5;
+$hue-1: #00b0ff;
 
 body {
 	text-align: left;
@@ -164,6 +165,9 @@ textarea.section {
 .no-margin {
   margin: 0;
 }
+.left-align {
+  text-align: left;
+}
 
 .md-button.xs {
   font-size: 0.65em;
@@ -206,4 +210,19 @@ textarea.feedback {
 
 md-tab {
   padding-top: 12px;
+}
+
+md-grid-tile-header.member-tile {
+  background: $default-color;
+
+}
+
+img.profile {
+  border-radius: 50px;
+}
+
+md-content.profile {
+  position: absolute;
+  top: 60px;
+  left:10px;
 }

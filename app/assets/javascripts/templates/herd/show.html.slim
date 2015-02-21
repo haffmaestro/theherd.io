@@ -1,12 +1,16 @@
 h1 
   |Welcome to your Herd
 settings-button
-/ div layout="row" layout-align="space-around start"
+div layout="column" layout-gt-md="row" layout-align="space-around"
+  div flex="35" flex-md="90"
+    h2 News
+    newsfeed
+  div flex="65" flex-md="90"
+    h2 Members
+    member-grid 
 /   div flex="45" layout="column"
-/     h2 Members
-/     members
+/     
 /   div class="news-feed" flex="45" layout="column"
-/     h2 News
-/     newsfeed
-home-grid
+/     
+
 
