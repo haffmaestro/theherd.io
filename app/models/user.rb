@@ -9,8 +9,10 @@ class User < ActiveRecord::Base
   has_many :focus_areas, -> {order 'name ASC'}, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :goals, through: :focus_areas, dependent: :destroy
-
+  mount_uploader :picture, PictureUploader
+  
   after_create :set_default_focus_areas, :send_welcome_email
+
   
   def self.find_for_authentication(warden_conditions)
     where(:email => warden_conditions[:email], :subdomain => warden_conditions[:subdomain]).first

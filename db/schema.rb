@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150219215048) do
+ActiveRecord::Schema.define(version: 20150221015158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20150219215048) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "done",           default: false
+    t.string   "picture"
   end
 
   add_index "user_weeklies", ["herd_weekly_id"], name: "index_user_weeklies_on_herd_weekly_id", using: :btree
@@ -130,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150219215048) do
     t.integer  "herd_id"
     t.string   "subdomain"
     t.string   "todoist_api_token"
+    t.string   "picture"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

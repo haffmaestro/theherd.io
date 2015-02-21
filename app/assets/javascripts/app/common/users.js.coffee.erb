@@ -21,7 +21,6 @@ app.directive('members', ['HerdActions','HerdStore', (HerdActions, HerdStore)->
     HerdStore.on('change', ->
       vm.data.users = HerdStore.getUsers())
 
-
   ]
 ])
 
@@ -36,7 +35,7 @@ app.directive('memberGrid', ['HerdActions', 'HerdStore', (HerdActions, HerdStore
           </md-grid-tile-header>
           <md-content class="profile" layout="row" flex>
             <div flex=35>
-              <img class="profile" src="<%=image_path('profile.png') %>" height="100px" alt="profile picture">
+              <img class="profile" src="<%=image_path('nopicture.png') %>" alt="profile picture">
             </div>
             <div flex>
               <h4 class="no-margin"> Reports Completed: {{user.weekly_reports_count}} </h4>
@@ -59,51 +58,6 @@ app.directive('memberGrid', ['HerdActions', 'HerdStore', (HerdActions, HerdStore
       vm.data.users = HerdStore.getUsers())
   ]
 ])
-
-# app.directive('memberTile', ['HerdStore', 'SettingsStore','Settings','HerdActions','Notification', (HerdStore, SettingsStore,Settings, HerdActions,Notification)->
-#   restrict: 'E'
-#   replace: true
-#   scope:
-#     user: "="
-#   template: """
-#   <md-grid-tile>
-#     <h4> Weekly Reports Completed: {{user.weekly_reports_count}} </h4>
-#     <h4> Goals Completed: {{user.goals_count}} </h4>
-#     <h4> Comments Made: {{user.comment_count}} </h4>
-#     <h4> Weekly Tasks Completed: {{user.weekly_tasks_count}}  </h4>
-#     <md-grid-tile-footer>
-#       <h3>{{user.first_name}} {{user.last_name}}<h3>
-#     </md-grid-tile-footer>
-#   </md-grid-tile>
-#   """
-#   controller: ['$scope', ($scope)->
-#     vm = $scope
-#     vm.data = {
-#       newFocusArea: ""
-#       currentUser: HerdStore.getCurrentUser()
-#       showUpdateReport: HerdStore.canUpdateCurrentReport()
-#     } 
-
-#     HerdStore.bindState($scope, ->
-#       vm.data.showUpdateReport = HerdStore.canUpdateCurrentReport()
-#       )
-
-#     vm.friend = ->
-#       return false unless vm.user?
-#       isFriend = vm.user.id != vm.data.currentUser.id
-#     vm.isOwner = ->
-#       return !vm.friend()
-
-#     vm.showUpdateReport = ->
-#       vm.data.showUpdateReport = true
-#     vm.showSettingsDialog = (event) ->
-#       HerdActions.toggleSettingsDialog()
-#       Settings.show(event) 
-
-#     vm.updateReport = ->
-#       HerdActions.updateCurrentWeeklyReport(vm.data.currentUser.id)
-#   ]
-# ])
 
 
 app.directive('member', ['HerdStore', 'SettingsStore','Settings','HerdActions','Notification', (HerdStore, SettingsStore,Settings, HerdActions,Notification)->
