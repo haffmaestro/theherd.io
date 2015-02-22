@@ -216,6 +216,9 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
           when HerdConstants.SEND_FEEDBACK
             console.log action
             Notification.show("Feedback sent.", 2000)
+          when HerdConstants.UPLOAD_PICTURE
+            console.log action
+            Notification.show('Picture uploaded.', 2000)
       )
     })
 

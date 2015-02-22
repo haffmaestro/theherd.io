@@ -46,6 +46,7 @@ cancel_user_registration GET      /users/cancel(.:format)                       
           api_focus_area PATCH    /api/focus_areas/:id(.:format)                   api/focus_areas#update
                          PUT      /api/focus_areas/:id(.:format)                   api/focus_areas#update
                          DELETE   /api/focus_areas/:id(.:format)                   api/focus_areas#destroy
+     profile_api_uploads POST     /api/uploads/profile(.:format)                   api/uploads#profile
   login_todoist_api_user POST     /api/users/:id/login_todoist(.:format)           api/users#login_todoist
       feedback_api_users POST     /api/users/feedback(.:format)                    api/users#feedback
                api_users GET      /api/users(.:format)                             api/users#index

@@ -1,5 +1,5 @@
 module Api
-  class FocusAreasController < Api::BaseController
+  class FocusAreasController < BaseController
     def index
       render json: current_user.focus_areas, each_serializer: SimpleFocusAreaSerializer
     end

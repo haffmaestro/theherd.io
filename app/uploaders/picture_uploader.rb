@@ -1,13 +1,14 @@
 # encoding: utf-8
 
 class PictureUploader < CarrierWave::Uploader::Base
+  include CarrierWave::MiniMagick
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
   storage :file
+  process :resize_to_fit => [100, 100]
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
@@ -29,7 +30,6 @@ class PictureUploader < CarrierWave::Uploader::Base
   # end
 
   # Process files as they are uploaded:
-  # process :scale => [200, 300]
   #
   # def scale(width, height)
   #   # do something

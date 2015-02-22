@@ -1,5 +1,5 @@
 module Api
-  class UsersController < Api::BaseController
+  class UsersController < BaseController
 
     def index
       @user = current_user

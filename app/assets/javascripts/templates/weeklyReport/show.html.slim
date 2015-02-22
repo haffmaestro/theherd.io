@@ -16,7 +16,7 @@ div
   / Weekly Report 
   div layout="row"
     .tabpanel-container#weekly-report(flex ng-hide="data.herdWeekly === null" layout="column" layout-align="center center" layout-padding)
-      div role="tabpanel" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" layout="column" layout-align="center"
+      div(role="tabpanel" flex="100" aria-labelledby="weekly-report" md-swipe-left="next()" md-swipe-right="previous()" layout="column" layout-align="space-around end")
         / edit-focus-areas
         / Section
         md-content ng-if="owner(data.herdWeekly.user_weeklies[data.selectedIndex])"

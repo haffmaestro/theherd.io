@@ -1,5 +1,5 @@
 module Api
-	class WeeklyTasksController < Api::BaseController
+	class WeeklyTasksController < BaseController
 
 		def update
 			# render json: params

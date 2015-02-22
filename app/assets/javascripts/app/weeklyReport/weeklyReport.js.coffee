@@ -51,7 +51,7 @@ app.directive('ownerSection', ['HerdActions', (HerdActions) ->
   scope: 
     section: '='
   template: """
-  <div layout="column" layout-align="start">
+  <div layout="column">
     <md-card id="{{section.name.toLowerCase()}}">
       <div flex layout="column" layout-gt-md="row" layout-padding>
         <div flex="70" ng-dblclick="showEdit($event)">

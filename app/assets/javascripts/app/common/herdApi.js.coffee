@@ -140,5 +140,23 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
       dispatch(key, ApiConstants.PENDING, params)
       $http.post("/api/users/feedback", params).
         then(handleResponse(key, params))
+    uploadPicture: (files)->
+      key = HerdConstants.UPLOAD_PICTURE
+      fd = new FormData()
+      angular.forEach(files, (file)->
+        fd.append('file',file))
+      params = {pictures: fd}
+      headers = {
+                  transformRequest:angular.identity,
+                  headers:{'Content-Type':undefined}
+                }
+      dispatch(key, ApiConstants.PENDING, params)
+      debugger
+      $http.post("/api/uploads/profile", fd,
+        {
+          transformRequest:angular.identity,
+          headers:{'Content-Type':undefined}
+        }).
+        then(handleResponse(key, params))
   }
 ])

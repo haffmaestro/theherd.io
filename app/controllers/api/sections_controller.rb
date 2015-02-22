@@ -1,5 +1,5 @@
 module Api
-	class SectionsController < Api::BaseController
+	class SectionsController < BaseController
 		def update
 			# render json: params
 			section = Section.find params[:section_id]

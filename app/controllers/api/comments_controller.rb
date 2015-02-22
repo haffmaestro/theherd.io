@@ -1,5 +1,5 @@
 module Api
-	class CommentsController < Api::BaseController
+	class CommentsController < BaseController
 
 		def index
 			section = Section.find params[:section_id]

@@ -19,6 +19,10 @@ gem 'slim-rails'
 gem 'carrierwave'
 gem 'rake','10.4.0'
 gem 'public_activity'
+gem "mini_magick"
+gem "fog"
+gem 'awesome_print'
+gem 'better_errors'
 
 #Services Decorators
 gem 'virtus'
@@ -54,9 +58,7 @@ gem 'rails_12factor', group: :production
 group :development do
   gem 'interactive_editor'
   gem 'hirb'
-  gem 'awesome_print'
   gem 'spring'
-  gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'rails-erd'

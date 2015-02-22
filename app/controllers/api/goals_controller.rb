@@ -1,5 +1,5 @@
 module Api
-	class GoalsController < Api::BaseController
+	class GoalsController < BaseController
 
 		def index
 			@herd = current_herd

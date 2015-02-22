@@ -1,5 +1,5 @@
 module Api
-  class HerdWeekliesController < Api::BaseController
+  class HerdWeekliesController < BaseController
     before_action :find_herd_weekly, only: [:show]
     before_action :authenticate_user!
 

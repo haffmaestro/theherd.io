@@ -10,7 +10,7 @@ app.factory('HerdConstants', ['FluxUtil', (FluxUtil)->
     'FETCH_WEEKLY_REPORT','FETCH_WEEKLY_REPORTS','UPDATE_WEEKLY_REPORT', 'UPDATE_SECTION','ADD_WEEKLY_TASK',
     'DELETE_WEEKLY_TASK', 'COMPLETE_WEEKLY_TASK', 'FETCH_ACTIVITY', 'SET_WEEKLY_REPORT_ROUTING_DATA',
     'SET_GOALS_ROUTING_DATA','FETCH_COMMENTS', 'ADD_COMMENT', 'ADD_COMMENT_OPEN_QUEUE', 'COMMENT_SHOWN',
-    'LOGIN_TODOIST','TOGGLE_SETTINGS_DIALOG','SEND_FEEDBACK'])
+    'LOGIN_TODOIST','TOGGLE_SETTINGS_DIALOG','SEND_FEEDBACK', 'UPLOAD_PICTURE'])
 ])
 
 app.factory('ApiConstants', ['FluxUtil', (FluxUtil)->
@@ -73,6 +73,8 @@ app.factory('HerdActions', ['HerdConstants', 'HerdApi', 'HerdDispatcher', (HerdC
       HerdApi.loginTodoist(user, email, password)
     sendFeedback: (user, feedback)->
       HerdApi.sendFeedback(user, feedback)
+    uploadPicture: (files)->
+      HerdApi.uploadPicture(files)
 
   }
 ])

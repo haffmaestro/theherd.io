@@ -1,5 +1,5 @@
 module Api
-  class UserWeekliesController < Api::BaseController
+  class UserWeekliesController < BaseController
     
     def update
       user = User.find params[:id]

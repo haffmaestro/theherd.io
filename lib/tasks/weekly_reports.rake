@@ -17,4 +17,13 @@ namespace :weekly_reports do
       end
     end
   end
+  desc "Display current HerdWeeklies"
+  task :display => [:environment] do
+    Herd.all.each do |herd|
+      puts "#{herd.name}"
+      herd.herd_weeklies.each do |weekly|
+        puts "ID: #{weekly.id}, year: #{weekly.year}, week: #{weekly.week}, year_week_id: #{weekly.year_week_id}"
+      end
+    end
+  end
 end

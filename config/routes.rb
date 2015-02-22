@@ -10,6 +10,9 @@ Rails.application.routes.draw do
         resources :comments, only: [:index, :create, :destroy]
       end
       resources :focus_areas, only: [:index, :create, :destroy, :update]
+      resources :uploads, only:[] do
+        post 'profile', on: :collection
+      end
       resources :users, only: [:index] do
         post 'login_todoist', on: :member
         post 'feedback', on: :collection
