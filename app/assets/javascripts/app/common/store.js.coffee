@@ -94,7 +94,11 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       )
     _newsFeed = activitiesWithTarget
 
+  _updateUser = (user)->
+    indexOfUser = _findIndexOfById(_users, "id", user.id)
+    _users[indexOfUser] = user
 
+  ########HELPER METHODS###########
   _findIndexOfById = (list, key, idOfElement)->
     index = null
     angular.forEach(list, (current)->
@@ -103,14 +107,12 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       )
     index
 
-
   _findInListByKey = (list, key, idOfElement)->
     index = _findIndexOfById(list, key, idOfElement)
     result = null
     if index || index == 0
       result = list[index]
     result
-
 
   _findUser = (id)->
     result = null
@@ -141,8 +143,11 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
       action = payload.action
 
       if action.response == ApiConstants.PENDING
-        if action.actionType == HerdConstants.ADD_FOCUS_AREA
-          store.emitChange action
+        switch action.actionType
+          when HerdConstants.ADD_FOCUS_AREA
+            store.emitChange action
+          when HerdConstants.UPLOAD_PICTURE
+            Notification.show("Uploading...", 2000)
       else if action.response == ApiConstants.ERROR
         console.log action.actionType
         console.log 'Error received from dispatcher'
@@ -219,6 +224,8 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
           when HerdConstants.UPLOAD_PICTURE
             console.log action
             Notification.show('Picture uploaded.', 2000)
+            _updateUser(action.response.user)
+            store.emitChange action
       )
     })
 

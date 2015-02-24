@@ -151,7 +151,6 @@ app.factory('HerdApi', ['$http','HerdDispatcher','HerdConstants','ApiConstants',
                   headers:{'Content-Type':undefined}
                 }
       dispatch(key, ApiConstants.PENDING, params)
-      debugger
       $http.post("/api/uploads/profile", fd,
         {
           transformRequest:angular.identity,

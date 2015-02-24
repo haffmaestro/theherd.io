@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   delegate :current_user, to: :scope
-  attributes :id, :first_name, :last_name, :email, :has_todoist, :picture
+  attributes :id, :first_name, :last_name, :email, :has_todoist, :picture_url
   attributes :comment_count, :goals_count, :weekly_tasks_count, :weekly_reports_count, :focus_areas
   def comment_count
     object.comments.count

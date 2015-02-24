@@ -33,17 +33,21 @@ app.directive('memberGrid', ['HerdActions', 'HerdStore', (HerdActions, HerdStore
           <md-grid-tile-header class="member-tile">
             <h3>{{user.first_name}} {{user.last_name}}</h3>
           </md-grid-tile-header>
-          <div class="profile" layout="row" flex layout-padding>
+          <div class="profile" layout="row" flex layout-padding layout-align="center center">
             <div flex=35>
-              <div class="edit">
-                <md-input-container>
-                  <input type="file" file-input="files" multiple/>
-                </md-input-container>
+              <div class="profile picture" ng-dblClick="toggleEdit()" ng-hide="data.showUploadProfilePicture && isOwner(user)">
+                <img class="profile" ng-hide="user.picture_url" src="<%=image_path('nopicture.jpg') %>">
+                <img class="profile" ng-show="user.picture_url" src="{{user.picture_url}}"> 
               </div>
-              <img class="profile" ng-hide="true" src="<%=image_path('nopicture.png') %>" alt="profile picture">
+              <div class="edit" ng-if="isOwner(user)" ng-show="data.showUploadProfilePicture || user.picture_url == undefined">
+                <md-input-container>
+                  <input type="file" file-input="files" class="md-button"/>
+                </md-input-container>
+                <md-button ng-click="toggleEdit()" class="md-accent">Cancel</md-button>
+              </div>
             </div>
 
-            <div flex="100">
+            <div flex="65">
               <h4 class="no-margin"> Reports Completed: {{user.weekly_reports_count}} </h4>
               <h4 class="no-margin"> Goals Completed: {{user.goals_count}} </h4>
               <h4 class="no-margin"> Comments: {{user.comment_count}} </h4>
@@ -57,16 +61,25 @@ app.directive('memberGrid', ['HerdActions', 'HerdStore', (HerdActions, HerdStore
     vm = $scope
     vm.files = []
     vm.data = {
+      showUploadProfilePicture:false
+      currentUser: HerdStore.getCurrentUser()
       users: HerdStore.getUsers()
       newFocusArea: ""
     }
-    vm.filesChanged = (elm)->
-      vm.files=elm.files
-      vm.$apply()
+    vm.toggleEdit= ->
+      vm.data.showUploadProfilePicture = !vm.data.showUploadProfilePicture
+
+    vm.isFriend = (user)->
+      return false unless vm.data.currentUser?
+      user.id != vm.data.currentUser.id
+
+    vm.isOwner = (user)->
+      user.id == vm.data.currentUser.id
 
     HerdActions.fetchUsers()
-    HerdStore.on('change', ->
-      vm.data.users = HerdStore.getUsers())
+    HerdStore.bindState(vm, ->
+      vm.data.users = HerdStore.getUsers()
+      vm.data.showUploadProfilePicture = false)
   ]
 ])
 
