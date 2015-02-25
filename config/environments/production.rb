@@ -26,7 +26,8 @@ Rails.application.configure do
   }
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.delivery_method = :smtp
-  Whatever::Application.config.middleware.use ExceptionNotification::Rack,
+
+  config.middleware.use ExceptionNotification::Rack,
     :email => {
       :email_prefix => "[theHerdException] ",
       :sender_address => %{"theHerdBugMinion" <halfdanhem@theherd.io>},
