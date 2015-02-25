@@ -88,7 +88,8 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
   _setNewsFeed = (activities)->
     activitiesWithTarget = []
     angular.forEach(activities, (current)->
-      if current.target.focus_area == null
+      if current.target == null
+      else if current.target.focus_area == null
       else
         activitiesWithTarget.push(current)
       )
