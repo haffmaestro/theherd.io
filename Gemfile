@@ -19,6 +19,7 @@ gem 'slim-rails'
 gem 'carrierwave'
 gem 'rake','10.4.0'
 gem 'public_activity'
+gem 'fog'
 gem "mini_magick"
 gem 'awesome_print'
 gem 'better_errors'
