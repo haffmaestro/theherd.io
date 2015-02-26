@@ -20,7 +20,6 @@ gem 'carrierwave'
 gem 'rake','10.4.0'
 gem 'public_activity'
 gem "mini_magick"
-gem "fog"
 gem 'awesome_print'
 gem 'better_errors'
 
