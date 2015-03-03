@@ -16,7 +16,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'slim'
 gem 'faker'
 gem 'slim-rails'
-gem 'fog-aws'
+gem 'fog'
 gem 'carrierwave'
 gem 'rake','10.4.0'
 gem 'public_activity'
