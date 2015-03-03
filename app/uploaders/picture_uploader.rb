@@ -7,8 +7,8 @@ class PictureUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  # storage :file
+  storage :fog
   # process :resize_to_fill => [100, 100]
   # storage :fog
 
