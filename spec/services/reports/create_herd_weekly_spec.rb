@@ -34,7 +34,7 @@
 
       it "the year_week_id method works" do
         herd_weekly = create_herd_weekly
-        week = Date.today.cweek > 10 ? Date.today.cweek : "0#{Date.today.cweek}"
+        week = Date.today.cweek >= 10 ? Date.today.cweek : "0#{Date.today.cweek}"
         expect(herd_weekly.year_week_id).to eq("#{Date.today.year}-#{week}")
       end
 
@@ -81,7 +81,7 @@
 
       it "the year_week_id method works" do
         herd_weekly = create_herd_weekly
-        week = Date.today.cweek > 10 ? Date.today.cweek : "0#{Date.today.cweek}"
+        week = Date.today.cweek >= 10 ? Date.today.cweek : "0#{Date.today.cweek}"
         expect(herd_weekly.year_week_id).to eq("#{Date.today.year}-#{week}")
       end
 
