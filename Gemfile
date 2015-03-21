@@ -16,13 +16,14 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'slim'
 gem 'faker'
 gem 'slim-rails'
-gem 'fog'
+# gem 'fog'
 gem 'carrierwave'
 gem 'rake','10.4.0'
 gem 'public_activity'
 # gem "mini_magick"
 gem 'awesome_print'
 gem 'better_errors'
+gem 'whenever', :require => false
 
 #Services Decorators
 gem 'virtus'

@@ -21,9 +21,17 @@ namespace :weekly_reports do
   task :display => [:environment] do
     Herd.all.each do |herd|
       puts "#{herd.name}"
-      herd.herd_weeklies.each do |weekly|
+      herd.herd_weeklies.order("year ASC, week ASC").each do |weekly|
         puts "ID: #{weekly.id}, year: #{weekly.year}, week: #{weekly.week}, year_week_id: #{weekly.year_week_id}"
       end
+    end
+  end
+
+  desc "Create Weekly Report for all Herds"
+  task :create => [:environment] do
+    Herd.all.each do |herd|
+      service = Reports::CreateHerdWeekly.new(herd: herd, year: Date.today.year.to_s, week: Date.today.cweek.to_s)
+      service.call
     end
   end
 end

@@ -6,7 +6,9 @@ class Herd < ActiveRecord::Base
   has_many :users, -> {order 'first_name ASC'}, dependent: :destroy
   has_many :herd_weeklies, dependent: :destroy
 
+  #This method is no longer used, look in HerdWeekly
   def self.find_last_weekly(herd, user)
+    logger.error("=====================================================")
     if record = herd.herd_weeklies.last
       if record.users.exists?(id: user.id)
         record
