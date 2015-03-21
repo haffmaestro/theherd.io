@@ -18,6 +18,7 @@ app.directive('weekNavigation', ['Notification','HerdActions','HerdStore','Navig
   controller: ['$scope','$rootScope','$state', ($scope, $rootScope, $state)->
     vm = $scope
     vm.data = {
+      current: NavigationStore.getCurrentWeeklyReport()
       reports: NavigationStore.getWeeklyReports()
       nav: NavigationStore.getWeeklyReportRoutingData()
     }
@@ -25,11 +26,12 @@ app.directive('weekNavigation', ['Notification','HerdActions','HerdStore','Navig
     NavigationStore.bindState($scope, ->
       vm.data.reports = _.map(NavigationStore.getWeeklyReports(), (herdWeekly)->
         herdWeekly.year_week_id)
-      vm.data.nav = NavigationStore.getWeeklyReportRoutingData())
-
+      vm.data.nav = NavigationStore.getWeeklyReportRoutingData()
+      vm.data.current = NavigationStore.getCurrentWeeklyReport())
     vm.goPrevious = ->
-      if reportExists(vm.data.nav.previous)
-        $state.go('weeklyReport', {herdWeeklyId: vm.data.nav.previous, user: vm.data.nav.user}).
+      index = vm.data.reports.indexOf(vm.data.current.year_week_id)
+      if index > 0
+        $state.go('weeklyReport', {herdWeeklyId: vm.data.reports[index-1], user: vm.data.nav.user}).
           catch((response)->
             Notification.show('Please try again', 2000)
           )
@@ -37,8 +39,9 @@ app.directive('weekNavigation', ['Notification','HerdActions','HerdStore','Navig
         Notification.show('There are no more reports', 2000)
 
     vm.goNext = ->
-      if reportExists(vm.data.nav.next)
-        $state.go('weeklyReport', {herdWeeklyId: vm.data.nav.next, user: vm.data.nav.user}).
+      index = vm.data.reports.indexOf(vm.data.current.year_week_id)
+      if index < vm.data.reports.length - 1
+        $state.go('weeklyReport', {herdWeeklyId: vm.data.reports[index+1], user: vm.data.nav.user}).
           catch((response)->
             Notification.show('Please try again', 2000))
       else

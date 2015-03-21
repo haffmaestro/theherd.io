@@ -6,12 +6,11 @@ module Api
     YEARWEEKREGEX = /^(201[45]-[0-5]\d)/
     
     def index
-      @weeklies = @herd.herd_weeklies
+      @weeklies = @herd.herd_weeklies.order("year ASC, week ASC")
       render json: @weeklies, each_serializer: SimpleHerdWeeklySerializer
     end
 
     def show
-      logger.error("==ASD=ASD=ASD==")
       render json: @herd_weekly, each_serializer: HerdWeeklySerializer
     end
 
@@ -23,7 +22,6 @@ module Api
 
     def find_herd_weekly
       if year_week_id_format?
-        logger.error("Finding for week")
         @herd_weekly = HerdWeekly.find_for_week(current_herd, params[:id])
       elsif params[:id] == 'current'
         @herd_weekly = current_herd.herd_weeklies.order("year DESC, week DESC").first

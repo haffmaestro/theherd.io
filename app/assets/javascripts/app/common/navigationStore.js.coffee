@@ -23,6 +23,8 @@ app.factory('NavigationStore', ['HerdDispatcher', 'HerdConstants','ApiConstants'
     
 
   store = FluxUtil.createStore({
+    getCurrentWeeklyReport: ->
+      return _weeklyReport
     getWeeklyReportRoutingData: ->
       return _weeklyReportNavigationData
     getGoalsRoutingData: ->
@@ -46,7 +48,6 @@ app.factory('NavigationStore', ['HerdDispatcher', 'HerdConstants','ApiConstants'
           when HerdConstants.FETCH_WEEKLY_REPORT
             console.log action
             _weeklyReport = action.response.herd_weekly
-            _setWeeklyReportNavigationData()
             store.emitChange action
           when HerdConstants.FETCH_WEEKLY_REPORTS
             console.log action
