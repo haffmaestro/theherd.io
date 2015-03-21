@@ -2,10 +2,9 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.8.0-rc1-master-ffbea7d
+ * v0.8.3
  */
 goog.provide('ng.material.core');
-goog.require('ng.material.components.icon');
 
 (function() {
 'use strict';
@@ -14,52 +13,13 @@ goog.require('ng.material.components.icon');
  * Initialization function that validates environment
  * requirements.
  */
-var iconProvider;
-
 angular
-  .module('material.core', [ 'material.core.theming', 'material.components.icon' ])
-  .config( MdCoreConfigure )
-  .run( ["$templateCache", function( $templateCache ){
-
-    // These process is needed to pre-configure icons used internally
-    // with specific components. Note: these are SVGs and not font-icons.
-    //
-    // NOTE: any SVGs used below that are **also** available in `material-fonts` should
-    // be removed from this startup process.
+  .module('material.core', [ 'material.core.theming' ])
+  .config( MdCoreConfigure );
 
 
-    var svgRegistry = [
-      {
-        id : 'tabs-arrow',
-        url: 'tabs-arrow.svg',
-        svg: '<svg version="1.1" x="0px" y="0px" viewBox="0 0 24 24"><g id="tabs-arrow"><polygon points="15.4,7.4 14,6 8,12 14,18 15.4,16.6 10.8,12 "/></g></svg>'
-      },
-      {
-        id : 'close',
-        url: 'close.svg',
-        svg: '<svg version="1.1" x="0px" y="0px" viewBox="0 0 24 24"><g id="close"><path d="M19 6.41l-1.41-1.41-5.59 5.59-5.59-5.59-1.41 1.41 5.59 5.59-5.59 5.59 1.41 1.41 5.59-5.59 5.59 5.59 1.41-1.41-5.59-5.59z"/></g></svg>'
-      },
-      {
-        id:  'cancel',
-        url: 'cancel.svg',
-        svg: '<svg version="1.1" x="0px" y="0px" viewBox="0 0 24 24"><g id="cancel"><path d="M12 2c-5.53 0-10 4.47-10 10s4.47 10 10 10 10-4.47 10-10-4.47-10-10-10zm5 13.59l-1.41 1.41-3.59-3.59-3.59 3.59-1.41-1.41 3.59-3.59-3.59-3.59 1.41-1.41 3.59 3.59 3.59-3.59 1.41 1.41-3.59 3.59 3.59 3.59z"/></g></svg>'
-      }
-    ];
+function MdCoreConfigure($provide, $mdThemingProvider) {
 
-    svgRegistry.forEach(function(asset){
-      iconProvider.icon(asset.id,  asset.url);
-      $templateCache.put(asset.url, asset.svg);
-    });
-
-    // Remove reference
-    iconProvider = null;
-
-  }]);
-
-
-function MdCoreConfigure($provide, $mdThemingProvider, $mdIconProvider ) {
-
-  iconProvider =  $mdIconProvider;
   $provide.decorator('$$rAF', ["$delegate", rAFDecorator]);
 
   $mdThemingProvider.theme('default')
@@ -68,7 +28,7 @@ function MdCoreConfigure($provide, $mdThemingProvider, $mdIconProvider ) {
     .warnPalette('red')
     .backgroundPalette('grey');
 }
-MdCoreConfigure.$inject = ["$provide", "$mdThemingProvider", "$mdIconProvider"];
+MdCoreConfigure.$inject = ["$provide", "$mdThemingProvider"];
 
 function rAFDecorator( $delegate ) {
   /**
@@ -395,18 +355,40 @@ MdConstantFactory.$inject = ["$$rAF", "$sniffer"];
 
 })();
 
+(function(){
+
 angular.module('material.core')
 .factory('$mdMedia', mdMediaFactory);
 
 /**
- * Exposes a function on the '$mdMedia' service which will return true or false,
- * whether the given media query matches. Re-evaluates on resize. Allows presets
- * for 'sm', 'md', 'lg'.
+ * @ngdoc service
+ * @name $mdMedia
+ * @module material.core
  *
- * @example $mdMedia('sm') == true if device-width <= sm
- * @example $mdMedia('(min-width: 1200px)') == true if device-width >= 1200px
- * @example $mdMedia('max-width: 300px') == true if device-width <= 300px (sanitizes input, adding parens)
+ * @description
+ * `$mdMedia` is used to evaluate whether a given media query is true or false given the
+ * current device's screen / window size. The media query will be re-evaluated on resize, allowing
+ * you to register a watch.
+ *
+ * `$mdMedia` also has pre-programmed support for media queries that match the layout breakpoints.
+ *  (`sm`, `gt-sm`, `md`, `gt-md`, `lg`, `gt-lg`).
+ *
+ * @returns {boolean} a boolean representing whether or not the given media query is true or false.
+ *
+ * @usage
+ * <hljs lang="js">
+ * app.controller('MyController', function($mdMedia, $scope) {
+ *   $scope.$watch(function() { return $mdMedia('lg'); }, function(big) {
+ *     $scope.bigScreen = big;
+ *   });
+ *
+ *   $scope.screenIsSmall = $mdMedia('sm');
+ *   $scope.customQuery = $mdMedia('(min-width: 1234px)');
+ *   $scope.anotherCustom = $mdMedia('max-width: 300px');
+ * });
+ * </hljs>
  */
+
 function mdMediaFactory($mdConstant, $rootScope, $window) {
   var queries = {};
   var mqls = {};
@@ -481,7 +463,7 @@ function mdMediaFactory($mdConstant, $rootScope, $window) {
       }
 
       for (var mediaName in $mdConstant.MEDIA) {
-        var normalizedName = getNormalizedName(attrs, attrName + '-' + mediaName);
+        normalizedName = getNormalizedName(attrs, attrName + '-' + mediaName);
         if (!attrs[normalizedName]) {
           return;
         }
@@ -503,6 +485,9 @@ function mdMediaFactory($mdConstant, $rootScope, $window) {
 }
 mdMediaFactory.$inject = ["$mdConstant", "$rootScope", "$window"];
 
+
+})();
+
 (function() {
 'use strict';
 
@@ -515,7 +500,7 @@ mdMediaFactory.$inject = ["$mdConstant", "$rootScope", "$window"];
 var nextUniqueId = ['0','0','0'];
 
 angular.module('material.core')
-.factory('$mdUtil', ["$cacheFactory", "$document", "$timeout", "$q", "$mdConstant", function($cacheFactory, $document, $timeout, $q, $mdConstant) {
+.factory('$mdUtil', ["$cacheFactory", "$document", "$timeout", "$q", "$window", "$mdConstant", function($cacheFactory, $document, $timeout, $q, $window, $mdConstant) {
   var Util;
 
   function getNode(el) {
@@ -547,7 +532,17 @@ angular.module('material.core')
     offsetRect: function(element, offsetParent) {
       return Util.clientRect(element, offsetParent, true);
     },
-    
+
+    floatingScrollbars: function() {
+      if (this.floatingScrollbars.cached === undefined) {
+        var tempNode = angular.element('<div style="z-index: -1; position: absolute; height: 1px; overflow-y: scroll"><div style="height: 2px;"></div></div>');
+        $document[0].body.appendChild(tempNode[0]);
+        this.floatingScrollbars.cached = (tempNode[0].offsetWidth == tempNode[0].childNodes[0].offsetWidth);
+        tempNode.remove();
+      }
+      return this.floatingScrollbars.cached;
+    },
+
     // Mobile safari only allows you to set focus in click event listeners...
     forceFocus: function(element) {
       var node = element[0] || element;
@@ -569,16 +564,18 @@ angular.module('material.core')
       node.dispatchEvent(newEvent);
     },
 
-    transitionEndPromise: function(element) {
+    transitionEndPromise: function(element, opts) {
+      opts = opts || {};
       var deferred = $q.defer();
       element.on($mdConstant.CSS.TRANSITIONEND, finished);
       function finished(ev) {
         // Make sure this transitionend didn't bubble up from a child
-        if (ev.target === element[0]) {
+        if (!ev || ev.target === element[0]) {
           element.off($mdConstant.CSS.TRANSITIONEND, finished);
           deferred.resolve();
         }
       }
+      if (opts.timeout) $timeout(finished, opts.timeout);
       return deferred.promise;
     },
 
@@ -951,7 +948,7 @@ function mdCompilerService($q, $http, $injector, $compile, $controller, $templat
     return $q.all(resolve).then(function(locals) {
 
       var template = transformTemplate(locals.$template);
-      var element = angular.element('<div>').html(template.trim()).contents();
+      var element = options.element || angular.element('<div>').html(template.trim()).contents();
       var linkFn = $compile(element);
 
       //Return a linking function that can be used later when the element is ready
@@ -1011,7 +1008,7 @@ if (shouldHijackClicks) {
   document.addEventListener('click', function(ev) {
     // Space/enter on a button, and submit events, can send clicks
     var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
-    if (isKeyClick || ev.$material) return;
+    if (window.jQuery || isKeyClick || ev.$material) return;
 
     // Prevent clicks unless they're sent by material
     ev.preventDefault();
@@ -1157,7 +1154,7 @@ angular.module('material.core')
       // If the user keeps his finger within the same <maxDistance> area for
       // <delay> ms, dispatch a hold event.
       maxDistance: 6,
-      delay: 500,
+      delay: 500
     },
     onCancel: function() {
       $timeout.cancel(this.state.timeout);
@@ -1182,15 +1179,13 @@ angular.module('material.core')
         this.cancel();
       }
     },
-    onEnd: function(ev, pointer) {
-      this.onCancel();
-    },
+    onEnd: function() { this.onCancel(); }
   });
 
   addHandler('drag', {
     options: {
       minDistance: 6,
-      horizontal: true,
+      horizontal: true
     },
     onStart: function(ev) {
       // For drag, require a parent to be registered with $mdGesture.register()
@@ -1243,7 +1238,7 @@ angular.module('material.core')
   addHandler('swipe', {
     options: {
       minVelocity: 0.65,
-      minDistance: 10,
+      minDistance: 10
     },
     onEnd: function(ev, pointer) {
       if (Math.abs(pointer.velocityX) > this.state.options.minVelocity &&
@@ -1343,12 +1338,12 @@ angular.module('material.core')
         delete element[0].$mdGesture[self.name];
         element.off('$destroy', onDestroy);
       }
-    },
+    }
   };
 
   function jQueryDispatchEvent(srcEvent, eventType, eventPointer) {
     eventPointer = eventPointer || pointer;
-    var eventObj = new angular.element.Event(eventType)
+    var eventObj = new angular.element.Event(eventType);
 
     eventObj.$material = true;
     eventObj.pointer = eventPointer;
@@ -1744,7 +1739,19 @@ function InterimElementProvider() {
           options: options,
           deferred: $q.defer(),
           show: function() {
-            return showDone = $mdCompiler.compile(options).then(function(compileData) {
+            var compilePromise;
+            if (options.skipCompile) {
+              compilePromise = $q(function(resolve) { 
+                resolve({
+                  locals: {},
+                  link: function() { return options.element; }
+                });
+              });
+            } else {
+              compilePromise = $mdCompiler.compile(options);
+            }
+
+            return showDone = compilePromise.then(function(compileData) {
               angular.extend(compileData.locals, self.options);
 
               element = compileData.link(options.scope);
@@ -1979,7 +1986,7 @@ function InkRippleService($window, $timeout) {
 
   function attachButtonBehavior(scope, element, options) {
     return attach(scope, element, angular.extend({
-      isFAB: element.hasClass('md-fab'),
+      fullRipple: true,
       isMenuItem: element.hasClass('md-menu-item'),
       center: false,
       dimBackground: true
@@ -1998,7 +2005,8 @@ function InkRippleService($window, $timeout) {
     return attach(scope, element, angular.extend({
       center: false,
       dimBackground: true,
-      outline: true
+      outline: false,
+      rippleSize: 'full'
     }, options));
   }
 
@@ -2014,7 +2022,7 @@ function InkRippleService($window, $timeout) {
       mousedownPauseTime: 150,
       dimBackground: false,
       outline: false,
-      isFAB: false,
+      fullRipple: true,
       isMenuItem: false,
       fitRipple: false
     }, options);
@@ -2033,10 +2041,10 @@ function InkRippleService($window, $timeout) {
 
     switch (rippleSizeSetting) {
       case 'full':
-        options.isFAB = true;
+        options.fullRipple = true;
         break;
       case 'partial':
-        options.isFAB = false;
+        options.fullRipple = false;
         break;
     }
 
@@ -2230,7 +2238,7 @@ function InkRippleService($window, $timeout) {
           height = Math.max(top, height - top);
           size = 2 * Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
         } else {
-          multiplier = options.isFAB ? 1.1 : 0.8;
+          multiplier = options.fullRipple ? 1.1 : 0.8;
           size = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) * multiplier;
           if (options.fitRipple) {
             size = Math.min(height, width, size);
@@ -2246,7 +2254,7 @@ function InkRippleService($window, $timeout) {
        * @param {number} the left cursor offset
        * @param {number} the top cursor offset
        *
-       * @returns {{backgroundColor: *, width: string, height: string, marginLeft: string, marginTop: string}}
+       * @returns {{backgroundColor: string, borderColor: string, width: string, height: string}}
        */
       function getRippleCss(size, left, top) {
         var rect,
@@ -2282,7 +2290,7 @@ function InkRippleService($window, $timeout) {
          * @returns {string} rgb color
          */
         function rgbaToRGB(color) {
-          return color.replace('rgba', 'rgb').replace(/,[^\)\,]+\)/, ')');
+          return color.replace('rgba', 'rgb').replace(/,[^\),]+\)/, ')');
         }
       }
     }
@@ -2294,10 +2302,10 @@ function InkRippleService($window, $timeout) {
     function onPressDown(ev) {
       if (!isRippleAllowed()) return;
 
-      var ripple = createRipple(ev.pointer.x, ev.pointer.y);
+      createRipple(ev.pointer.x, ev.pointer.y);
       isHeld = true;
     }
-    function onPressUp(ev) {
+    function onPressUp() {
       isHeld = false;
       var ripple = ripples[ ripples.length - 1 ];
       $timeout(function () { updateElement(ripple); }, 0, false);

@@ -2,6 +2,7 @@ app = angular.module('app')
 app.factory('SettingsStore', ['HerdDispatcher', 'HerdStore', 'HerdConstants','ApiConstants','FluxUtil','HerdApi','$preloaded','Notification', (HerdDispatcher, HerdStore, HerdConstants, ApiConstants, FluxUtil, HerdApi, $preloaded,Notification)->
   _currentUser = HerdStore.getCurrentUser()
   _showSettingsDialog = false
+  _canUpdateCurrentReport = false
 
   _addFocusArea = (newFocusArea)->
     _currentUser.focus_areas.push(newFocusArea)
@@ -26,6 +27,8 @@ app.factory('SettingsStore', ['HerdDispatcher', 'HerdStore', 'HerdConstants','Ap
     index
 
   store = FluxUtil.createStore({
+    canUpdateCurrentReport: ->
+      return _canUpdateCurrentReport
     getCurrentUser: ->
       return _currentUser
     showSettingsDialog: ->
@@ -50,6 +53,11 @@ app.factory('SettingsStore', ['HerdDispatcher', 'HerdStore', 'HerdConstants','Ap
           when HerdConstants.UPDATE_FOCUS_AREA
             console.log action
             _updateFocusArea(action.response.focus_area)
+            store.emitChange action
+            Notification.show('Updated!', 2000)
+          when HerdConstants.UPDATE_WEEKLY_REPORT
+            console.log action
+            _canUpdateCurrentReport = false
             store.emitChange action
             Notification.show('Updated!', 2000)
           when HerdConstants.DELETE_FOCUS_AREA

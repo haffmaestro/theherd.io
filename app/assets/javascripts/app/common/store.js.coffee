@@ -192,11 +192,6 @@ app.factory('HerdStore', ['HerdDispatcher', 'HerdConstants','ApiConstants','Flux
             Notification.show('Saved.', 2000)
             #TODO: Update section in weeklyReport in Store
             store
-          when HerdConstants.UPDATE_WEEKLY_REPORT
-            console.log action
-            _canUpdateCurrentReport = false
-            store.emitChange action
-            Notification.show('Updated!', 2000)
           when HerdConstants.ADD_WEEKLY_TASK
             console.log action
             _addWeeklyTask(action.response.weekly_task)

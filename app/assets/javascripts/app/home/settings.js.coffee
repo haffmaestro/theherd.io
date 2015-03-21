@@ -33,6 +33,7 @@ app.factory('Settings', ['SettingsStore','HerdStore','HerdActions', '$mdDialog',
                     <input type="text"  name="newWeeklyTask" ng-model="data.newFocusArea">
                   </md-input-container>
                 </form>
+                <md-button class="md-primary md-raised upper-right-corner" ng-click="updateReport()" ng-show="data.showUpdateReport">Update Weekly Report</md-button>
               <md-subheader class="md-primary">
                 <h2>Todoist Integration</h2>
               </md-subheader>
@@ -65,9 +66,12 @@ app.factory('Settings', ['SettingsStore','HerdStore','HerdActions', '$mdDialog',
             currentUser: SettingsStore.getCurrentUser()
             todoistEmail: ""
             todoistPassword: ""
+            canUpdateCurrentReport: false
           }
           SettingsStore.bindState($scope, ->
-            vm.data.currentUser = SettingsStore.getCurrentUser())
+            vm.data.currentUser = SettingsStore.getCurrentUser()
+            vm.data.showUpdateReport = SettingsStore.canUpdateCurrentReport()
+            )
           vm.submitTodoist = ->
             console.log vm.data
             HerdActions.loginTodoist(vm.data.currentUser, vm.data.todoistEmail, vm.data.todoistPassword)
@@ -81,6 +85,8 @@ app.factory('Settings', ['SettingsStore','HerdStore','HerdActions', '$mdDialog',
             newFocusArea = {name: vm.data.newFocusArea, id: null}
             HerdActions.addFocusArea(newFocusArea)
             vm.data.newFocusArea = ""
+          vm.updateReport = ->
+            HerdActions.updateCurrentWeeklyReport(vm.data.currentUser.id)
         ]
         targetEvent: event
       }).
