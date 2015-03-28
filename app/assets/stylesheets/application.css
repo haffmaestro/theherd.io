@@ -15,5 +15,6 @@
  *= require angular-tooltips.css
  *= require custom.css.scss
  *= require angular_material_and_overrides.css.scss
+ *= require angular-tour/dist/angular-tour
  *= require font-awesome
  */

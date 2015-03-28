@@ -27,7 +27,13 @@ div
           div ng-repeat="section in data.herdWeekly.user_weeklies[data.selectedIndex].sections"
             friend-section section="section"
     scroll-list list="data.herdWeekly.user_weeklies[data.selectedIndex].sections" flex="5"
-    
-      
+  tour step="currentStep"
+    md-button ng-click="openTour()"  Open Tour
+    md-button ng-click="closeTour()"  Close Tour
+    span tourtip=("tip 1") Highlighted
+    span tourtip=("tip 2") Elements
+    input tourtip=("You can use it as an attribute on your element") /
+    span tourtip=("Full options") tourtip-next-label="Next" tourtip-offset="60" tourtip-placement="right" tourtip-step="3"  Full options
+
   
           

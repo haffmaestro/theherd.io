@@ -27,6 +27,7 @@
 //= require angular-ui-router/release/angular-ui-router
 //= require angular-rails-templates
 //= require angular-flux-helpers/angular-flux
+//= require angular-tour/dist/angular-tour-tpls.min.js
 //= require vide/dist/jquery.vide.min
 //= require underscore/underscore
 //= require_self
@@ -34,7 +35,8 @@
 //= require_tree .
 
 
-angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked', 'MessageCenterModule', 'monospaced.elastic', 'ui.router', 'templates', 'ngFlux']).
+angular.module('app', ['gs.preloaded', 'ngMaterial', 'ngAnimate', '720kb.tooltips', 'hc.marked',
+  'MessageCenterModule', 'monospaced.elastic', 'ui.router', 'templates', 'ngFlux','angular-tour']).
   controller('ApplicationController', function($scope) {
   }).
   config(['$mdThemingProvider', function($mdThemingProvider){
