@@ -4,10 +4,10 @@ class PictureUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
+  # storage :file
   # storage :fog
   # process :resize_to_fill => [100, 100]
-  # storage :fog
+  storage :fog
 
   def extension_white_list
     %w(jpg jpeg gif png)
