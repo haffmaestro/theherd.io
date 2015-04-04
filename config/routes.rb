@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
 
     get '/join', to: redirect('/users/sign_up')
-    get "/" => 'herds#show'
+    get "/" => 'herds#show', as: 'show_herd'
     get "/*a" => 'herds#show'
 
   end

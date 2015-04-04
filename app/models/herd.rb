@@ -5,6 +5,7 @@ class Herd < ActiveRecord::Base
 
   has_many :users, -> {order 'first_name ASC'}, dependent: :destroy
   has_many :herd_weeklies, dependent: :destroy
+  after_create :create_first_herd_weekly
 
   #This method is no longer used, look in HerdWeekly
   def self.find_last_weekly(herd, user)
@@ -25,5 +26,12 @@ class Herd < ActiveRecord::Base
       record
     end
   end
+
+  def create_first_herd_weekly
+    service = Reports::CreateHerdWeekly.new(herd: self, year: Date.today.year.to_s, week: Date.today.cweek.to_s)
+    service.call
+  end
+
+
 
 end

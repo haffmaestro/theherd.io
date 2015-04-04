@@ -11,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
-        respond_with resource, location: weekly_index(subdomain: resource.subdomain)
+        respond_with resource, location: show_herd_url(subdomain: resource.subdomain)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!

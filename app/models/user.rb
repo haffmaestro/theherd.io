@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   mount_uploader :picture, PictureUploader
   delegate :url, to: :picture, prefix: true
   
-  after_create :set_default_focus_areas, :send_welcome_email
+  after_create :set_default_focus_areas, :send_welcome_email, :create_first_user_weekly
 
   
   def self.find_for_authentication(warden_conditions)
@@ -66,6 +66,13 @@ class User < ActiveRecord::Base
 
   def send_welcome_email
     UserMailer.welcome_email(self).deliver
+  end
+
+  def create_first_user_weekly
+    create_user_weekly_service = Reports::CreateUserWeekly.new(user: self)
+    user_weekly = create_user_weekly_service.call
+    user_weekly.herd_weekly = self.herd.herd_weeklies.last
+    user_weekly.save!
   end
 
 
