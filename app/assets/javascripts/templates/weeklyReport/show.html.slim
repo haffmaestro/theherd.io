@@ -7,7 +7,7 @@ div
         weekly-header year="data.herdWeekly.year" week="data.herdWeekly.week"
       report-archive
   / User Nav
-  md-tabs.md-whiteframe-z1 md-selected="data.selectedIndex" class="md-primary"
+  md-tabs.md-whiteframe-z1 md-stretch-tabs='always' md-selected="data.selectedIndex" class="md-primary"
     md-tab ng-repeat="user in data.users track by $index" md-on-select="onTabSelected(user)" label="{{user}}"
   / Loading screen
   div(layout="column" layout-align="center center" class="loading" ng-show="data.herdWeekly === null")
