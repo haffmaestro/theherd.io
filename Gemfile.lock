@@ -235,6 +235,7 @@ GEM
       railties (>= 3.0.0, < 5.0.0)
     method_source (0.8.2)
     mime-types (2.4.3)
+    mini_magick (4.1.0)
     mini_portile (0.6.2)
     minitest (5.4.2)
     multi_json (1.10.1)
@@ -426,6 +427,7 @@ DEPENDENCIES
   jquery-rails
   letter_opener
   meta_request
+  mini_magick
   newrelic_rpm
   ngannotate-rails (~> 0.14.1)
   omniauth-google-oauth2

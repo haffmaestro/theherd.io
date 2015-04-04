@@ -20,7 +20,7 @@ gem 'fog'
 gem 'carrierwave'
 gem 'rake','10.4.0'
 gem 'public_activity'
-# gem "mini_magick"
+gem "mini_magick"
 gem 'awesome_print'
 gem 'better_errors'
 gem 'whenever', :require => false
